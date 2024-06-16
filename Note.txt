@@ -1,0 +1,17 @@
+package utilisé avec yarn
+
+yarn install : Cette commande installe toutes les dépendances listées dans le fichier package.json et génère un fichier yarn.lock si nécessaire.
+
+yarn init : Cette commande crée un nouveau fichier package.json en te posant une série de questions pour configurer ton projet.
+
+yarn add : Cette commande ajoute une dépendance à ton projet et met à jour le fichier package.json ainsi que le fichier yarn.lock.
+
+yarn upgrade : Cette commande met à jour toutes les dépendances vers leurs dernières versions respectant les contraintes du fichier package.json.
+
+yarn audit : Cette commande vérifie les vulnérabilités de sécurité dans les dépendances de ton projet.
+
+yarn version : Cette commande affiche la version actuelle de Yarn installée sur ton système. Elle peut aussi être utilisée pour gérer la version de ton projet.
+
+yarn help : Pour obtenir une liste des commandes disponibles et une brève description de chaque commande
+
+yarn help commande : Pour obtenir une description detailler de la commande
