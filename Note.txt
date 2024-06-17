@@ -22,6 +22,11 @@ yarn sequelize-cli db:seed:all
 
 node server.js
 
+MySQL
+sudo service mysql start
+sudo service mysql stop
+sudo service mysql restart
+sudo service mysql status
 mysql -u root -p
 
 === Dans la base de donnée ===
