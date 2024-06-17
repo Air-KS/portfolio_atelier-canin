@@ -16,10 +16,11 @@ yarn help : Pour obtenir une liste des commandes disponibles et une brève descr
 
 yarn help commande : Pour obtenir une description detailler de la commande
 
-
+Migration sequelize pour les tables de la base de donnée
 yarn sequelize-cli db:migrate
 yarn sequelize-cli db:seed:all
 
+Lancer le server une fois tout installer
 node server.js
 
 MySQL
@@ -28,6 +29,14 @@ sudo service mysql stop
 sudo service mysql restart
 sudo service mysql status
 mysql -u root -p
+
+Problème liée au permissions
+sudo chown -R mysql:mysql /var/run/mysqld
+sudo chmod -R 755 /var/run/mysqld
+
+Si mysql -u root -p ne fonctionne pas utilise la commande sudo mysql -u root -p et entre dans mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'new_password';
+FLUSH PRIVILEGES;
 
 === Dans la base de donnée ===
 DROP DATABASE PetGroomingDB;
