@@ -143,6 +143,20 @@ module.exports = {
     }
   },
 
+  getAllUsers: async function (req, res) {
+    try {
+      const users = await UsersInfo.findAll({
+        include: [{ model: Register }],
+        order: [['last_name', 'ASC']]
+      });
+
+      res.status(200).json(users);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des utilisateurs :", error);
+      res.status(500).json({ error: "Impossible de récupérer les utilisateurs" });
+    }
+  },
+  
   userdelete: async (req, res) => {
     // Implémentez la logique de suppression ici
   },
