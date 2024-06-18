@@ -23,7 +23,7 @@
   import axios from 'axios';
 
   export default {
-	name: 'registerPage',
+	name: 'RegisterPage',
 	data() {
 	  return {
 		email: '',
@@ -45,7 +45,7 @@
 		  });
 
 		  if (response.status === 201) {
-			this.$router.push({ name: 'Login' });
+			this.$router.push({ name: 'Client' });
 		  }
 		} catch (error) {
 		  console.error('Registration failed:', error);
