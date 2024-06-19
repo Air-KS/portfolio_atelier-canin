@@ -5,7 +5,7 @@
 // Import des modules nécessaires
 const bcrypt = require('bcrypt');
 const jwtUtils = require("../utils/jwt");
-const { Register, UsersInfo, Role } = require('../models'); // Assurez-vous que Role est inclus ici
+const { Register, UsersInfo, Role } = require('../models');
 
 // Validation des données avec regex
 const emailREGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -143,62 +143,6 @@ module.exports = {
     } catch (error) {
       console.error("Erreur lors de la connexion de l'utilisateur :", error);
       return res.status(500).json({ error: "Impossible de se connecter" });
-    }
-  },
-
-  // Fonction pour récupérer tous les utilisateurs avec leur rôle
-getAllUsers: async function (req, res) {
-  try {
-    const users = await UsersInfo.findAll({
-      include: [
-        {
-          model: Register,
-          include: [{ model: Role }] // Assurez-vous que Role est inclus ici
-        }
-      ],
-      order: [['last_name', 'ASC']]
-    });
-
-    res.status(200).json(users);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des utilisateurs :", error);
-    res.status(500).json({ error: "Impossible de récupérer les utilisateurs" });
-  }
-},
-
-  // Fonction pour mettre à jour le rôle d'un utilisateur
-  updateUserRole: async function (req, res) {
-    try {
-      const { role } = req.body;
-      const { id } = req.params;
-
-      // Recherche de l'utilisateur dans la base de données par id
-      const user = await UsersInfo.findOne({
-        where: { id },
-        include: [{ model: Register }]
-      });
-
-      if (!user) {
-        return res.status(404).json({ error: "Utilisateur non trouvé" });
-      }
-
-      // Recherche du rôle dans la base de données
-      const roleInstance = await Role.findOne({
-        where: { role }
-      });
-
-      if (!roleInstance) {
-        return res.status(404).json({ error: "Rôle non trouvé" });
-      }
-
-      // Mise à jour du rôle
-      user.Register.role_id = roleInstance.id;
-      await user.Register.save();
-
-      res.status(200).json({ message: "Rôle mis à jour avec succès" });
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour du rôle de l'utilisateur :", error);
-      res.status(500).json({ error: "Impossible de mettre à jour le rôle de l'utilisateur" });
     }
   },
 
