@@ -9,7 +9,7 @@
 		<!-- Bar de Recherche -->
 		<researchBar
 			v-model="searchQuery"
-			placeholder="Rechercher un utilisateur..."
+			placeholder="Rechercher un utilisateur... Nom, Prénom, Téléphone"
 		/>
 
 		<!-- Table des utilisateurs avec le rôle "admin" -->
@@ -132,7 +132,7 @@
 			filterUsers(users) {
 				return users.filter(user => {
 					const fullName =
-						`${user.last_name} ${user.first_name} ${user.email}`.toLowerCase();
+						`${user.last_name} ${user.first_name} ${user.email} ${user.phone}`.toLowerCase();
 					return fullName.includes(this.searchQuery.toLowerCase());
 				});
 			},
