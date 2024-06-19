@@ -10,15 +10,15 @@
 	  <form @submit.prevent="updateProfile">
 		<div>
 		  <label for="first_name">Prénom:</label>
-		  <input type="text" v-model="user.first_name" required />
+		  <input type="text" v-model="user.first_name" />
 		</div>
 		<div>
 		  <label for="last_name">Nom:</label>
-		  <input type="text" v-model="user.last_name" required />
+		  <input type="text" v-model="user.last_name" />
 		</div>
 		<div>
 		  <label for="date_of_birth">Date de Naissance:</label>
-		  <input type="date" v-model="user.date_of_birth" required />
+		  <input type="date" v-model="user.date_of_birth" />
 		</div>
 		<div>
 		  <label for="email">Email:</label>
