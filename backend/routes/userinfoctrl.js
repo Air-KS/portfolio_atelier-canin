@@ -1,3 +1,0 @@
-/*
-  ./backend/route/userinfoctrl.js
-*/
