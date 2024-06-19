@@ -22,10 +22,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      is_admin: {
-        type: Sequelize.BOOLEAN,
+      role_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Roles',
+          key: 'id'
+        },
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 1 // Par défaut, 'client'
       },
       created_at: {
         allowNull: false,
