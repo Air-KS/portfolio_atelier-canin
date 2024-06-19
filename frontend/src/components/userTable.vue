@@ -9,7 +9,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Allez au profile</th>
+					<th>Profile</th>
 					<th>Nom</th>
 					<th>Prénom</th>
 					<th>Date de Naissance</th>
@@ -25,9 +25,9 @@
 			<tbody>
 				<!-- Afficher chaque utilisateur -->
 				<tr v-for="user in users" :key="user.id">
-					<td>
+					<td align="center">
 						<!-- Icône de profile cliquable -->
-						 <router-link :to="{ name: 'ProfilePage', params: { id: user.id } }">
+						 <router-link :to="{ name: 'Profile', params: { id: user.id } }">
 							<i class="fas fa-user"></i>
 						 </router-link>
 					</td>
