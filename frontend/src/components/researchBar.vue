@@ -24,6 +24,19 @@
 		default: 'Rechercher...',
 	  },
 	},
+	data() {
+	  return {
+		localSearchQuery: this.searchQuery, // Initialisation de localSearchQuery avec la valeur de searchQuery
+	  };
+	},
+	watch: {
+	  searchQuery(newVal) {
+		this.localSearchQuery = newVal;
+	  },
+	  localSearchQuery(newVal) {
+		this.$emit('update:modelValue', newVal);
+	  },
+	},
   };
   </script>
 
@@ -34,7 +47,7 @@
 	padding: 10px;
 	margin: 10px 0;
 	width: 100%;
-	max-width: 40%;
+	max-width: 25%;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	font-size: 16px;
 	font-family: Arial, sans-serif;
