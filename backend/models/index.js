@@ -38,6 +38,10 @@ Object.keys(db).forEach(modelName => {
 // Synchroniser les associations
 db.Register.hasOne(db.UsersInfo, { foreignKey: 'register_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 db.UsersInfo.belongsTo(db.Register, { foreignKey: 'register_id' });
+db.Role.hasMany(db.UsersInfo, { foreignKey: 'role_id' });
+db.UsersInfo.belongsTo(db.Role, { foreignKey: 'role_id' });
+db.Role.hasMany(db.Register, { foreignKey: 'role_id' });
+db.Register.belongsTo(db.Role, { foreignKey: 'role_id' });
 
 // Synchroniser la base de données
 sequelize.sync({ logging: false });
