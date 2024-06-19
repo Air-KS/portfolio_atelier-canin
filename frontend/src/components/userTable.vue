@@ -13,6 +13,8 @@
 					<th>Prénom</th>
 					<th>Date de Naissance</th>
 					<th>Email</th>
+					<th v-if="role !== 'admin'">Téléphone</th>
+					<th v-if="role !== 'admin'">Adresse</th>
 					<th>Code Postal</th>
 					<th>Ville</th>
 					<th>Pays</th>
@@ -26,6 +28,8 @@
 					<td>{{ user.first_name }}</td>
 					<td>{{ user.date_of_birth }}</td>
 					<td>{{ user.email }}</td>
+					<td v-if="role !== 'admin'">{{ user.phone }}</td>
+					<td v-if="role !== 'admin'">{{ user.adress }}</td>
 					<td>{{ user.zip_code }}</td>
 					<td>{{ user.city }}</td>
 					<td>{{ user.country }}</td>
