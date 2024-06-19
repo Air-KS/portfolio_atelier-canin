@@ -8,26 +8,28 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Register extends Model {
     static associate(models) {
-      Register.hasOne(models.UsersInfo, { foreignKey: 'register_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Register.belongsTo(models.Role, { foreignKey: 'role_id' });
+      Register.hasMany(models.UsersInfo, { foreignKey: 'register_id' });
     }
   }
   Register.init({
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true
-      }
+      unique: true
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    is_admin: {
-      type: DataTypes.BOOLEAN,
+    role_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Roles',
+        key: 'id'
+      },
       allowNull: false,
-      defaultValue: false
+      defaultValue: 1 // Par défaut, 'client'
     },
     created_at: {
       type: DataTypes.DATE,

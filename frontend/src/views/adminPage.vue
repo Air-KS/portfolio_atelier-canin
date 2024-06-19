@@ -1,57 +1,97 @@
-<template>
+<!--
+	./frontend/src/views/adminPage.vue
+ -->
+
+
+ <template>
 	<div class="admin-container">
 	  <h1>Admin Page</h1>
-	  <table>
-		<thead>
-		  <tr>
-			<th>Nom</th>
-			<th>Prénom</th>
-			<th>Date de Naissance</th>
-			<th>Email</th>
-			<th>Téléphone</th>
-			<th>Adresse 1</th>
-			<th>Adresse 2</th>
-			<th>Code Postal</th>
-			<th>Ville</th>
-			<th>Pays</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  <tr v-for="user in users" :key="user.id">
-			<td>{{ user.last_name }}</td>
-			<td>{{ user.first_name }}</td>
-			<td>{{ user.date_of_birth }}</td>
-			<td>{{ user.email }}</td>
-			<td>{{ user.phone }}</td>
-			<td>{{ user.address_one }}</td>
-			<td>{{ user.address_two }}</td>
-			<td>{{ user.zip_code }}</td>
-			<td>{{ user.city }}</td>
-			<td>{{ user.country }}</td>
-		  </tr>
-		</tbody>
-	  </table>
+	  <UserTable
+		title="Admins"
+		:users="admins"
+		role="admin"
+		:userRole="userRole"
+		@change-role="changeUserRole"
+		@delete-user="deleteUser"
+	  />
+	  <UserTable
+		title="Responsables"
+		:users="responsables"
+		role="responsable"
+		:userRole="userRole"
+		@change-role="changeUserRole"
+		@delete-user="deleteUser"
+	  />
+	  <UserTable
+		title="Clients"
+		:users="clients"
+		role="client"
+		:userRole="userRole"
+		@change-role="changeUserRole"
+		@delete-user="deleteUser"
+	  />
 	</div>
   </template>
 
   <script>
   import axios from 'axios';
+  import UserTable from '../components/userTable.vue';
 
   export default {
 	name: 'AdminPage',
+	components: {
+	  UserTable,
+	},
 	data() {
 	  return {
-		users: []
+		users: [],
+		admins: [],
+		responsables: [],
+		clients: [],
+		userRole: '', // Variable pour stocker le rôle de l'utilisateur connecté
 	  };
 	},
 	async created() {
-	  try {
-		const response = await axios.get('http://localhost:3000/api/users');
-		this.users = response.data;
-	  } catch (error) {
-		console.error('Erreur lors de la récupération des utilisateurs :', error);
+	  await this.refreshUsers();
+	  this.userRole = localStorage.getItem('role');
+	},
+	methods: {
+	  async changeUserRole(userId, newRole) {
+		try {
+		  await axios.put(`http://localhost:3000/api/users/${userId}/role`, {
+			role: newRole,
+		  });
+		  alert(`Utilisateur mis à jour avec succès vers ${newRole}`);
+		  this.refreshUsers();
+		} catch (error) {
+		  console.error(`Erreur lors de la mise à jour de l'utilisateur :`, error);
+		}
+	  },
+	  async deleteUser(userId) {
+		try {
+		  await axios.delete(`http://localhost:3000/api/users/${userId}`);
+		  alert('Utilisateur supprimé avec succès');
+		  this.refreshUsers();
+		} catch (error) {
+		  console.error('Erreur lors de la suppression de l\'utilisateur :', error);
+		}
+	  },
+	  async refreshUsers() {
+		try {
+		  const response = await axios.get('http://localhost:3000/api/users');
+		  this.users = response.data;
+
+		  this.admins = this.filterUsersByRole('admin');
+		  this.responsables = this.filterUsersByRole('responsable');
+		  this.clients = this.filterUsersByRole('client');
+		} catch (error) {
+		  console.error('Erreur lors de la récupération des utilisateurs :', error);
+		}
+	  },
+	  filterUsersByRole(role) {
+		return this.users.filter(user => user.Register && user.Register.Role && user.Register.Role.role === role);
 	  }
-	}
+	},
   };
   </script>
 
@@ -62,28 +102,5 @@
 	align-items: center;
 	justify-content: center;
 	padding: 20px;
-  }
-
-  table {
-	border-collapse: collapse;
-	width: 100%;
-  }
-
-  th, td {
-	border: 1px solid #ddd;
-	padding: 8px;
-  }
-
-  th {
-	background-color: #f2f2f2;
-	text-align: left;
-  }
-
-  tr:nth-child(even) {
-	background-color: #f9f9f9;
-  }
-
-  tr:hover {
-	background-color: #ddd;
   }
   </style>
