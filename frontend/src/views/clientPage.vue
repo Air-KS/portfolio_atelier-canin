@@ -1,29 +1,34 @@
+<!--
+	./frontend/src/views/clientPage.vue
+ -->
+
+
 <template>
 	<div class="client-page">
-	  <h1>Bienvenue, {{ email }}</h1>
+		<h1>Bienvenue, {{ email }}</h1>
 	</div>
-  </template>
+</template>
 
-  <script>
-  import { useRoute } from 'vue-router';
+<script>
+import { useRoute } from 'vue-router';
 
-  export default {
+export default {
 	name: 'ClientPage',
 	setup() {
-	  const route = useRoute();
-	  return {
-		email: route.params.email
-	  };
+		const route = useRoute();
+		return {
+			email: route.params.email
+		};
 	}
-  };
-  </script>
+};
+</script>
 
-  <style scoped>
-  .client-page {
+<style scoped>
+.client-page {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	height: 100vh;
-  }
-  </style>
+}
+</style>
