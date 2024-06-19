@@ -9,6 +9,7 @@ module.exports = (sequelize) => {
   class UsersInfo extends Model {
     static associate(models) {
       UsersInfo.belongsTo(models.Register, { foreignKey: 'register_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      UsersInfo.belongsTo(models.Role, { foreignKey: 'role_id' });
     }
   }
   UsersInfo.init({
@@ -62,6 +63,15 @@ module.exports = (sequelize) => {
     country: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    role_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Roles',
+        key: 'id'
+      },
+      allowNull: false,
+      defaultValue: 1
     },
     created_at: {
       type: DataTypes.DATE,
