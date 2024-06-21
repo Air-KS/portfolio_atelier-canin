@@ -60,4 +60,4 @@ yarn sequelize-cli db:migrate
 
 Exécute les seeders dans l'ordre spécifié :
 yarn sequelize-cli db:seed --seed 20240615-default-role => Pour créer les roles par défaut (Client, responsable et Admin)
-yarn sequelize-cli db:seed --seed 20240616-insert-register.js => Mettre en place les Admin
+yarn sequelize-cli db:seed --seed 20240616-insert-admin.js => Mettre en place les Admin
