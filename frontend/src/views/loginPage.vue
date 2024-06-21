@@ -2,20 +2,20 @@
 	./frontend/src/views/loginPage.vue
  -->
 
-<template>
+ <template>
 	<div class="login-container">
 		<h1>Login</h1>
 		<!-- Formulaire de connexion -->
 		<form @submit.prevent="login">
 			<div>
 				<!-- Champ email -->
-				<label for="email">Email:</label>
-				<input type="email" v-model="email" required />
+				<label for="login-email">Email:</label>
+				<input id="login-email" type="email" v-model="email" required title="Entrez votre mail" placeholder="example@mail.com"/>
 			</div>
 			<div>
 				<!-- Champ mot de passe -->
-				<label for="password">Password:</label>
-				<input type="password" v-model="password" required />
+				<label for="login-password">Password:</label>
+				<input id="login-password" type="password" v-model="password" required title="Entrez votre Mot de Passe" placeholder="Your password"/>
 			</div>
 			<!-- Bouton de connexion -->
 			<button type="submit">Login</button>

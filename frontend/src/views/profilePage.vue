@@ -7,46 +7,46 @@
 		<h1>Profile de {{ user.first_name }} {{ user.last_name }}</h1>
 		<form @submit.prevent="updateProfile">
 			<div>
-				<label for="first_name">Prénom:</label>
-				<input id="first_name" type="text" v-model="user.first_name" title="Entrez votre prénom" placeholder="Jérôme" />
+				<label for="first_name">Firstname: </label>
+				<input id="first_name" type="text" v-model="user.first_name" title="Entrez votre prénom" placeholder="Jérôme Example" />
 			</div>
 			<div>
-				<label for="last_name">Nom:</label>
-				<input id="last_name" type="text" v-model="user.last_name" title="Entrez votre nom" placeholder="Bernard" />
+				<label for="last_name">Lastname: </label>
+				<input id="last_name" type="text" v-model="user.last_name" title="Entrez votre nom" placeholder="Bernard Example" />
 			</div>
 			<div>
-				<label for="date_of_birth">Date de Naissance:</label>
+				<label for="date_of_birth">Date of Birth: </label>
 				<input id="date_of_birth" type="date" v-model="user.date_of_birth" title="Entrez votre date de naissance" />
 			</div>
 			<div>
-				<label for="email">Email:</label>
-				<input id="email" type="email" v-model="user.email" required title="Entrez votre adresse email" placeholder="exemple@mail.com" />
+				<label for="email">Email: </label>
+				<input id="email" type="email" v-model="user.email" required title="Entrez votre adresse email" placeholder="example@mail.com" />
 			</div>
 			<div>
-				<label for="phone">Téléphone:</label>
+				<label for="phone">Phone: </label>
 				<input id="phone" type="text" v-model="user.phone" title="Entrez votre numéro de téléphone" placeholder="0607080910" />
 			</div>
 			<div>
-				<label for="address_one">Adresse:</label>
-				<input id="address_one" type="text" v-model="user.address_one" title="Entrez votre adresse" placeholder="123 Rue Exemple" />
+				<label for="address_one">Address: </label>
+				<input id="address_one" type="text" v-model="user.address_one" title="Entrez votre adresse" placeholder="123 Rue Example" />
 			</div>
 			<div>
-				<label for="address_two">Adresse secondaire:</label>
-				<input id="address_two" type="text" v-model="user.address_two" title="Entrez votre adresse secondaire (si applicable)" placeholder="Appartement 4B" />
+				<label for="address_two">Secondary address: </label>
+				<input id="address_two" type="text" v-model="user.address_two" title="Entrez votre adresse secondaire (si applicable)" placeholder="Appartment 4B" />
 			</div>
 			<div>
-				<label for="zip_code">Code Postal:</label>
+				<label for="zip_code">Zip code: </label>
 				<input id="zip_code" type="text" v-model="user.zip_code" title="Entrez votre code postal" placeholder="75001" />
 			</div>
 			<div>
-				<label for="city">Ville:</label>
+				<label for="city">City: </label>
 				<input id="city" type="text" v-model="user.city" title="Entrez votre ville" placeholder="Paris" />
 			</div>
 			<div>
-				<label for="country">Pays:</label>
+				<label for="country">Country: </label>
 				<input id="country" type="text" v-model="user.country" title="Entrez votre pays" placeholder="France" />
 			</div>
-			<button type="submit">Sauvegarder</button>
+			<button type="submit">Save</button>
 		</form>
 	</div>
 </template>

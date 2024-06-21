@@ -2,25 +2,25 @@
 	./frontend/src/views/registerPage.vue
  -->
 
-<template>
+ <template>
 	<!-- Formulaire d'inscription -->
 	<div class="register-container">
 		<h1>Register</h1>
 		<form @submit.prevent="register">
 			<div>
 				<!-- Champ email -->
-				<label for="email">Email:</label>
-				<input type="email" v-model="email" required />
+				<label for="register-email">Email:</label>
+				<input id="register-email" type="email" v-model="email" required title="Entrez votre mail" placeholder="example@mail.com"/>
 			</div>
 			<div>
 				<!-- Champ mot de passe -->
-				<label for="password">Password:</label>
-				<input type="password" v-model="password" required />
+				<label for="register-password">Password:</label>
+				<input id="register-password" type="password" v-model="password" required title="Entrez votre mot de passe" placeholder="Your password" />
 			</div>
 			<div>
 				<!-- Champ confirmation du mot de passe -->
-				<label for="confirmPassword">Confirm Password:</label>
-				<input type="password" v-model="confirmPassword" required />
+				<label for="register-confirmPassword">Confirm Password:</label>
+				<input id="register-confirmPassword" type="password" v-model="confirmPassword" required title="Répéter votre mot de passe" placeholder="Repeat password" />
 			</div>
 			<!-- Bouton de d'inscription -->
 			<button type="submit">Register</button>

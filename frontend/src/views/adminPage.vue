@@ -9,7 +9,7 @@
 		<!-- Bar de Recherche -->
 		<researchBar
 			v-model="searchQuery"
-			placeholder="Rechercher un utilisateur..."
+			placeholder="Search for a user..."
 		/>
 
 		<!-- Table des utilisateurs avec le rôle "admin" -->

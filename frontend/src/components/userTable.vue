@@ -9,16 +9,16 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Profile</th>
-					<th>Nom</th>
-					<th>Prénom</th>
-					<th>Date de Naissance</th>
+					<th>Profil</th>
+					<th>Last name</th>
+					<th>First name</th>
+					<th>Date of Birth</th>
 					<th>Email</th>
-					<th v-if="role !== 'admin'">Téléphone</th>
-					<th v-if="role !== 'admin'">Adresse</th>
-					<th>Code Postal</th>
-					<th>Ville</th>
-					<th>Pays</th>
+					<th v-if="role !== 'admin'">Phone</th>
+					<th v-if="role !== 'admin'">Address</th>
+					<th>Zip code</th>
+					<th>City</th>
+					<th>Country</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -48,19 +48,19 @@
 							<div
 								v-if="role === 'responsable' && !['jerome@gmail.com', 'kevin@gmail.com'].includes(user.email)">
 								<button @click="demoteToClient(user.id)">Client</button>
-								<button @click="deleteUser(user.id)">Supprimer</button>
+								<button @click="deleteUser(user.id)">Delete</button>
 							</div>
 
 							<!-- Actions pour 'client' -->
 							<div v-else-if="role === 'client'">
 								<button @click="promoteToResponsable(user.id)">Responsable</button>
-								<button @click="deleteUser(user.id)">Supprimer</button>
+								<button @click="deleteUser(user.id)">Delete</button>
 							</div>
 						</div>
 
 						<!-- Actions pour'responsable' -->
 						<div v-else-if="userRole === 'responsable' && role === 'client'">
-							<button @click="deleteUser(user.id)">Supprimer</button>
+							<button @click="deleteUser(user.id)">Delete</button>
 						</div>
 					</td>
 				</tr>
