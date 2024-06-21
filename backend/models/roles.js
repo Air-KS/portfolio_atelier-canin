@@ -18,21 +18,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true
     },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
   }, {
     sequelize,
     modelName: 'Role',
     tableName: 'Roles',
-    timestamps: true,
+    timestamps: false,
     underscored: true,
   });
   return Role;

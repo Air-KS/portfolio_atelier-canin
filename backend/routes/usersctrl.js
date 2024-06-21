@@ -2,9 +2,8 @@
   backend/routes/usersctrl.js
 */
 
-// Import des modules nécessaires
 const bcrypt = require('bcrypt');
-const jwtUtils = require("../utils/jwt");
+const jwt = require('jsonwebtoken');
 const { Register, UsersInfo, Role } = require('../models');
 
 // Validation des données avec regex
@@ -14,15 +13,8 @@ const passwordREGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$
 module.exports = {
   // Fonction pour enregistrer un nouvel utilisateur
   register: async function (req, res) {
-    console.log("Fonction register appelée");
     try {
-      console.log("Vérification des champs - S'inscrire");
       const { email, password } = req.body;
-
-      // Affichage des données reçues dans la console
-      console.log("Données reçues :", req.body);
-      console.log("Email:", email);
-      console.log("Mot de passe:", password);
 
       // Vérifie que tous les champs obligatoires sont remplis
       if (!email || !password) {
@@ -65,14 +57,22 @@ module.exports = {
         role_id: 1 // Par défaut, 'client'
       });
 
-      // Vérification de la création de l'utilisateur et envoi de la réponse
-      if (newRegister) {
-        console.log("Nouvel utilisateur créé avec succès");
-        return res.status(201).json({ register_id: newRegister.id });
-      } else {
-        console.log("Échec de la création de l'utilisateur");
-        return res.status(400).json({ error: "Échec de l'enregistrement" });
-      }
+      // Générer un token JWT
+      const token = jwt.sign({ userId: newRegister.id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+      // Obtenir le rôle de l'utilisateur
+      const role = await Role.findByPk(newRegister.role_id);
+
+      // Logs d'inscription réussie
+      console.log('Inscription réussie');
+      console.log('Vous êtes inscrit avec l\'adresse email:', newRegister.email);
+
+      return res.status(201).json({
+        userId: newRegister.id,
+        token: token,
+        role: role.role
+      });
+
     } catch (error) {
       console.error("Erreur lors de l'enregistrement de l'utilisateur :", error);
       return res.status(500).json({ error: "Impossible d'ajouter cet utilisateur" });
@@ -99,7 +99,6 @@ module.exports = {
 
       // Vérification si l'utilisateur existe ou non
       if (!userInfoFound) {
-        console.log("L'utilisateur n'existe pas");
         return res.status(400).json({ error: "Utilisateur n'existe pas" });
       }
 
@@ -108,46 +107,30 @@ module.exports = {
 
       // Gestion des cas où le mot de passe ne correspond pas
       if (!passwordMatch) {
-        console.log("Mot de passe incorrect");
         return res.status(400).json({ error: "Mot de passe incorrect" });
       }
 
       // Envoi du token après authentification réussie
-      const token = jwtUtils.generateTokenForUser(userInfoFound);
+      const token = jwt.sign({ userId: userInfoFound.Register.id }, 'your_jwt_secret', { expiresIn: '1h' });
 
-      // Affichage des informations de connexion dans le terminal
-      console.log({
-        userId: userInfoFound.Register.id,
-        token: token,
-        role: userInfoFound.Register.Role.role,
-        register_id: userInfoFound.register_id,
-        last_name: userInfoFound.last_name,
-        first_name: userInfoFound.first_name,
-        date_of_birth: userInfoFound.date_of_birth,
-        email: userInfoFound.email,
-        phone: userInfoFound.phone,
-        address_one: userInfoFound.address_one,
-        address_two: userInfoFound.address_two,
-        city: userInfoFound.city,
-        zip_code: userInfoFound.zip_code,
-        country: userInfoFound.country,
-        created_at: userInfoFound.created_at,
-        updated_at: userInfoFound.updated_at
-      });
+      // Logs de connexion réussie
+      console.log('Connexion réussie');
+      console.log('Vous êtes connecté avec l\'adresse email:', userInfoFound.email);
 
       return res.status(200).json({
         userId: userInfoFound.Register.id,
         token: token,
         role: userInfoFound.Register.Role.role
       });
+
     } catch (error) {
       console.error("Erreur lors de la connexion de l'utilisateur :", error);
       return res.status(500).json({ error: "Impossible de se connecter" });
     }
   },
 
+  // Fonction pour supprimer un utilisateur
   userdelete: async (req, res) => {
-    // Implémentez la logique de suppression ici
     try {
       const userId = req.params.id;
 
@@ -156,19 +139,28 @@ module.exports = {
         return res.status(404).json({ error: "Utilisateur non trouvé" });
       }
 
+      const email = user.email;
       await user.destroy();
 
+      // Logs de suppression réussie
+      console.log('Utilisateur supprimé de la base de données:');
+      console.log('ID :', userId);
+      console.log('Email :', email);
+
       return res.status(200).json({ message: "Utilisateur supprimé avec succès" });
+
     } catch (error) {
       console.error("Erreur lors de la suppression de l'utilisateur :", error);
       return res.status(500).json({ error: "Impossible de supprimer l'utilisateur" });
     }
   },
 
+  // Fonction pour réinitialiser le mot de passe
   resetpassword: async (req, res) => {
     // Implémentez la logique de réinitialisation du mot de passe ici
   },
 
+  // Fonction pour déconnecter un utilisateur
   UserLogout: async (req, res) => {
     // Implémentez la logique de déconnexion ici
   }

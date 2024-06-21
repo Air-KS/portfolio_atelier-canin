@@ -7,9 +7,9 @@
 module.exports = {
   async up(queryInterface) {
     await queryInterface.bulkInsert('Roles', [
-      { id: 1, role: 'client', created_at: new Date(), updated_at: new Date() },
-      { id: 2, role: 'responsable', created_at: new Date(), updated_at: new Date() },
-      { id: 3, role: 'admin', created_at: new Date(), updated_at: new Date() },
+      { id: 1, role: 'client', },
+      { id: 2, role: 'responsable', },
+      { id: 3, role: 'admin', },
     ], {});
   },
 

@@ -28,14 +28,14 @@ module.exports = {
 
       await queryInterface.bulkInsert('Register', [
         {
-          email: 'kevin@gmail.com',
+          email: 'jerome@gmail.com',
           password: hashedPassword1,
           role_id: 3, // admin
           created_at: new Date(),
           updated_at: new Date()
         },
         {
-          email: 'jerome@gmail.com',
+          email: 'kevin@gmail.com',
           password: hashedPassword2,
           role_id: 3, // admin
           created_at: new Date(),
