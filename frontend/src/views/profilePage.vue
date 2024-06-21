@@ -2,54 +2,55 @@
 	./frontend/src/views/profilePage.vue
  -->
 
-<template>
+ <template>
 	<div class="profile-container">
 		<h1>Profile de {{ user.first_name }} {{ user.last_name }}</h1>
 		<form @submit.prevent="updateProfile">
 			<div>
 				<label for="first_name">Prénom:</label>
-				<input type="text" v-model="user.first_name" />
+				<input id="first_name" type="text" v-model="user.first_name" title="Entrez votre prénom" placeholder="Jérôme" />
 			</div>
 			<div>
 				<label for="last_name">Nom:</label>
-				<input type="text" v-model="user.last_name" />
+				<input id="last_name" type="text" v-model="user.last_name" title="Entrez votre nom" placeholder="Bernard" />
 			</div>
 			<div>
 				<label for="date_of_birth">Date de Naissance:</label>
-				<input type="date" v-model="user.date_of_birth" />
+				<input id="date_of_birth" type="date" v-model="user.date_of_birth" title="Entrez votre date de naissance" />
 			</div>
 			<div>
 				<label for="email">Email:</label>
-				<input type="email" v-model="user.email" required />
+				<input id="email" type="email" v-model="user.email" required title="Entrez votre adresse email" placeholder="exemple@mail.com" />
 			</div>
 			<div>
 				<label for="phone">Téléphone:</label>
-				<input type="text" v-model="user.phone" />
+				<input id="phone" type="text" v-model="user.phone" title="Entrez votre numéro de téléphone" placeholder="0607080910" />
 			</div>
 			<div>
 				<label for="address_one">Adresse:</label>
-				<input type="text" v-model="user.address_one" />
+				<input id="address_one" type="text" v-model="user.address_one" title="Entrez votre adresse" placeholder="123 Rue Exemple" />
 			</div>
 			<div>
 				<label for="address_two">Adresse secondaire:</label>
-				<input type="text" v-model="user.address_two" />
+				<input id="address_two" type="text" v-model="user.address_two" title="Entrez votre adresse secondaire (si applicable)" placeholder="Appartement 4B" />
 			</div>
 			<div>
 				<label for="zip_code">Code Postal:</label>
-				<input type="text" v-model="user.zip_code" />
+				<input id="zip_code" type="text" v-model="user.zip_code" title="Entrez votre code postal" placeholder="75001" />
 			</div>
 			<div>
 				<label for="city">Ville:</label>
-				<input type="text" v-model="user.city" />
+				<input id="city" type="text" v-model="user.city" title="Entrez votre ville" placeholder="Paris" />
 			</div>
 			<div>
 				<label for="country">Pays:</label>
-				<input type="text" v-model="user.country" />
+				<input id="country" type="text" v-model="user.country" title="Entrez votre pays" placeholder="France" />
 			</div>
 			<button type="submit">Sauvegarder</button>
 		</form>
 	</div>
 </template>
+
 
 <script>
 	import axios from 'axios';
