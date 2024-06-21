@@ -28,7 +28,7 @@
 					<td align="center">
 						<!-- Icône de profile cliquable -->
 						 <router-link :to="{ name: 'Profile', params: { id: user.id } }">
-							<i class="fas fa-user"></i>
+							<i class="fas fa-user profile-icon"></i>
 						 </router-link>
 					</td>
 					<td>{{ user.last_name }}</td>
@@ -109,7 +109,7 @@ table {
 /* Styles pour les cellules */
 th,
 td {
-	border: 1px solid black;
+	border: 1px solid var(--color-border);
 	padding: 8px;
 }
 
@@ -126,6 +126,10 @@ tr:nth-child(even) {
 
 /* Style pour les lignes au survol */
 tr:hover {
-	background-color: #ddd;
+	background-color: var(--menu-color-hover);
+}
+
+.profile-icon {
+	color: #4687af;
 }
 </style>
