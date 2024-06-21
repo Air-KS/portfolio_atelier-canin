@@ -10,7 +10,6 @@ import accueilPage from '@/views/accueilPage.vue';
 import registerPage from '@/views/registerPage.vue';
 import loginPage from '@/views/loginPage';
 import adminPage from '@/views/adminPage';
-import clientPage from '@/views/clientPage';
 import profilePage from '@/views/profilePage.vue';
 
 // Importer le middleware d'authentification
@@ -22,7 +21,6 @@ const routes = [
   { path: '/login', name: 'Login', component: loginPage },
   { path: '/register', name: 'Register', component: registerPage },
   { path: '/admin', name: 'Admin', component: adminPage, meta: { requiresAuth: true, roles: ['admin', 'responsable'] } },
-  { path: '/clientPage', name: 'Client', component: clientPage, meta: { requiresAuth: true, roles: ['client'] } },
   { path: '/profile/:id', name: 'Profile', component: profilePage, meta: { requiresAuth: true } }
 ];
 
