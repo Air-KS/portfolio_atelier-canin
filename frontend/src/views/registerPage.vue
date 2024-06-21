@@ -39,6 +39,7 @@
 				email: '',
 				password: '',
 				confirmPassword: '',
+				errorMessage: '',
 			};
 		},
 
@@ -60,14 +61,49 @@
 						}
 					);
 
+					const { userId, token, role } = response.data;
+
+					// Créer un object utilisateur
+					const user = {
+						id: userId,
+						email: this.email,
+						role: role,
+					};
+
+					// Ajoute de log pour vérifié le nouvel objet
+					console.log('User created:', user);
+
+					// Mettre à jours le localStorage
+					localStorage.setItem('user', JSON.stringify(user));
+					localStorage.setItem('token', token);
+					localStorage.setItem('role', role);
+
+					// Ajoute d'un log pour vérifié le stockage
+					console.log(
+						'User stored in localStorage',
+						localStorage.getItem('user')
+					);
+
+					// Mettre à jour le store Vuex
+					this.$store.dispatch('login', { user, token, role });
+
+					// Forcer la réactivité en faisant une nouvelle mutation
+					this.$store.commit('setLoginState', { isLoggedIn: true, user });
+
+					// Ajoute de log pour vérifier l'état du store
+					console.log('State after registration:', this.$store.state);
+
 					// Si l'inscription est réussie, redirige vers la page "Client"
 					if (response.status === 201) {
-						this.$router.push({ name: 'Client' });
+						this.$router.push({ name: 'Accueil' });
 					}
 				} catch (error) {
 					// Gère les erreurs d'inscription
 					console.error('Registration failed:', error);
-					alert(error.response.data.error);
+					this.errorMessage =
+						error.response?.data?.error ||
+						'Une erreur est survenue, veuillez réessayer ultérieurement.';
+					alert(this.errorMessage);
 				}
 			},
 		},
