@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400&display=swap');
 
 :root {
+  /* color */
   --color-background: #f0f0f0;
   --color-primary: #D73953;
   --color-black: #000;
@@ -16,7 +17,7 @@
   --color-red: #cd3e65;
   --color-green: #08805b;
   --color-orange: #DC7F00;
-
+  --color-border: #4687af;
   --font-family-menu: 'Comic Sans MS', sans-serif;
   --font-family-body: 'Calibri', 'Times New Roman', 'Comic Sans MS', 'Georgia', sans-serif;
   --font-family-headings: 'Oswald', sans-serif;
