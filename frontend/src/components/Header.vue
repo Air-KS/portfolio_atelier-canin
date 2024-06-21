@@ -13,7 +13,7 @@
 			<nav>
 				<ul class="nav-menu">
 					<li class="nav-menu-item">
-						<a href="#" class="nav-menu-link">Prix & Services</a>
+						<a href="#" class="nav-menu-link">Prices & Services</a>
 					</li>
 					<li class="nav-menu-item">
 						<a href="#" class="nav-menu-link">Location</a>
@@ -22,7 +22,7 @@
 						<router-link to="/admin" class="nav-menu-link apply">Dashboard</router-link>
 					</li>
 					<li class="nav-menu-item" v-else>
-						<a href="#" class="nav-menu-link apply">Réserver Maintenant</a>
+						<a href="#" class="nav-menu-link apply">Book Now</a>
 					</li>
 				</ul>
 			</nav>
