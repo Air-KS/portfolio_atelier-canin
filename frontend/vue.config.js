@@ -5,6 +5,10 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   configureWebpack: {
+    output: {
+      filename: '[name].[contenthash].js',
+      chunkFilename: '[name].[contenthash].js'
+    },
     plugins: [
       new webpack.DefinePlugin({
         '__VUE_OPTIONS_API__': JSON.stringify(true),
