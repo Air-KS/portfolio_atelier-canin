@@ -18,8 +18,11 @@
 					<li class="nav-menu-item">
 						<a href="#" class="nav-menu-link">Location</a>
 					</li>
-					<li class="nav-menu-item">
-						<a href="#" class="nav-menu-link apply">Reserver Maintenant</a>
+					<li class="nav-menu-item" v-if="isAdminOrResponsable">
+						<router-link to="/admin" class="nav-menu-link apply">Dashboard</router-link>
+					</li>
+					<li class="nav-menu-item" v-else>
+						<a href="#" class="nav-menu-link apply">Réserver Maintenant</a>
 					</li>
 				</ul>
 			</nav>
@@ -43,7 +46,7 @@
 						<!-- Affichage du menu si l'utilisateur n'est pas connecté -->
 						<template v-if="!isLoggedIn">
 							<router-link to="/login" class="dropdown-item">
-								<img src="@/assets/images/user-log-in.svg" alt="Login" />
+								<img src="@/assets/images/user-login.svg" alt="Login" />
 								Log in
 								<img
 									src="@/assets/images/arrow-r-grey.png"
@@ -70,7 +73,7 @@
 								@click.native="navigateToProfile"
 								class="dropdown-item"
 							>
-								<img src="@/assets/images/user-log-in.svg" alt="Profile" />
+								<img src="@/assets/images/user-profile.svg" alt="Profile" />
 								Profile
 								<img
 									src="@/assets/images/arrow-r-grey.png"
@@ -80,7 +83,7 @@
 							</router-link>
 							<div class="dropdown-divider"></div>
 							<a href="#" class="dropdown-item" @click="logout">
-								<img src="@/assets/images/user-log-in.svg" alt="Logout" />
+								<img src="@/assets/images/user-disconnected.svg" alt="Logout" />
 								Log Out
 								<img
 									src="@/assets/images/arrow-r-grey.png"
@@ -109,6 +112,11 @@
 		computed: {
 			// Mapping des états 'isLoggedIn' et 'user' du store Vuex
 			...mapState(['isLoggedIn', 'user']),
+
+			// Propriété calculée pour déterminer le texte du lien
+			isAdminOrResponsable() {
+				return this.user && (this.user.role === 'admin' || this.user.role === 'responsable');
+			}
 		},
 		methods: {
 			toggleDropdown() {
