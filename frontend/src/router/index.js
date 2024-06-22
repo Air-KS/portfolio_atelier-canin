@@ -33,4 +33,9 @@ const router = createRouter({
 // Utiliser le middleware pour vérifier l'authentification et les droits d'accès
 router.beforeEach(authGuard);
 
+// Ajouter un afterEach hook pour le défilement vers le haut
+router.afterEach((to, from) => {
+  window.scrollTo(0, 0);
+});
+
 export default router;

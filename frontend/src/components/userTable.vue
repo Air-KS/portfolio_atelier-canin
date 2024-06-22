@@ -1,6 +1,6 @@
 <!--
 	./frontend/src/component/userTable.vue
- -->
+-->
 
 <template>
 	<div>
@@ -27,9 +27,9 @@
 				<tr v-for="user in users" :key="user.id">
 					<td align="center">
 						<!-- Icône de profile cliquable -->
-						 <router-link :to="{ name: 'Profile', params: { id: user.id } }">
+						<router-link :to="{ name: 'Profile', params: { id: user.id } }">
 							<i class="fas fa-user profile-icon"></i>
-						 </router-link>
+						</router-link>
 					</td>
 					<td>{{ user.last_name }}</td>
 					<td>{{ user.first_name }}</td>
@@ -43,17 +43,22 @@
 					<td>
 						<!-- Actions pour le rôle 'admin -->
 						<div v-if="userRole === 'admin'">
-
 							<!-- Actions pour 'responsable' (sauf emails protégés) -->
 							<div
-								v-if="role === 'responsable' && !['jerome@gmail.com', 'kevin@gmail.com'].includes(user.email)">
+								v-if="
+									role === 'responsable' &&
+									!['jerome@gmail.com', 'kevin@gmail.com'].includes(user.email)
+								"
+							>
 								<button @click="demoteToClient(user.id)">Client</button>
 								<button @click="deleteUser(user.id)">Delete</button>
 							</div>
 
 							<!-- Actions pour 'client' -->
 							<div v-else-if="role === 'client'">
-								<button @click="promoteToResponsable(user.id)">Responsable</button>
+								<button @click="promoteToResponsable(user.id)">
+									Responsable
+								</button>
 								<button @click="deleteUser(user.id)">Delete</button>
 							</div>
 						</div>
@@ -70,7 +75,6 @@
 </template>
 
 <script>
-
 export default {
 	// // Props reçues
 	props: {
