@@ -38,18 +38,13 @@
 				<img src="../assets/images/twitter-x.svg" alt="Twitter X" />
 			</div>
 		</div>
-		<div class="footer-legal">
-			<p class="footer-policy">
-				Politique de confidentialité | Politique de cookies | Utilisation
-				acceptable de la politique | Accessibilité
-			</p>
-			<p class="footer-rights">
+		<div class="footer-copyright">
+			<p>
 				@2024 Atelier canin, Inc. Tous droits réservés
 			</p>
 		</div>
 	</footer>
 </template>
-
   <script>
 export default {
 	name: 'Footer',
@@ -69,7 +64,7 @@ export default {
 	width: 100%;
 	background: #000000; /* Couleur de la banderole */
 	color: var(--color-background);
-	padding: 40px 0;
+	padding: 30px 0;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -82,11 +77,13 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 60px; /* Ajustement pour compenser la banderole */
+	margin-top: 60px;
 }
 
 .footer-image {
-	width: auto;
+	width: 100%;
+	height: auto;
+	max-width: 50%;
 	margin-bottom: 20px;
 }
 
@@ -96,67 +93,87 @@ export default {
 
 .footer-links {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-around;
 	width: 100%;
-	border-top: 1px solid #ffffff;
+	border-top: 1px solid var(--color-background);
 	padding: 20px 0;
 }
 
 .footer-section {
-	flex: 1;
+	width: 100%;
 	text-align: center;
-	border-left: 1px solid #ffffff;
+	border-bottom: 1px solid var(--color-background); /* Ajouter une bordure horizontale par défaut */
+	margin-bottom: 10px;
 }
 
-.footer-section:first-child {
-	border-left: none;
-}
-
-.footer-links .footer-section:not(:last-child) {
-	border-right: 1px solid #ffffff;
-}
 
 .footer-links h4 {
-	margin-bottom: 10px;
-	color: #ffffff;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	font-size: 30px;
+	color: var(--color-background);
+	text-shadow: 2px 2px 4px #fd0000;
+}
+
+/* Supprimer la bordure du dernier et de l'avant-dernier élément */
+.footer-section:last-child {
+	border-bottom: none;
 }
 
 .footer-bottom {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 	font-size: 20px;
-	border-top: 1px solid #ffffff;
-	padding: 30px 20% 30px 20%;
+	border-top: 1px solid var(--color-background);
+	padding: 30px 0px 30px 0px;
 }
 
 .footer-icons img {
 	margin-left: 20px; /* Espace entre les icônes */
 }
 
-.footer-legal {
+.footer-copyright {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	width: 100vw;
-	padding: 20px 0;
-	font-size: 20px;
+	font-size: 16px;
 	position: absolute;
 	background: #000000;
-	padding: 30px;
 	right: 0;
+	align-items: center;
 }
 
-.footer-policy {
-	margin: 0;
-	text-align: left;
-	flex: 1;
-	padding-left: 100px;
-}
 
-.footer-rights {
-	margin: 0;
-	text-align: right;
-	flex: 1;
-	padding-right: 100px;
+/* Responsiveness */
+@media (min-width: 768px) {
+	.footer-links {
+		flex-direction: row;
+	}
+
+	.footer-section {
+		flex: 1;
+		text-align: center;
+		margin-bottom: 0;
+		border-bottom: none;
+		border-left: 1px solid var(--color-background);
+	}
+
+	.footer-section:first-child {
+		border-left: none;
+	}
+
+	.footer-links .footer-section:not(:last-child) {
+		border-right: 1px solid var(--color-background);
+	}
+
+	.footer-bottom {
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 10px 10%;
+		align-items: center;
+	}
 }
 </style>
