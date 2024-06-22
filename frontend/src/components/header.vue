@@ -5,7 +5,9 @@
 		<div class="container">
 			<!-- Section logo -->
 			<div class="logo">
-				<img src="@/assets/images/logo.png" alt="Logo" />
+				<router-link to="/">
+					<img src="@/assets/images/logo.png" alt="Logo" />
+				</router-link>
 			</div>
 			<!-- Menu de navigation -->
 			<nav>
@@ -70,6 +72,8 @@
 				class="menu-toggle"
 				@click="toggleMenu"
 				:class="{ active: isMenuOpen }"
+				aria-label="Toggle menu"
+				title="Toggle menu"
 				ref="menu"
 			>
 				<span class="menu-toggle-bar top-bar"></span>
