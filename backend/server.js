@@ -1,14 +1,10 @@
-/*
-  backend/server.js
-*/
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
+const helmet = require('helmet');
 const { Sequelize, DataTypes } = require('sequelize');
 
-// Charger les variables d'environnement à partir du fichier .env
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const apirouter = require('./api/apirouter').router;
@@ -32,27 +28,45 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-// Middleware pour parser les corps de requête JSON
+// Sécuriser les en-têtes HTTP
+app.use(helmet());
+app.use(helmet({
+  xssFilter: false,
+  frameguard: false // Désactiver X-Frame-Options
+}));
+
+// Définir Content-Security-Policy
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
+  next();
+});
+
+// Désactiver la mise en cache des réponses dynamiques
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
+
+// Parser les corps de requête
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Middleware CORS
+// Activer CORS
 app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
-// Middleware pour les logs
+// Logger les requêtes
 app.use((req, res, next) => {
   console.log(`Requête reçue: ${req.method} ${req.url}`);
   next();
 });
 
-// Middleware pour les routes
+// Utiliser le routeur API
 app.use("/api", apirouter);
-
-// Middleware pour gérer les erreurs
 app.use(errorHandler);
 
+// Route de base
 app.get('/', (req, res) => {
   res.send('Hello, world!');
 });
