@@ -40,7 +40,7 @@
 					></i>
 				</div>
 			</div>
-			
+
 			<!-- Lien pour mot de passe oublié -->
 			<div class="forgot-password-container">
 				<a href="#" @click.prevent="forgotPassword" class="forgot-passwordText">
@@ -95,7 +95,7 @@ export default {
 </script>
 
 <style scoped>
-/* Ajout du style pour le message d'erreur */
+/* Les messages d'erreur */
 .error-message {
 	color: red;
 	margin-bottom: 10px;
