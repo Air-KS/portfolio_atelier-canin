@@ -2,142 +2,96 @@
 	./frontend/src/views/registerPage.vue
 -->
 
- <template>
-	<!-- Formulaire d'inscription -->
-	<div class="register-container">
-		<h1>Register</h1>
-		<form @submit.prevent="register">
-			<div>
-				<!-- Champ email -->
-				<label for="register-email">Email:</label>
-				<input
-					id="register-email"
-					type="email"
-					v-model="email"
-					required
-					title="Entrez votre mail"
-					placeholder="example@mail.com"
-				/>
-			</div>
-			<div>
-				<!-- Champ mot de passe -->
-				<label for="register-password">Password:</label>
-				<input
-					id="register-password"
-					type="password"
-					v-model="password"
-					required
-					title="Entrez votre mot de passe"
-					placeholder="Your password"
-				/>
-			</div>
-			<div>
-				<!-- Champ confirmation du mot de passe -->
-				<label for="register-confirmPassword">Confirm Password:</label>
-				<input
-					id="register-confirmPassword"
-					type="password"
-					v-model="confirmPassword"
-					required
-					title="Répéter votre mot de passe"
-					placeholder="Repeat password"
-				/>
-			</div>
-			<!-- Bouton de d'inscription -->
-			<button type="submit">Register</button>
-		</form>
+<template>
+	<div class="register-contener">
+	  <Register @register="register" :errorMessage="errorMessage" />
 	</div>
-</template>
+  </template>
 
-<script>
-import axios from 'axios';
+  <script>
+  import axios from 'axios';
+  import Register from '../components/register.vue'; // Vérifie que ce chemin est correct
 
-export default {
+  export default {
 	name: 'RegisterPage',
+	components: {
+	  Register,
+	},
 	data() {
-		return {
-			// Stock l'email, password, confirmation
-			email: '',
-			password: '',
-			confirmPassword: '',
-			errorMessage: '',
-		};
+	  return {
+		email: '',
+		password: '',
+		confirmPassword: '',
+		errorMessage: '',
+	  };
 	},
-
 	methods: {
-		// Méthode pour gérer l'inscription de l'utilisateur
-		async register() {
-			if (this.password !== this.confirmPassword) {
-				alert('Passwords do not match');
-				return;
+	  async register({ email, password, confirmPassword }) {
+		if (password !== confirmPassword) {
+		  this.errorMessage = 'Passwords do not match';
+		  return;
+		}
+
+		try {
+		  const response = await axios.post(
+			'http://localhost:3000/api/users/register',
+			{
+			  email: email,
+			  password: password,
 			}
+		  );
 
-			try {
-				// Envoie une requête POST pour enregistrer l'utilisateur
-				const response = await axios.post(
-					'http://localhost:3000/api/users/register',
-					{
-						email: this.email,
-						password: this.password,
-					}
-				);
+		  const { userId, token, role } = response.data;
 
-				const { userId, token, role } = response.data;
+		  const user = {
+			id: userId,
+			email: email,
+			role: role,
+		  };
 
-				// Créer un object utilisateur
-				const user = {
-					id: userId,
-					email: this.email,
-					role: role,
-				};
+		  localStorage.setItem('user', JSON.stringify(user));
+		  localStorage.setItem('token', token);
+		  localStorage.setItem('role', role);
 
-				// Ajoute de log pour vérifié le nouvel objet
-				console.log('User created:', user);
+		  this.$store.dispatch('login', { user, token, role });
+		  this.$store.commit('setLoginState', { isLoggedIn: true, user });
 
-				// Mettre à jours le localStorage
-				localStorage.setItem('user', JSON.stringify(user));
-				localStorage.setItem('token', token);
-				localStorage.setItem('role', role);
-
-				// Ajoute d'un log pour vérifié le stockage
-				console.log(
-					'User stored in localStorage',
-					localStorage.getItem('user')
-				);
-
-				// Mettre à jour le store Vuex
-				this.$store.dispatch('login', { user, token, role });
-
-				// Forcer la réactivité en faisant une nouvelle mutation
-				this.$store.commit('setLoginState', { isLoggedIn: true, user });
-
-				// Ajoute de log pour vérifier l'état du store
-				console.log('State after registration:', this.$store.state);
-
-				// Si l'inscription est réussie, redirige vers la page "Client"
-				if (response.status === 201) {
-					this.$router.push({ name: 'Accueil' });
-				}
-			} catch (error) {
-				// Gère les erreurs d'inscription
-				console.error('Registration failed:', error);
-				this.errorMessage =
-					error.response?.data?.error ||
-					'Une erreur est survenue, veuillez réessayer ultérieurement.';
-				alert(this.errorMessage);
-			}
-		},
+		  if (response.status === 201) {
+			this.$router.push({ name: 'Accueil' });
+		  }
+		} catch (error) {
+		  this.errorMessage =
+			error.response?.data?.error ||
+			'Une erreur est survenue, veuillez réessayer ultérieurement.';
+		}
+	  },
 	},
-};
-</script>
+  };
+  </script>
 
-<style scoped>
-/* Styles pour le conteneur d'inscription */
-.register-container {
+  <style scoped>
+  .register-contener {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
-	height: 100vh;
-}
-</style>
+	align-items: center;
+	padding: 80px;
+	background-color: #f0f0f0;
+  }
+
+  .register-container {
+	width: 100%;
+	max-width: 400px;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid var(--color-border);
+	border-radius: 10px;
+	text-align: center;
+	box-shadow: 0 0 8px var(--color-border-shadow);
+  }
+
+  .error-message {
+	color: red;
+	font-weight: bold;
+  }
+  </style>
