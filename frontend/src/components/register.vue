@@ -4,6 +4,8 @@
 			<h2>Register</h2>
 			<div class="separator"></div>
 			<div class="form-group" style="padding-top: 30px">
+
+				<!-- Champ pour entrer l'email de l'utilisateur -->
 				<label for="email" class="textInput">E-mail</label>
 				<input
 					type="email"
@@ -28,10 +30,15 @@
 						placeholder="Password"
 					/>
 					<i
-            @click="toggleShowPassword"
-            :class="showPassword ? 'fa-solid fa-eye eye-iconOpen' : 'fa-solid fa-eye-slash eye-iconClose'"
-        ></i>
+						@click="toggleShowPassword"
+						:class="
+							showPassword
+								? 'fa-solid fa-eye eye-iconOpen'
+								: 'fa-solid fa-eye-slash eye-iconClose'
+						"
+					></i>
 				</div>
+				<!-- Champ Répète mot de passe -->
 				<div class="password-container">
 					<input
 						:type="showPassword ? 'text' : 'password'"
@@ -52,7 +59,7 @@
 				<div class="register-buttonText">Register</div>
 			</button>
 			<div class="separator"></div>
-			<div class="signup-link">
+			<div class="login-link">
 				<span>
 					You have an AtlCanin account ?
 					<br />
@@ -75,7 +82,7 @@ export default {
 		return {
 			email: '',
 			password: '',
-			confirmPassword: '', // Ajout de confirmPassword
+			confirmPassword: '',
 			showPassword: false,
 		};
 	},
@@ -95,7 +102,7 @@ export default {
 </script>
 
   <style scoped>
-/* Ajout du style pour le message d'erreur */
+/* les message d'erreur */
 .error-message {
 	color: red;
 	margin-bottom: 10px;
@@ -158,20 +165,19 @@ input::-ms-clear {
 	color: var(--color-link);
 }
 
-
 /* Conteneur pour le champ de mot de passe */
 .password-container {
-    position: relative;
-    display: flex;
-    align-items: center;
+	position: relative;
+	display: flex;
+	align-items: center;
 }
 
 .password-container .fa-eye,
 .password-container .fa-eye-slash {
-    position: absolute;
-    right: 20px;
+	position: absolute;
+	right: 20px;
 	top: 17px;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 /* Style des boutons */
@@ -198,18 +204,18 @@ button {
 	text-shadow: 2px 2px 2px var(--color-shadow);
 }
 
-/* Style du lien vers l'inscription */
-.signup-link {
+/* Style du lien vers le login */
+.login-link {
 	margin-top: 60px;
 	margin-bottom: 20px;
 }
-.signup-link a {
+.login-link a {
 	color: var(--color-link);
 	text-decoration: none;
 	padding-left: 10px;
 	font-weight: bold;
 }
-.signup-link a:hover {
+.login-link a:hover {
 	color: var(--color-hover);
 }
 
