@@ -42,7 +42,7 @@ export default {
 
   <style scoped>
 .research-bar {
-	border: 1px solid #333; /* Couleur de la bordure */
+	border: 1px solid var(--color-border-input);
 	border-radius: 15px;
 	padding: 10px;
 	margin: 10px 0;
@@ -51,18 +51,18 @@ export default {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	font-size: 16px;
 	font-family: Arial, sans-serif;
-	background-color: #f9f9f9;
+	background-color: var(--color-background-placeholder);
 	transition: all 0.3s ease;
 }
 
 .research-bar:focus {
-	border-color: #007bff; /* Couleur de la bordure au focus */
-	box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); /* Ombre au focus */
+	border-color: var(--color-border-input-focus);
+	box-shadow: 0 0 8px var(--color-border-shadow);
 	outline: none; /* Supprime le contour par défaut */
 }
 
 .research-bar::placeholder {
-	color: #999; /* Couleur du texte du placeholder */
-	font-style: italic; /* Style du placeholder */
+	color: var(--color-placeholder);
+	font-style: italic;
 }
 </style>

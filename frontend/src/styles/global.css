@@ -32,8 +32,17 @@
   --nav-item-margin: 0 0 0 2rem;
   --transition-duration: .3s;
   --transition-cubic-bezier: cubic-bezier(0.17, 0.67, 0, 1.01);
-  --color-text-dark: #181741;
 
+  --color-text-dark: #181741;
+  --color-border: #4687af;
+  --color-border-tab: #007bff;
+  --color-border-shadow: rgba(0, 123, 255, 0.25);
+  --color-link: #4687af;
+  --color-hover: #ff5252;
+  --color-placeholder: #b1aeae;
+  --color-background-placeholder: #f9f9f9;
+  --color-border-input: #747474;
+  --color-border-input-focus: #007bff;
 
   /* Header Menu */
   --color-button: #58b1ec;
