@@ -5,6 +5,8 @@
 			<!-- Séparateur visuel -->
 			<div class="separator"></div>
 			<div class="form-group" style="padding-top: 30px">
+
+				<!-- Champ pour entrer l'email de l'utilisateur -->
 				<label for="email" class="textInput">E-mail</label>
 				<input
 					type="email"
@@ -14,7 +16,7 @@
 					title="Entrez votre mail"
 					placeholder="E-mail"
 				/>
-				<!-- Champ pour entrer l'email de l'utilisateur -->
+				<!-- Champ pour entrer le mot de passe -->
 			</div>
 			<div class="form-group password-group">
 				<label for="password" class="textInput">Password</label>
@@ -38,6 +40,7 @@
 					></i>
 				</div>
 			</div>
+			
 			<!-- Lien pour mot de passe oublié -->
 			<div class="forgot-password-container">
 				<a href="#" @click.prevent="forgotPassword" class="forgot-passwordText">
