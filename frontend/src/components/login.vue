@@ -17,28 +17,22 @@
 				<!-- Champ pour entrer l'email de l'utilisateur -->
 			</div>
 			<div class="form-group password-group">
-				<label for="password" class="textInput">Password</label>
-				<div class="password-container">
-					<input
-						:type="showPassword ? 'text' : 'password'"
-						id="password"
-						v-model="password"
-						class="password-input"
-						required
-						title="Entrez votre mot de passe"
-						placeholder="Password"
-					/>
-					<!-- Champ pour entrer le mot de passe avec option de visibilité -->
-					<div @click="toggleShowPassword" class="toggle-password">
-						<i
-							:class="
-								showPassword
-									? 'fa-solid fa-eye eye-iconOpen'
-									: 'fa-solid fa-eye-slash eye-iconClose'
-							"
-						></i>
-					</div>
-				</div>
+    <label for="password" class="textInput">Password</label>
+    <div class="password-container">
+        <input
+            :type="showPassword ? 'text' : 'password'"
+            id="register-password"
+            v-model="password"
+            class="password-input"
+            required
+            title="Entrez votre mot de passe"
+            placeholder="Password"
+        />
+        <i
+            @click="toggleShowPassword"
+            :class="showPassword ? 'fa-solid fa-eye eye-iconOpen' : 'fa-solid fa-eye-slash eye-iconClose'"
+        ></i>
+    </div>
 			</div>
 			<!-- Lien pour mot de passe oublié -->
 			<div class="forgot-password-container">
@@ -159,15 +153,17 @@ input::-ms-clear {
 
 /* Conteneur pour le champ de mot de passe */
 .password-container {
-	position: relative;
-	cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
+
 .password-container .fa-eye,
 .password-container .fa-eye-slash {
-	position: absolute;
-	right: 10px;
-	top: 45%;
-	transform: translateY(-50%);
+    position: absolute;
+    right: 20px;
+	top: 17px;
+    cursor: pointer;
 }
 
 /* Conteneur pour le lien de mot de passe oublié */
