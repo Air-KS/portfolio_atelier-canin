@@ -1,12 +1,10 @@
 <template>
-	<div class="login-contener">
-		<Login @login="login" :errorMessage="errorMessage" />
-	</div>
+	<AuthForm :isRegister="false" :errorMessage="errorMessage" @login="login" />
 </template>
 
-<script>
-import axios from 'axios';
-import Login from '../components/login.vue';
+  <script>
+import AuthForm from '@/components/authForm.vue';
+import axios from 'axios'; // Assure-toi d'importer axios
 
 export default {
 	name: 'LoginPage',
@@ -14,7 +12,7 @@ export default {
 		document.title = 'AtlCanin- Login';
 	},
 	components: {
-		Login,
+		AuthForm,
 	},
 	data() {
 		return {
@@ -78,27 +76,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.login-contener {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 80px;
-	background-color: #f0f0f0;
-}
-
-.login-container {
-  width: 100%;
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 0 8px var(--color-border-shadow);
-}
-
+  <style scoped>
+  
 .error-message {
 	color: red;
 	font-weight: bold;
