@@ -15,6 +15,9 @@
 
 export default {
 	name: 'AccueilPage',
+	mounted() {
+		document.title = 'AtlCanin- Home';
+	},
 };
 </script>
 

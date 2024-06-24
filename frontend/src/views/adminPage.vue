@@ -46,6 +46,9 @@ import researchBar from '../components/researchBar.vue';
 
 export default {
 	name: 'AdminPage',
+	mounted() {
+		document.title = 'AtlCanin- Dashboard';
+	},
 	components: {
 		UserTable,
 		researchBar,

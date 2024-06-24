@@ -10,6 +10,9 @@ import Login from '../components/login.vue';
 
 export default {
 	name: 'LoginPage',
+	mounted() {
+		document.title = 'AtlCanin- Login';
+	},
 	components: {
 		Login,
 	},

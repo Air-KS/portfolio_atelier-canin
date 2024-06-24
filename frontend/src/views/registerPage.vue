@@ -14,6 +14,9 @@
 
   export default {
 	name: 'RegisterPage',
+	mounted() {
+		document.title = 'AtlCanin- Register';
+	},
 	components: {
 	  Register,
 	},
