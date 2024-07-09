@@ -8,31 +8,6 @@
 :root {
   /* color */
   --color-background: #f0f0f0;
-  --color-primary: #D73953;
-  --color-black: #000;
-  --color-white: #fff;
-  --color-grey: #a0a0a0;
-  --color-light-grey: #f3f3f3;
-  --color-dark-grey: #353535;
-  --color-red: #cd3e65;
-  --color-green: #08805b;
-  --color-orange: #DC7F00;
-  --color-border: #4687af;
-  --font-family-menu: 'Comic Sans MS', sans-serif;
-  --font-family-body: 'Calibri', 'Times New Roman', 'Comic Sans MS', 'Georgia', sans-serif;
-  --font-family-headings: 'Oswald', sans-serif;
-  --font-weight-normal: 400;
-  --font-weight-bold: 700;
-  --font-size-medium: 1rem;
-
-  --nav-item-font-family: var(--font-family-menu);
-  --nav-item-font-weight: var(--font-weight-bold);
-  --nav-item-font-size: var(--font-size-medium);
-  --nav-item-letter-spacing: .04rem;
-  --nav-item-margin: 0 0 0 2rem;
-  --transition-duration: .3s;
-  --transition-cubic-bezier: cubic-bezier(0.17, 0.67, 0, 1.01);
-
   --color-text-dark: #181741;
   --color-border: #4687af;
   --color-border-tab: #007bff;
@@ -44,16 +19,31 @@
   --color-border-input: #747474;
   --color-border-input-focus: #007bff;
 
+  /* Font */
+  --font-family-menu: 'Comic Sans MS', sans-serif;
+  --font-family-body: 'Calibri', 'Times New Roman', 'Comic Sans MS', 'Georgia', sans-serif;
+  --font-family-headings: 'Oswald', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-size-medium: 1rem;
+
+  /* Menu header */
+  --nav-item-font-family: var(--font-family-menu);
+  --nav-item-font-weight: var(--font-weight-bold);
+  --nav-item-font-size: var(--font-size-medium);
+  --nav-item-letter-spacing: .04rem;
+  --nav-item-margin: 0 0 0 2rem;
+  --transition-duration: .3s;
+  --transition-cubic-bezier: cubic-bezier(0.17, 0.67, 0, 1.01);
+
   /* Header Menu */
   --color-button: #58b1ec;
   --nav-color-hover: #58b1ec;
   --nav-color-link: #2851c0;
   --menu-color-hover: #dee9f0;
-
 }
 
-html,
-body {
+html, body {
   height: 100%;
   margin: 0;
 }
@@ -77,10 +67,25 @@ body {
   color: var(--color-text-dark);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h1, h2, h3, h4, h5 {
   font-family: var(--font-family-headings);
+}
+
+/* Bouton de soumission */
+.button {
+	padding: 10px 20px;
+	margin: 10px 0;
+	width: 100px;
+	height: 50px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	box-shadow: 0 0 5px 2px var(--color-border-shadow);
+	margin-bottom: 60px;
+  background-color: var(--color-link);
+	color: white;
+  text-wrap: nowrap;
+}
+.button:hover {
+	background-color: var(--color-hover);
 }
