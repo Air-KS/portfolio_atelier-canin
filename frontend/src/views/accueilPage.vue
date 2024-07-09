@@ -1,19 +1,23 @@
 <!--
-	./frontend/src/views/accueilPage.vue
+	./frontend/src/views/homePage.vue
 -->
 
 <template>
-	<!-- Formulaire d'inscription -->
-	<div class="accueil-container">
-		<h1>Bienvenue sur la page d'accueil</h1>
-		<p>Contener de la page d'accueil</p>
+	<div>
+		<home-top />
+		<home-Mid />
+		<home-Down />
 	</div>
 </template>
 
 <script>
+import homeTop from '../components/homePage/homeTop.vue';
+import HomeMid from '../components/homePage/homeMiddle.vue';
+import HomeDown from '../components/homePage/homeDown.vue';
 // import axios from 'axios';
 
 export default {
+  components: { homeTop, HomeMid, HomeDown },
 	name: 'AccueilPage',
 	mounted() {
 		document.title = 'AtlCanin- Home';
@@ -21,12 +25,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Styles pour le conteneur d'inscription */
-.accueil-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-</style>
+
