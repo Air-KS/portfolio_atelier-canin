@@ -271,13 +271,13 @@ input::-ms-clear {
 button {
 	padding: 10px 20px;
 	margin: 10px 0;
-	width: 100px;
 	height: 50px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
 	box-shadow: 0 0 5px 2px var(--color-border-shadow);
 	margin-bottom: 60px;
+	font-size: 20px;
 }
 .auth-button {
 	background-color: var(--color-link);
@@ -286,10 +286,7 @@ button {
 .auth-button:hover {
 	background-color: var(--color-hover);
 }
-button div {
-	font-size: 20px;
-	text-shadow: 2px 2px 2px var(--color-shadow);
-}
+
 .link-container {
 	margin-top: 60px;
 	margin-bottom: 20px;
@@ -310,6 +307,7 @@ button div {
 	border-bottom: 1px solid var(--color-hover);
 	margin-bottom: 10px;
 }
+
 /* Media Query pour les écrans plus petits */
 @media (max-width: 600px) {
 	.auth-form {
