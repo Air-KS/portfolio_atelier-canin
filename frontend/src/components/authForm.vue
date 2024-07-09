@@ -48,7 +48,9 @@
 				<div v-if="isRegister">
 					<div class="form-group password-group">
 						<!-- Champ pour confirmer le mot de passe -->
-						<label for="confirmPassword" class="textInput">Confirm Password</label>
+						<label for="confirmPassword" class="textInput">
+							Confirm Password
+						</label>
 						<div class="password-container">
 							<input
 								:type="showPassword ? 'text' : 'password'"
@@ -64,7 +66,11 @@
 				</div>
 				<div v-if="!isRegister" class="forgot-password-container">
 					<!-- Lien pour le mot de passe oublié -->
-					<a href="#" @click.prevent="forgotPassword" class="forgot-passwordText">
+					<a
+						href="#"
+						@click.prevent="forgotPassword"
+						class="forgot-passwordText"
+					>
 						Forgot Password ?
 					</a>
 				</div>
@@ -123,7 +129,9 @@ export default {
 		},
 		// Texte pour basculer entre les modes
 		switchText() {
-			return this.isRegister ? 'You have an AtlCanin account ?' : "Don't have an AtlCanin account ?";
+			return this.isRegister
+				? 'You have an AtlCanin account ?'
+				: "Don't have an AtlCanin account ?";
 		},
 		// Lien pour basculer entre les modes
 		switchLink() {
@@ -261,7 +269,7 @@ input::-ms-clear {
 
 /* Bouton de soumission */
 button {
-	padding-top: 10px 20px;
+	padding: 10px 20px;
 	margin: 10px 0;
 	width: 100px;
 	height: 50px;
