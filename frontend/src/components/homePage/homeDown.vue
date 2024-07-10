@@ -15,5 +15,3 @@ export default {
 	name: 'HomeDown',
 };
 </script>
-
-<style src="./homeStyles.css"></style>
