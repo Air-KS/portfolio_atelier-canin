@@ -183,8 +183,8 @@ p.description {
 		border: 1px solid var(--color-border);
 		border-radius: 0 25px 25px 0;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-		margin-left: -20px;
-		padding: 10px 10px 10px 20px;
+		margin-left: -25px;
+		padding: 10px 20px 10px 20px;
 		width: 98%;
 	}
 }
