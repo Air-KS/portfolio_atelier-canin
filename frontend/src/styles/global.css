@@ -7,7 +7,6 @@
 
 :root {
   /* color */
-  color-scheme: light; /* Forcer le mode clair */
   --color-background: #f0f0f0;
   --color-text-dark: #181741;
   --color-border: #4687af;
@@ -46,7 +45,7 @@
 
 html,
 body {
-  height: 100%;
+  height: auto !important;
   margin: 0;
 }
 
