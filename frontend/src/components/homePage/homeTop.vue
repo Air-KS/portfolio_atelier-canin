@@ -88,16 +88,17 @@ export default {
 }
 
 h1.welcome {
-	font-size: 50px;
+	font-size: 35px;
+	white-space: nowrap;
 }
 
 h2.portfolio {
-	font-size: 30px;
+	font-size: 24px;
 	margin-top: -30px;
 }
 
 h2.sub-title {
-	font-size: 30px;
+	font-size: 24px;
 }
 
 p.description {
@@ -153,7 +154,7 @@ p.description {
 }
 
 .img-dog img {
-	width: 95%;
+	width: 90%;
 }
 
 .icon {
