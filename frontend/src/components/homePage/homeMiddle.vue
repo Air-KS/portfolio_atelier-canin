@@ -14,4 +14,4 @@ export default {
 };
 </script>
 
-<style src="./homeStyles.css"></style>
+
