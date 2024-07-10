@@ -2,41 +2,44 @@
 	<div class="home-container">
 		<div class="home-header">
 			<!-- Title and sub title -->
-			<h1 class="welcom">Welcome Holberton</h1>
+			<h1 class="welcome">Welcome Holberton</h1>
 			<h2 class="portfolio">Portfolio ATL Canin</h2>
 
-			<!-- description -->
-			<p>
+			<!-- Description of the site -->
+			<p class="description">
 				We are happy to introduce you today to Atelier Canin, a site
 				specializing in pet grooming services. Come discover our services and
 				our passion for the well-being of your four-legged companions !
 			</p>
 
-			<h1>Mobile Pet Grooming</h1>
-			<p>
+			<!-- Section title for mobile grooming -->
+			<h2 class="sub-title">Mobile Pet Grooming</h2>
+			<p class="description">
 				On-Demand, Upfront Pricing, Instant Booking, Same-Day Availability, and
 				Expert Care for All Furry Friends
 			</p>
 		</div>
 
-		<!-- Comment -->
+		<!-- Image of a dog -->
 		<div class="img-dog">
-			<img src="./../../assets/images/img-dog.png" alt="Cat and Dog" />
+			<img src="./../../assets/images/img-dog.png" alt="Dog" loading="lazy"/>
 		</div>
 
+		<!-- Description of pick service -->
 		<div class="home-info">
 			<div class="info-section" id="pick">
 				<div class="info">
-					<div class="icon"></div>
+					<div class="icon" aria-label="Pick service icon"></div>
 					<h3>Pick it !</h3>
 				</div>
 				<p>Pick from our variety of grooming services for dogs & cats</p>
 			</div>
 
+			<!-- Description of book service -->
 			<div class="separator"></div>
 			<div class="info-section" id="book">
 				<div class="info">
-					<div class="icon"></div>
+					<div class="icon" aria-label="Book service icon"></div>
 					<h3>Book it !</h3>
 				</div>
 				<p>
@@ -45,10 +48,11 @@
 				</p>
 			</div>
 
+			<!-- Description of groom service -->
 			<div class="separator"></div>
 			<div class="info-section" id="groom">
 				<div class="info">
-					<div class="icon"></div>
+					<div class="icon" aria-label="Groom service icon"></div>
 					<h3>Groom it !</h3>
 				</div>
 				<p>
@@ -60,12 +64,14 @@
 	</div>
 </template>
 
+<!-- Vue component export -->
 <script>
 export default {
 	name: 'HomeTop',
 };
 </script>
 
+<!-- Scoped CSS for HomeTop component -->
 <style scoped>
 .home-container {
 	display: flex;
@@ -75,13 +81,13 @@ export default {
 	margin-bottom: 20px;
 }
 
-/* Header */
+/* Header styles */
 .home-header {
 	text-align: center;
 	width: 90%;
 }
 
-h1.welcom {
+h1.welcome {
 	font-size: 50px;
 }
 
@@ -90,6 +96,13 @@ h2.portfolio {
 	margin-top: -30px;
 }
 
+h2.sub-title {
+	font-size: 30px;
+}
+
+p.description {
+	margin-top: -10px;
+}
 .info {
 	display: flex;
 	align-items: center;
@@ -150,15 +163,15 @@ h2.portfolio {
 	background-repeat: no-repeat;
 }
 
-/* Styles spécifiques pour chaque section */
+/* Specific styles for each section */
 #pick .icon {
-	background-image: url('./../../assets/images/pick-it.svg'); /* URL de l'icône Pick it */
+	background-image: url('./../../assets/images/pick-it.svg'); /* URL Pick it */
 }
 #book .icon {
-	background-image: url('./../../assets/images/book-it.svg'); /* URL de l'icône Book it */
+	background-image: url('./../../assets/images/book-it.svg'); /* URL Book it */
 }
 #groom .icon {
-	background-image: url('./../../assets/images/groom-it.svg'); /* URL de l'icône Groom it */
+	background-image: url('./../../assets/images/groom-it.svg'); /* URL Groom it */
 }
 
 @media (max-width: 599px) {
