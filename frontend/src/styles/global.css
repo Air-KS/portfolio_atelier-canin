@@ -43,7 +43,8 @@
   --menu-color-hover: #dee9f0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -67,25 +68,34 @@ body {
   color: var(--color-text-dark);
 }
 
-h1, h2, h3, h4, h5 {
+p {
+  font-size: 18px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-family: var(--font-family-headings);
 }
 
 /* Bouton global */
 .button {
-	padding: 10px 20px;
-	margin: 10px 0;
-	height: 50px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	box-shadow: 0 0 5px 2px var(--color-border-shadow);
-	margin-bottom: 60px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 5px 2px var(--color-border-shadow);
+  margin-bottom: 60px;
   background-color: var(--color-link);
-	color: white;
+  color: white;
   text-wrap: nowrap;
   font-size: 20px;
 }
+
 .button:hover {
-	background-color: var(--color-hover);
+  background-color: var(--color-hover);
 }
