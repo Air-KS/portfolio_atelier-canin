@@ -20,6 +20,11 @@ module.exports = defineConfig({
         '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': JSON.stringify(false)
       })
     ],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
+    },
     optimization: {
       splitChunks: {
         chunks: 'all'
