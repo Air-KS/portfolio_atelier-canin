@@ -8,7 +8,7 @@
 			<!-- Section logo -->
 			<div class="logo">
 				<router-link to="/">
-					<img src="@/assets/images/header/logo.png" alt="Logo" />
+					<img src="@/assets/logo.png" alt="Logo" />
 				</router-link>
 			</div>
 			<!-- Menu de navigation -->
