@@ -22,7 +22,7 @@
 
 		<!-- Image of a dog -->
 		<div class="img-dog">
-			<img src="./../../assets/images/img-dog.png" alt="Dog" loading="lazy"/>
+			<img src="@/assets/images/homepage/img-dog.png" alt="Dog" loading="lazy"/>
 		</div>
 
 		<!-- Description of pick service -->
@@ -166,13 +166,13 @@ p.description {
 
 /* Specific styles for each section */
 #pick .icon {
-	background-image: url('./../../assets/images/pick-it.svg'); /* URL Pick it */
+	background-image: url('@/assets/images/homepage/pick-it.svg'); /* URL Pick it */
 }
 #book .icon {
-	background-image: url('./../../assets/images/book-it.svg'); /* URL Book it */
+	background-image: url('@/assets/images/homepage/book-it.svg'); /* URL Book it */
 }
 #groom .icon {
-	background-image: url('./../../assets/images/groom-it.svg'); /* URL Groom it */
+	background-image: url('./../../assets/images/homepage/groom-it.svg'); /* URL Groom it */
 }
 
 @media (max-width: 599px) {

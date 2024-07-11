@@ -3,7 +3,7 @@
 		<div class="footer-banner"></div>
 		<div class="footer-content">
 			<img
-				src="../assets/images/animals-footer.webp"
+				src="@/assets/images/footer/animals-footer.webp"
 				alt="Pets"
 				class="footer-image"
 			/>
@@ -31,11 +31,11 @@
 		<div class="footer-bottom">
 			<p class="footer-contact">Besoin d’aide ? help@gmail.com</p>
 			<div class="footer-icons">
-				<img src="../assets/images/facebook.svg" alt="Facebook" />
-				<img src="../assets/images/instagram.svg" alt="Instagram" />
-				<img src="../assets/images/linkedin.svg" alt="LinkedIn" />
-				<img src="../assets/images/youtube.svg" alt="YouTube" />
-				<img src="../assets/images/twitter-x.svg" alt="Twitter X" />
+				<img src="@/assets/images/footer/facebook.svg" alt="Facebook" />
+				<img src="@/assets/images/footer/instagram.svg" alt="Instagram" />
+				<img src="@/assets/images/footer/linkedin.svg" alt="LinkedIn" />
+				<img src="@/assets/images/footer/youtube.svg" alt="YouTube" />
+				<img src="@/assets/images/footer/twitter-x.svg" alt="Twitter X" />
 			</div>
 		</div>
 		<div class="footer-copyright">

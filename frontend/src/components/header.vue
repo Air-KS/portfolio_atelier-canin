@@ -8,7 +8,7 @@
 			<!-- Section logo -->
 			<div class="logo">
 				<router-link to="/">
-					<img src="@/assets/images/logo.png" alt="Logo" />
+					<img src="@/assets/images/header/logo.png" alt="Logo" />
 				</router-link>
 			</div>
 			<!-- Menu de navigation -->
@@ -37,7 +37,7 @@
 				</div>
 				<div v-else class="profile" @click="toggleDropdown" ref="profile">
 					<img
-						src="@/assets/images/profile-circle.svg"
+						src="@/assets/images/header/profile-circle.svg"
 						alt="Profile"
 						class="profile-icon"
 					/>
@@ -47,20 +47,20 @@
 							:to="{ name: 'Profile', params: { id: user.id } }"
 							class="dropdown-item"
 						>
-							<img src="@/assets/images/user-profile.svg" alt="Profile" />
+							<img src="@/assets/images/header/user-profile.svg" alt="Profile" />
 							Profile
 							<img
-								src="@/assets/images/arrow-r-grey.png"
+								src="@/assets/images/header/arrow-r-grey.png"
 								alt="Arrow Icon"
 								class="menu-arrow-icon"
 							/>
 						</router-link>
 						<div class="dropdown-divider"></div>
 						<a href="#" class="dropdown-item" @click="logout">
-							<img src="@/assets/images/user-disconnected.svg" alt="Logout" />
+							<img src="@/assets/images/header/user-disconnected.svg" alt="Logout" />
 							Log Out
 							<img
-								src="@/assets/images/arrow-r-grey.png"
+								src="@/assets/images/header/arrow-r-grey.png"
 								alt="Arrow Icon"
 								class="menu-arrow-icon"
 							/>
