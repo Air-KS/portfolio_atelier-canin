@@ -147,6 +147,9 @@ p {
 }
 
 @media (min-width: 1025px) {
+	.section {
+		width: 70%;
+	}
 	.separator {
 		margin-top: 30px;
 		width: 70%;
