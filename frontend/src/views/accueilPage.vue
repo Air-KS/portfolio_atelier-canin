@@ -20,9 +20,7 @@ export default {
   components: { homeTop, HomeMid, HomeDown },
 	name: 'AccueilPage',
 	mounted() {
-		document.title = 'AtlCanin- Home';
+		document.title = 'AtlCanin - Home';
 	},
 };
 </script>
-
-
