@@ -26,11 +26,12 @@
 						</router-link>
 					</li>
 					<li class="nav-menu-item" v-else>
-						<a href="#" class="nav-menu-link apply">Book Now</a>
+						<div @click="openPopup" class="nav-menu-link apply">Book Now</div>
 					</li>
 				</ul>
 			</nav>
 			<!-- Section des boutons -->
+
 			<div class="auth-section">
 				<div v-if="!isLoggedIn">
 					<router-link to="/login" class="login-button">Login</router-link>
@@ -47,7 +48,10 @@
 							:to="{ name: 'Profile', params: { id: user.id } }"
 							class="dropdown-item"
 						>
-							<img src="@/assets/images/header/user-profile.svg" alt="Profile" />
+							<img
+								src="@/assets/images/header/user-profile.svg"
+								alt="Profile"
+							/>
 							Profile
 							<img
 								src="@/assets/images/header/arrow-r-grey.png"
@@ -57,7 +61,10 @@
 						</router-link>
 						<div class="dropdown-divider"></div>
 						<a href="#" class="dropdown-item" @click="logout">
-							<img src="@/assets/images/header/user-disconnected.svg" alt="Logout" />
+							<img
+								src="@/assets/images/header/user-disconnected.svg"
+								alt="Logout"
+							/>
 							Log Out
 							<img
 								src="@/assets/images/header/arrow-r-grey.png"
@@ -82,19 +89,25 @@
 				<span class="menu-toggle-bar middle-bar"></span>
 				<span class="menu-toggle-bar bottom-bar"></span>
 			</button>
+			<Booknow :visible="showPopup" @close-popup="showPopup = false"></Booknow>
 		</div>
 	</header>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import Booknow from '@/components/booknow.vue';
 
 export default {
 	name: 'Header',
+	components: {
+		Booknow,
+	},
 	data() {
 		return {
 			dropdownOpen: false,
 			isMenuOpen: false,
+			showPopup: false,
 		};
 	},
 	computed: {
@@ -131,7 +144,9 @@ export default {
 		toggleMenu() {
 			this.isMenuOpen = !this.isMenuOpen;
 		},
-
+		openPopup() {
+			this.showPopup = true;
+		},
 		handleResize() {
 			if (window.innerWidth > 768) {
 				this.isMenuOpen = false;
@@ -243,6 +258,7 @@ export default {
 
 .nav-menu-link.apply {
 	color: red;
+	cursor: pointer;
 }
 
 .nav-menu-link.apply:hover {
@@ -403,6 +419,34 @@ export default {
 	.header .login-button {
 		font-size: 1.2rem;
 		padding: 8px 16px;
+	}
+}
+
+@media (min-width: 769px) {
+	.nav-menu {
+		display: flex; /* Afficher le menu par défaut pour les grandes résolutions */
+	}
+
+	.menu-toggle {
+		display: none; /* Masquer le bouton de menu toggle pour les grandes résolutions */
+	}
+
+	.logo {
+		position: static;
+		transform: none;
+	}
+
+	.container {
+		justify-content: space-between;
+	}
+
+	.auth-section {
+		margin-top: 0;
+	}
+
+	.header .login-button {
+		font-size: 1.5rem;
+		padding: 10px 20px;
 	}
 }
 </style>
