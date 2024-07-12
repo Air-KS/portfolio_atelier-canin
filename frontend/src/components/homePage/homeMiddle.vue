@@ -1,3 +1,7 @@
+<!--
+	./frontend/src/components/homePage/home.vue
+-->
+
 <template>
 	<div class="home-container">
 		<div class="separator"></div>
@@ -90,13 +94,27 @@
 				</div>
 			</div>
 		</div>
-		<buton class="button">Book Now</buton>
+		<!-- Bouton pour ouvrir le pop-up -->
+		<button @click="showPopup = true" class="button">Book Now</button>
+
+		<!-- Utilisation du composant Booknow -->
+		<Booknow :visible="showPopup" @close-popup="showPopup = false"></Booknow>
 	</div>
 </template>
 
 <script>
+import Booknow from '@/components/booknow.vue';
+
 export default {
 	name: 'HomeMid',
+	components: {
+		Booknow,
+	},
+	data() {
+		return {
+			showPopup: false, // Initialisation de l'état du pop-up
+		};
+	},
 };
 </script>
 
@@ -114,12 +132,10 @@ export default {
 	align-items: center;
 	border-radius: 25px;
 	text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
+	text-decoration: none;
 }
 
 .separator {
-	width: 100%;
-	height: 1px;
-	background-color: var(--color-hover);
 	margin-bottom: 20px;
 }
 
