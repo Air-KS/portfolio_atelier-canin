@@ -300,12 +300,10 @@ button {
 .link-container a:hover {
 	color: var(--color-hover);
 }
+
 .separator {
 	width: 70%;
-	margin: 0 auto;
-	text-align: left;
-	border-bottom: 1px solid var(--color-hover);
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 
 /* Media Query pour les écrans plus petits */
