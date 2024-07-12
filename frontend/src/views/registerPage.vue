@@ -9,7 +9,7 @@
   export default {
 	name: 'RegisterPage',
 	mounted() {
-	  document.title = 'AtlCanin- Register';
+	  document.title = 'AtlCanin - Register';
 	},
 	components: {
 	  AuthForm,

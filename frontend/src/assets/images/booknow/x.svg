@@ -1,0 +1,6 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="180" height="180" rx="20" ry="20" style="fill:#4687af" />
+  <text x="50%" y="50%" font-size="120" text-anchor="middle" fill="#f0f0f0" dy=".35em" stroke="black" stroke-width="5" style="filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.5));">
+    X
+  </text>
+</svg>

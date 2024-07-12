@@ -9,7 +9,7 @@ import axios from 'axios'; // Assure-toi d'importer axios
 export default {
 	name: 'LoginPage',
 	mounted() {
-		document.title = 'AtlCanin- Login';
+		document.title = 'AtlCanin - Login';
 	},
 	components: {
 		AuthForm,
@@ -77,7 +77,7 @@ export default {
 </script>
 
   <style scoped>
-  
+
 .error-message {
 	color: red;
 	font-weight: bold;
