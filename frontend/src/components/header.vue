@@ -175,7 +175,7 @@ export default {
 	border-bottom: 1px solid #ccc;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	padding: 0;
-	z-index: 1000;
+	z-index: 5;
 }
 
 /* Container principal */
