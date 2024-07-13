@@ -95,25 +95,42 @@
 			</div>
 		</div>
 		<!-- Bouton pour ouvrir le pop-up -->
-		<button @click="showPopup = true" class="button">Book Now</button>
+		<button @click="openPopup" class="button">Book Now</button>
 
 		<!-- Utilisation du composant Booknow -->
-		<Booknow :visible="showPopup" @close-popup="showPopup = false"></Booknow>
+		<!-- Utilisation du composant Popup -->
+		<Popup
+			:visible="showBooknowPopup"
+			@close-popup="closePopup('booknow')"
+			title="Book Now"
+		>
+			<BooknowContent />
+		</Popup>
 	</div>
 </template>
 
 <script>
-import Booknow from '@/components/booknow.vue';
+import Popup from '@/components/popup/popup.vue';
+import BooknowContent from '@/components/popup/booknowContent.vue';
 
 export default {
-	name: 'HomeMid',
+	name: 'Home',
 	components: {
-		Booknow,
+		Popup,
+		BooknowContent,
 	},
 	data() {
 		return {
-			showPopup: false, // Initialisation de l'état du pop-up
+			showBooknowPopup: false, // Initialisation de l'état du pop-up
 		};
+	},
+	methods: {
+		openPopup() {
+			this.showBooknowPopup = true;
+		},
+		closePopup() {
+			this.showBooknowPopup = false;
+		},
 	},
 };
 </script>
