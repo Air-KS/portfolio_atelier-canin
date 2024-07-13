@@ -97,7 +97,6 @@
 		<!-- Bouton pour ouvrir le pop-up -->
 		<button @click="openPopup" class="button">Book Now</button>
 
-		<!-- Utilisation du composant Booknow -->
 		<!-- Utilisation du composant Popup -->
 		<Popup
 			:visible="showBooknowPopup"
