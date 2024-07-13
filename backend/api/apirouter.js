@@ -5,6 +5,8 @@
 const express = require("express");
 const usersctrl = require('../routes/usersctrl'); // Chemin corrigé
 const usersinfoctrl = require('../routes/usersinfoctrl');
+const services = require('../routes/services');
+const appointments = require('../routes/appointments');
 
 exports.router = (function () {
   // Création du routeur
@@ -23,6 +25,11 @@ exports.router = (function () {
   apiRouter.route('/users/:id/role').put(usersinfoctrl.updateUserRole);
   apiRouter.route("/users").get(usersinfoctrl.getAllUsers);
 
+  // Routes pour les services
+  apiRouter.use('/services', services);
+
+  // Routes pour les rendez-vous
+  apiRouter.use('/appointments', appointments);
 
   return apiRouter;
 })();

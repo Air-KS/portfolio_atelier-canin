@@ -20,13 +20,16 @@
 					<li class="nav-menu-item">
 						<a href="#" class="nav-menu-link">Location</a>
 					</li>
+					<li class="nav-menu-item">
+						<div @click="openPopup('contact')" class="nav-menu-link">contact us</div>
+					</li>
 					<li class="nav-menu-item" v-if="isAdminOrResponsable">
 						<router-link to="/admin" class="nav-menu-link apply">
 							Dashboard
 						</router-link>
 					</li>
 					<li class="nav-menu-item" v-else>
-						<div @click="openPopup" class="nav-menu-link apply">Book Now</div>
+						<div @click="openPopup('booknow')" class="nav-menu-link apply">Book Now</div>
 					</li>
 				</ul>
 			</nav>
@@ -89,25 +92,37 @@
 				<span class="menu-toggle-bar middle-bar"></span>
 				<span class="menu-toggle-bar bottom-bar"></span>
 			</button>
-			<Booknow :visible="showPopup" @close-popup="showPopup = false"></Booknow>
+		<!-- Popups -->
+		<Popup :visible="showBooknowPopup" @close-popup="closePopup('booknow')" title="Book Now">
+			<BooknowContent />
+		</Popup>
+		<Popup :visible="showContactPopup" @close-popup="closePopup('contact')" title="Contact Us">
+			<ContactContent />
+		</Popup>
 		</div>
 	</header>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import Booknow from '@/components/booknow.vue';
+import Popup from '@/components/popup/popup.vue';
+import BooknowContent from '@/components/popup/booknowContent.vue';
+import ContactContent from '@/components/popup/contactContent.vue';
+
 
 export default {
 	name: 'Header',
 	components: {
-		Booknow,
+		Popup,
+		BooknowContent,
+		ContactContent,
 	},
 	data() {
 		return {
 			dropdownOpen: false,
 			isMenuOpen: false,
-			showPopup: false,
+			showContactPopup: false,
+			showBooknowPopup: false,
 		};
 	},
 	computed: {
@@ -144,8 +159,19 @@ export default {
 		toggleMenu() {
 			this.isMenuOpen = !this.isMenuOpen;
 		},
-		openPopup() {
-			this.showPopup = true;
+		openPopup(type) {
+			if (type === 'contact') {
+				this.showContactPopup = true;
+			} else if (type === 'booknow') {
+				this.showBooknowPopup = true;
+			}
+		},
+		closePopup(type) {
+			if (type === 'contact') {
+				this.showContactPopup = false;
+			} else if (type === 'booknow') {
+				this.showBooknowPopup = false;
+			}
 		},
 		handleResize() {
 			if (window.innerWidth > 768) {
@@ -234,6 +260,7 @@ export default {
 	position: relative;
 	color: var(--color-text-dark);
 	text-decoration: none;
+	cursor: pointer;
 }
 
 .nav-menu-link:hover {
