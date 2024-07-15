@@ -110,7 +110,7 @@ h3 {
 	border: 2px solid var(--color-border);
 	padding: 0px 20px;
 	border-radius: 25px 0px 0px 25px;
-	width: 80%;
+	width: 85%;
 	height: 70%;
 	overflow-y: auto;
 }
@@ -121,6 +121,10 @@ h3 {
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+}
+
+.content {
+  width: 100%; /* Assurez-vous que le contenu prend 100% de la largeur disponible */
 }
 
 .x {
@@ -138,22 +142,21 @@ h3 {
 
 @media (max-width: 599px) {
 	.popup {
-		width: 70%;
-		height: 70%;
+		height: 80%;
 	}
 }
 
 @media (min-width: 600px) and (max-width: 1024px) {
 	.popup {
-		width: 70%;
+		width: 80%;
 		height: 70%;
 	}
 }
 
 @media (min-width: 1025px) {
 	.popup {
-		width: 50%;
-		height: 70%;
+		width: 70%;
+		height: 80%;
 	}
 }
 </style>
