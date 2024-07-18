@@ -50,8 +50,7 @@
 		<button @click="submitAppointment">Submit</button>
 	  </div>
 	</div>
-  </template>
-
+</template>
 <script>
 import { ref } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
@@ -159,6 +158,8 @@ export default {
 
       calendarOptions.value.events.push(newEvent);
       appointment.value.appointment_time = newEvent.start;
+
+	  currentPage.value = 2;
     };
 
     const cancelTime = () => {
