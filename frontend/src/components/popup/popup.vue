@@ -61,7 +61,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.8);
-	z-index: 10;
+	z-index: 101;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -142,21 +142,21 @@ h3 {
 
 @media (max-width: 599px) {
 	.popup {
-		height: 80%;
+		height: 90%;
 	}
 }
 
 @media (min-width: 600px) and (max-width: 1024px) {
 	.popup {
 		width: 80%;
-		height: 70%;
+		height: 90%;
 	}
 }
 
 @media (min-width: 1025px) {
 	.popup {
-		width: 70%;
-		height: 80%;
+		width: 80%;
+		height: 90%;
 	}
 }
 </style>
