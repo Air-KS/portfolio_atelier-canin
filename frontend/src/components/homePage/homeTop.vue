@@ -187,6 +187,9 @@ p.description {
 		padding: 10px 20px 10px 20px;
 		width: 98%;
 	}
+	.separator {
+		border: none;
+	}
 }
 
 @media (min-width: 600px) and (max-width: 1024px) {
