@@ -106,7 +106,7 @@
 <script>
 import { mapState } from 'vuex';
 import Popup from '@/components/popup/popup.vue';
-import BooknowContent from '@/components/popup/booknowContent.vue';
+import BooknowContent from '@/components/popup/booknow/booknowContent.vue';
 import ContactContent from '@/components/popup/contactContent.vue';
 
 
