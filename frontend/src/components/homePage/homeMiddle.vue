@@ -110,7 +110,7 @@
 
 <script>
 import Popup from '@/components/popup/popup.vue';
-import BooknowContent from '@/components/popup/booknowContent.vue';
+import BooknowContent from '@/components/popup/booknow/booknowContent.vue';
 
 export default {
 	name: 'Home',
