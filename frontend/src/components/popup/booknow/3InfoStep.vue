@@ -1,3 +1,7 @@
+<!--
+	./frontend/src/components/popup/booknow/3InfoStep.vue
+-->
+
 <template>
 	<div>
 	  <p>Information - Nom, Prénom, e-mail, numéro</p>
@@ -30,3 +34,28 @@
 	}
   };
   </script>
+
+<style scoped>
+.form-group {
+  margin-bottom: 1em;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+.form-group input {
+  width: 100%;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+button {
+  padding: 0.5em 1em;
+  background-color: #4687af;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #367997;
+}
+</style>
