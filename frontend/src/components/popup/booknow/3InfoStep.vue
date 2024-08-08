@@ -28,34 +28,38 @@
   <script>
   export default {
 	props: ['appointment'],
-	setup(_, { emit }) {
+	setup(props, { emit }) {
 	  const goToNextStep = () => emit('next-step');
+
+	  // Ajout d'un log pour vérifier les données
+	  console.log('Appointment Data in 3InfoStep:', props.appointment);
+
 	  return { goToNextStep };
-	}
+	},
   };
   </script>
 
 <style scoped>
 .form-group {
-  margin-bottom: 1em;
+	margin-bottom: 1em;
 }
 .form-group label {
-  display: block;
-  margin-bottom: 0.5em;
+	display: block;
+	margin-bottom: 0.5em;
 }
 .form-group input {
-  width: 100%;
-  padding: 0.5em;
-  box-sizing: border-box;
+	width: 100%;
+	padding: 0.5em;
+	box-sizing: border-box;
 }
 button {
-  padding: 0.5em 1em;
-  background-color: #4687af;
-  color: white;
-  border: none;
-  cursor: pointer;
+	padding: 0.5em 1em;
+	background-color: #4687af;
+	color: white;
+	border: none;
+	cursor: pointer;
 }
 button:hover {
-  background-color: #367997;
+	background-color: #367997;
 }
 </style>
