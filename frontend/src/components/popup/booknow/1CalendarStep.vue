@@ -156,20 +156,6 @@ export default {
   margin: 0 auto;
 }
 
-.pag-container {
-  width: 80%;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.pag-container img {
-  width: 50px;
-  cursor: pointer;
-}
-
 h3 {
   display: flex;
   flex-direction: column;
@@ -309,9 +295,6 @@ h3 {
   #calendar {
     width: 70%;
   }
-  .pag-container img {
-    width: 70px;
-  }
 }
 
 @media (min-width: 1025px) {
@@ -321,9 +304,6 @@ h3 {
 
   #calendar {
     width: 50%;
-  }
-  .pag-container img {
-    width: auto;
   }
   .fc-toolbar {
     flex-direction: row;

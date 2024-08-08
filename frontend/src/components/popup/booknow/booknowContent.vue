@@ -100,7 +100,31 @@
   </script>
 
   <style>
+
+.pag-container {
+  width: 100%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.pag-container img {
+  width: 60px;
+  cursor: pointer;
+}
+
+@media (min-width: 600px) and (max-width: 1024px) {
   .pag-container img {
-	cursor: pointer;
+    width: 70px;
   }
+}
+
+@media (min-width: 1025px) {
+  .pag-container img {
+    width: auto;
+  }
+}
+
   </style>
