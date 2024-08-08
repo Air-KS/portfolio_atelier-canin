@@ -37,6 +37,35 @@ export default {
         const selectedDate = ref('');
         const availableTimeslots = ref([]);
         const appointment_time = ref('');
+
+        const formatTime = (time) => {
+            let [hours, minutes] = time.split(':');
+            hours = parseInt(hours);
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            return `${hours}:${minutes} ${ampm}`;
+        };
+
+        const to24HourFormat = (time) => {
+            let [hours, minutes] = time.split(/[: ]/);
+            const ampm = time.split(' ')[1];
+            if (ampm === 'PM' && hours !== '12') hours = parseInt(hours) + 12;
+            if (ampm === 'AM' && hours === '12') hours = '00';
+            return `${hours}:${minutes}`;
+        };
+
+        const businessHours = [
+            { daysOfWeek: [1, 2, 3, 4, 5], startTime: '09:00', endTime: '12:30' },
+            { daysOfWeek: [1, 2, 3, 4, 5], startTime: '14:00', endTime: '17:30' },
+            { daysOfWeek: [6], startTime: '09:00', endTime: '12:00' },
+            { daysOfWeek: [6], startTime: '13:00', endTime: '15:00' },
+        ].map(slot => ({
+            ...slot,
+            startTime: formatTime(slot.startTime),
+            endTime: formatTime(slot.endTime),
+        }));
+
         const calendarOptions = ref({
             plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
             initialView: 'dayGridMonth',
@@ -45,12 +74,7 @@ export default {
                 fetchAvailableTimeslots(info.dateStr);
             },
             selectable: true,
-            businessHours: [
-                { daysOfWeek: [1, 2, 3, 4, 5], startTime: '09:00', endTime: '12:30' },
-                { daysOfWeek: [1, 2, 3, 4, 5], startTime: '14:00', endTime: '17:30' },
-                { daysOfWeek: [6], startTime: '09:00', endTime: '12:00' },
-                { daysOfWeek: [6], startTime: '13:00', endTime: '15:00' },
-            ],
+            businessHours: businessHours,
             headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth' },
             validRange: { start: new Date().toISOString().split('T')[0], end: '2025-12-31' }
         });
@@ -60,7 +84,7 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     selectedDate.value = date;
-                    availableTimeslots.value = data.timeslots;
+                    availableTimeslots.value = data.timeslots.map(timeslot => formatTime(timeslot));
                     showTimeslots.value = true;
                 })
                 .catch(error => alert("Erreur lors de la récupération des créneaux horaires disponibles."));
@@ -75,7 +99,8 @@ export default {
             showTimeslots.value = false;
 
             // Convertir la date et l'heure en UTC
-            const localDateTime = new Date(`${selectedDate.value}T${appointment_time.value}:00`);
+            const formattedTime = to24HourFormat(appointment_time.value);
+            const localDateTime = new Date(`${selectedDate.value}T${formattedTime}:00`);
             const utcDateTime = new Date(localDateTime.getTime() - localDateTime.getTimezoneOffset() * 60000).toISOString();
 
             const newEvent = {
@@ -118,6 +143,7 @@ export default {
     }
 };
 </script>
+
 <style>
 /* Styles spécifiques pour BooknowContent */
 .calendar-container {
