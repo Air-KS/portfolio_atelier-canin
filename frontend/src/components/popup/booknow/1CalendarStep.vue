@@ -1,112 +1,123 @@
+<!--
+	./frontend/src/components/popup/booknow/1CalendarStep.vue
+-->
+
 <template>
-	<div class="calendar-container">
-		<div id="calendar">
-	  <FullCalendar :options="calendarOptions" />
-	  <div v-if="showTimeslots" class="timeslot-popover">
-		<h4>Choisir un horaire disponible pour {{ selectedDate }}</h4>
-		<select v-model="appointment_time">
-		  <option v-for="time in availableTimeslots" :key="time" :value="time">
-			{{ time }}
-		  </option>
-		</select>
-		<button @click="confirmTime">Confirmer</button>
-		<button @click="cancelTime">Annuler</button>
-	  </div>
-	</div>
-	</div>
-  </template>
+    <div class="calendar-container">
+        <div id="calendar">
+            <FullCalendar :options="calendarOptions" />
+            <div v-if="showTimeslots" class="timeslot-popover">
+                <h4>Choisir un horaire disponible pour {{ selectedDate }}</h4>
+                <select v-model="appointment_time">
+                    <option v-for="time in availableTimeslots" :key="time" :value="time">
+                        {{ time }}
+                    </option>
+                </select>
+                <button @click="confirmTime">Confirmer</button>
+                <button @click="cancelTime">Annuler</button>
+            </div>
+        </div>
+    </div>
+</template>
 
-  <script>
-  import { ref } from 'vue';
-  import FullCalendar from '@fullcalendar/vue3';
-  import dayGridPlugin from '@fullcalendar/daygrid';
-  import timeGridPlugin from '@fullcalendar/timegrid';
-  import interactionPlugin from '@fullcalendar/interaction';
+<script>
+import { ref } from 'vue';
+import FullCalendar from '@fullcalendar/vue3';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
-  export default {
-	props: ['appointment'],
-	components: {
-	  FullCalendar
-	},
-	setup(props) {
-	  const showTimeslots = ref(false);
-	  const selectedDate = ref('');
-	  const availableTimeslots = ref([]);
-	  const appointment_time = ref('');
-	  const calendarOptions = ref({
-		plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-		initialView: 'dayGridMonth',
-		events: [],
-		dateClick(info) {
-		  fetchAvailableTimeslots(info.dateStr);
-		},
-		selectable: true,
-		businessHours: [
-		  { daysOfWeek: [1, 2, 3, 4, 5], startTime: '09:00', endTime: '12:30' },
-		  { daysOfWeek: [1, 2, 3, 4, 5], startTime: '14:00', endTime: '17:30' },
-		  { daysOfWeek: [6], startTime: '09:00', endTime: '12:00' },
-		  { daysOfWeek: [6], startTime: '13:00', endTime: '15:00' },
-		],
-		headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth' },
-		validRange: { start: new Date().toISOString().split('T')[0], end: '2025-12-31' }
-	  });
+export default {
+    props: ['appointment'],
+    components: {
+        FullCalendar
+    },
+    setup(props, { emit }) {
+        const showTimeslots = ref(false);
+        const selectedDate = ref('');
+        const availableTimeslots = ref([]);
+        const appointment_time = ref('');
+        const calendarOptions = ref({
+            plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+            initialView: 'dayGridMonth',
+            events: [],
+            dateClick(info) {
+                fetchAvailableTimeslots(info.dateStr);
+            },
+            selectable: true,
+            businessHours: [
+                { daysOfWeek: [1, 2, 3, 4, 5], startTime: '09:00', endTime: '12:30' },
+                { daysOfWeek: [1, 2, 3, 4, 5], startTime: '14:00', endTime: '17:30' },
+                { daysOfWeek: [6], startTime: '09:00', endTime: '12:00' },
+                { daysOfWeek: [6], startTime: '13:00', endTime: '15:00' },
+            ],
+            headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth' },
+            validRange: { start: new Date().toISOString().split('T')[0], end: '2025-12-31' }
+        });
 
-	  const fetchAvailableTimeslots = (date) => {
-		fetch(`http://localhost:3000/api/appointments/available-timeslots?date=${date}`)
-		  .then(response => response.json())
-		  .then(data => {
-			selectedDate.value = date;
-			availableTimeslots.value = data.timeslots;
-			showTimeslots.value = true;
-		  })
-		  .catch(error => alert("Erreur lors de la récupération des créneaux horaires disponibles."));
-	  };
+        const fetchAvailableTimeslots = (date) => {
+            fetch(`http://localhost:3000/api/appointments/available-timeslots?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    selectedDate.value = date;
+                    availableTimeslots.value = data.timeslots;
+                    showTimeslots.value = true;
+                })
+                .catch(error => alert("Erreur lors de la récupération des créneaux horaires disponibles."));
+        };
 
-	  const confirmTime = () => {
-		if (appointment_time.value === '') {
-		  alert("Veuillez sélectionner un créneau horaire.");
-		  return;
-		}
+        const confirmTime = () => {
+            if (appointment_time.value === '') {
+                alert("Veuillez sélectionner un créneau horaire.");
+                return;
+            }
 
-		showTimeslots.value = false;
-		const newEvent = {
-		  title: `Rendez-vous à ${appointment_time.value}`,
-		  start: `${selectedDate.value}T${appointment_time.value}:00`,
-		  color: 'blue',
-		};
+            showTimeslots.value = false;
 
-		const eventIndex = calendarOptions.value.events.findIndex(event => event.color === 'blue');
-		if (eventIndex !== -1) {
-		  calendarOptions.value.events.splice(eventIndex, 1);
-		}
+            // Convertir la date et l'heure en UTC
+            const localDateTime = new Date(`${selectedDate.value}T${appointment_time.value}:00`);
+            const utcDateTime = new Date(localDateTime.getTime() - localDateTime.getTimezoneOffset() * 60000).toISOString();
 
-		calendarOptions.value.events.push(newEvent);
-		props.appointment.appointment_time = newEvent.start;
-	  };
+            const newEvent = {
+                title: `Rendez-vous à ${appointment_time.value}`,
+                start: utcDateTime,
+                color: 'blue',
+            };
 
-	  const cancelTime = () => {
-		showTimeslots.value = false;
-		const eventIndex = calendarOptions.value.events.findIndex(event => event.color === 'blue');
-		if (eventIndex !== -1) {
-		  calendarOptions.value.events.splice(eventIndex, 1);
-		}
-		appointment_time.value = '';
-		props.appointment.appointment_time = '';
-	  };
+            const eventIndex = calendarOptions.value.events.findIndex(event => event.color === 'blue');
+            if (eventIndex !== -1) {
+                calendarOptions.value.events.splice(eventIndex, 1);
+            }
 
-	  return {
-		showTimeslots,
-		selectedDate,
-		availableTimeslots,
-		appointment_time,
-		calendarOptions,
-		confirmTime,
-		cancelTime
-	  };
-	}
-  };
-  </script>
+            calendarOptions.value.events.push(newEvent);
+            props.appointment.appointment_time = utcDateTime;
 
+            // Émettre l'événement next-step
+            emit('next-step');
+        };
+
+        const cancelTime = () => {
+            showTimeslots.value = false;
+            const eventIndex = calendarOptions.value.events.findIndex(event => event.color === 'blue');
+            if (eventIndex !== -1) {
+                calendarOptions.value.events.splice(eventIndex, 1);
+            }
+            appointment_time.value = '';
+            props.appointment.appointment_time = '';
+        };
+
+        return {
+            showTimeslots,
+            selectedDate,
+            availableTimeslots,
+            appointment_time,
+            calendarOptions,
+            confirmTime,
+            cancelTime
+        };
+    }
+};
+</script>
 <style>
 /* Styles spécifiques pour BooknowContent */
 .calendar-container {

@@ -1,7 +1,7 @@
 <template>
 	<div>
 	  <p>Service et prix</p>
-	  <button @click="goToNextStep">Suivant</button>
+	  <button class="button" @click="goToNextStep">Suivant</button>
 	</div>
   </template>
 

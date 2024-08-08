@@ -21,7 +21,7 @@
 		<label for="phone">Téléphone</label>
 		<input type="text" v-model="appointment.phone" id="phone" />
 	  </div>
-	  <button @click="goToNextStep">Suivant</button>
+	  <button class="button" @click="goToNextStep">Suivant</button>
 	</div>
   </template>
 
@@ -51,15 +51,5 @@
 	width: 100%;
 	padding: 0.5em;
 	box-sizing: border-box;
-}
-button {
-	padding: 0.5em 1em;
-	background-color: #4687af;
-	color: white;
-	border: none;
-	cursor: pointer;
-}
-button:hover {
-	background-color: #367997;
 }
 </style>
