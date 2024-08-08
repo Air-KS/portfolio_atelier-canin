@@ -4,11 +4,38 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 const { Register, UsersInfo, Role } = require('../models');
+require('dotenv').config();
 
 // Validation des données avec regex
 const emailREGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordREGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+// Fonction pour envoyer un e-mail de vérification
+async function sendVerificationEmail(email, code) {
+  console.log('Envoyer un e-mail à:', email);
+  console.log('Utilisateur Gmail:', process.env.GMAIL_USER);
+  console.log('Mot de passe Gmail:', process.env.GMAIL_PASS);
+
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS
+    }
+  });
+
+  let mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: email,
+    subject: 'Code de vérification',
+    text: `Votre code de vérification est: ${code}`
+  };
+
+  await transporter.sendMail(mailOptions);
+}
 
 module.exports = {
   // Fonction pour enregistrer un nouvel utilisateur
@@ -57,26 +84,62 @@ module.exports = {
         role_id: 1 // Par défaut, 'client'
       });
 
-      // Générer un token JWT
-      const token = jwt.sign({ userId: newRegister.id }, 'your_jwt_secret', { expiresIn: '1h' });
+      // Génération du code de vérification
+      const verificationCode = crypto.randomInt(1000, 9999).toString();
 
-      // Obtenir le rôle de l'utilisateur
-      const role = await Role.findByPk(newRegister.role_id);
+      // Envoi de l'e-mail de vérification
+      await sendVerificationEmail(email, verificationCode);
 
-      // Logs d'inscription réussie
-      console.log('Inscription réussie');
-      console.log('Vous êtes inscrit avec l\'adresse email:', newRegister.email);
+      // Stocker le code de vérification dans une variable de session ou base de données
+      req.session.verificationCode = verificationCode;
+      req.session.email = email;
+      req.session.userId = newRegister.id; // Stocker l'ID utilisateur dans la session
 
       return res.status(201).json({
         userId: newRegister.id,
-        token: token,
-        role: role.role
+        message: 'Un e-mail de vérification a été envoyé'
       });
 
     } catch (error) {
       console.error("Erreur lors de l'enregistrement de l'utilisateur :", error);
       return res.status(500).json({ error: "Impossible d'ajouter cet utilisateur" });
     }
+  },
+
+  // Fonction pour vérifier le code de vérification
+  verifyCode: function (req, res) {
+    const { email, code } = req.body;
+
+    if (req.session.email !== email || req.session.verificationCode !== code) {
+      return res.status(400).json({ error: "Code de vérification incorrect" });
+    }
+
+    // Code de vérification correct
+    req.session.verificationCode = null; // Effacer le code de vérification
+
+    // Générer un token JWT
+    const token = jwt.sign({ userId: req.session.userId }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
+
+    return res.status(200).json({
+      message: "Vérification réussie",
+      token: token
+    });
+  },
+
+  // Fonction pour renvoyer le code de vérification
+  resendCode: async function (req, res) {
+    const { email } = req.body;
+
+    if (req.session.email !== email) {
+      return res.status(400).json({ error: "Email non valide" });
+    }
+
+    const newCode = crypto.randomInt(1000, 9999).toString();
+    await sendVerificationEmail(email, newCode);
+
+    req.session.verificationCode = newCode;
+
+    return res.status(200).json({ message: "Code renvoyé avec succès" });
   },
 
   // Fonction pour connecter un utilisateur
@@ -111,7 +174,7 @@ module.exports = {
       }
 
       // Envoi du token après authentification réussie
-      const token = jwt.sign({ userId: userInfoFound.Register.id }, 'your_jwt_secret', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: userInfoFound.Register.id }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
 
       // Logs de connexion réussie
       console.log('Connexion réussie');
