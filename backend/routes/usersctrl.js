@@ -69,35 +69,31 @@ module.exports = {
         return res.status(400).json({ error: "Cette adresse e-mail est déjà utilisée" });
       }
 
-      // Hashage du mot de passe et création de l'utilisateur
-      const bcryptedPassword = await bcrypt.hash(password, 5);
-      const newRegister = await Register.create({
-        email: email,
-        password: bcryptedPassword,
-        role_id: 1 // Par défaut, 'client'
-      });
-
-      // Création des informations de base dans `UsersInfo`
-      await UsersInfo.create({
-        register_id: newRegister.id,
-        email: email,
-        role_id: 1 // Par défaut, 'client'
-      });
-
       // Génération du code de vérification
-      const verificationCode = crypto.randomInt(1000, 9999).toString();
+      const verificationCode = crypto.randomInt(1000, 9999).toString(); // Code de 4 chiffres
 
       // Envoi de l'e-mail de vérification
       await sendVerificationEmail(email, verificationCode);
 
-      // Stocker le code de vérification dans une variable de session ou base de données
+      // Stocker les informations nécessaires dans la session
       req.session.verificationCode = verificationCode;
       req.session.email = email;
-      req.session.userId = newRegister.id; // Stocker l'ID utilisateur dans la session
+      req.session.password = password; // Stocker le mot de passe non haché temporairement
 
-      return res.status(201).json({
-        userId: newRegister.id,
-        message: 'Un e-mail de vérification a été envoyé'
+      // Sauvegarder la session
+      req.session.save(err => {
+        if (err) {
+          console.error('Erreur lors de la sauvegarde de la session:', err);
+          return res.status(500).json({ error: "Erreur interne du serveur" });
+        }
+
+        // Log des informations de vérification
+        console.log(`Code de vérification généré pour ${email}: ${verificationCode}`);
+        console.log('Session après génération du code :', req.session);
+
+        return res.status(201).json({
+          message: 'Un e-mail de vérification a été envoyé'
+        });
       });
 
     } catch (error) {
@@ -107,8 +103,12 @@ module.exports = {
   },
 
   // Fonction pour vérifier le code de vérification
-  verifyCode: function (req, res) {
+  verifyCode: async function (req, res) {
     const { email, code } = req.body;
+
+    // Log des informations reçues pour la vérification
+    console.log(`Vérification du code pour ${email}: code reçu ${code}, code attendu ${req.session.verificationCode}`);
+    console.log('Session lors de la vérification :', req.session);
 
     if (req.session.email !== email || req.session.verificationCode !== code) {
       return res.status(400).json({ error: "Code de vérification incorrect" });
@@ -117,13 +117,36 @@ module.exports = {
     // Code de vérification correct
     req.session.verificationCode = null; // Effacer le code de vérification
 
-    // Générer un token JWT
-    const token = jwt.sign({ userId: req.session.userId }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
+    try {
+      // Hashage du mot de passe et création de l'utilisateur
+      const bcryptedPassword = await bcrypt.hash(req.session.password, 5);
+      const newRegister = await Register.create({
+        email: req.session.email,
+        password: bcryptedPassword,
+        role_id: 1 // Par défaut, 'client'
+      });
 
-    return res.status(200).json({
-      message: "Vérification réussie",
-      token: token
-    });
+      // Création des informations de base dans `UsersInfo`
+      await UsersInfo.create({
+        register_id: newRegister.id,
+        email: req.session.email,
+        role_id: 1 // Par défaut, 'client'
+      });
+
+      // Générer un token JWT
+      const token = jwt.sign({ userId: newRegister.id }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
+
+      // Log succès de la vérification
+      console.log(`Vérification réussie pour ${email}`);
+
+      return res.status(200).json({
+        message: "Vérification réussie",
+        token: token
+      });
+    } catch (error) {
+      console.error("Erreur lors de la vérification de l'utilisateur :", error);
+      return res.status(500).json({ error: "Impossible de vérifier cet utilisateur" });
+    }
   },
 
   // Fonction pour renvoyer le code de vérification
@@ -134,12 +157,52 @@ module.exports = {
       return res.status(400).json({ error: "Email non valide" });
     }
 
-    const newCode = crypto.randomInt(1000, 9999).toString();
+    const newCode = crypto.randomInt(1000, 9999).toString(); // Code de 4 chiffres
     await sendVerificationEmail(email, newCode);
 
     req.session.verificationCode = newCode;
 
-    return res.status(200).json({ message: "Code renvoyé avec succès" });
+    // Sauvegarder la session
+    req.session.save(err => {
+      if (err) {
+        console.error('Erreur lors de la sauvegarde de la session:', err);
+        return res.status(500).json({ error: "Erreur interne du serveur" });
+      }
+
+      // Log des informations de renvoi de code
+      console.log(`Nouveau code de vérification généré pour ${email}: ${newCode}`);
+
+      return res.status(200).json({ message: "Code renvoyé avec succès" });
+    });
+  },
+  
+  // Ajout de la méthode completeRegistration dans usersctrl.js
+  completeRegistration: async function (req, res) {
+    try {
+      const { email, password } = req.body;
+
+      // Récupération de l'utilisateur via l'email
+      const userFound = await UsersInfo.findOne({ where: { email: email } });
+      if (!userFound) {
+        return res.status(400).json({ error: "Utilisateur non trouvé" });
+      }
+
+      // Mise à jour du mot de passe et création du token
+      const bcryptedPassword = await bcrypt.hash(password, 5);
+      userFound.password = bcryptedPassword;
+      await userFound.save();
+
+      const token = jwt.sign({ userId: userFound.id }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
+
+      return res.status(200).json({
+        userId: userFound.id,
+        token: token,
+        role: userFound.role_id
+      });
+    } catch (error) {
+      console.error("Erreur lors de la complétion de l'inscription :", error);
+      return res.status(500).json({ error: "Impossible de compléter l'inscription" });
+    }
   },
 
   // Fonction pour connecter un utilisateur

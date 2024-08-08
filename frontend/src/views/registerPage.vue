@@ -1,5 +1,11 @@
 <template>
-	<AuthForm :isRegister="true" :errorMessage="errorMessage" @register="register"/>
+	<div>
+	  <AuthForm
+		:isRegister="true"
+		:errorMessage="errorMessage"
+		@register="register"
+	  />
+	</div>
   </template>
 
   <script>
@@ -8,52 +14,33 @@
 
   export default {
 	name: 'RegisterPage',
-	mounted() {
-	  document.title = 'AtlCanin - Register';
-	},
 	components: {
 	  AuthForm,
 	},
 	data() {
 	  return {
 		errorMessage: '',
+		email: '',
+		password: '',
 	  };
 	},
 	methods: {
 	  async register({ email, password, confirmPassword }) {
-		console.log('Register method called with', email, password, confirmPassword);
+		this.errorMessage = '';
 		if (password !== confirmPassword) {
 		  this.errorMessage = 'Passwords do not match';
 		  return;
 		}
 
+		this.email = email;
+		this.password = password;
+
 		try {
-		  const response = await axios.post(
-			'http://localhost:3000/api/users/register',
-			{
-			  email,
-			  password,
-			}
-		  );
-
-		  const { userId, token, role } = response.data;
-
-		  const user = {
-			id: userId,
-			email: email,
-			role: role,
-		  };
-
-		  localStorage.setItem('user', JSON.stringify(user));
-		  localStorage.setItem('token', token);
-		  localStorage.setItem('role', role);
-
-		  this.$store.dispatch('login', { user, token, role });
-		  this.$store.commit('setLoginState', { isLoggedIn: true, user });
-
-		  if (response.status === 201) {
-			this.$router.push({ name: 'Accueil' });
-		  }
+		  await axios.post('http://localhost:3000/api/users/register', {
+			email,
+			password,
+		  });
+		  this.$router.push({ name: 'VerifyCode', params: { email: this.email } });
 		} catch (error) {
 		  this.errorMessage =
 			error.response?.data?.error ||
@@ -65,9 +52,8 @@
   </script>
 
   <style scoped>
-
   .error-message {
-	  color: red;
-	  font-weight: bold;
+	color: red;
+	font-weight: bold;
   }
   </style>

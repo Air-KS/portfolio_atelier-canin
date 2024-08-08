@@ -1,10 +1,15 @@
+/*
+  backend/server.js
+*/
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
 const helmet = require('helmet');
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -12,7 +17,7 @@ const apirouter = require('./api/apirouter').router;
 const errorHandler = require('./config/errorHandler');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Configurer Sequelize
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
@@ -28,6 +33,17 @@ sequelize.authenticate()
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+
+// Configurer les sessions avec un store Sequelize
+app.use(session({
+  secret: 'your_secret_key', // Remplacez par une clé secrète
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize,
+  }),
+  cookie: { secure: false } // Assurez-vous que le cookie n'est pas sécurisé pour le développement
+}));
 
 // Sécuriser les en-têtes HTTP
 app.use(helmet());
@@ -55,14 +71,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Activer CORS
 app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-
-// Configurer les sessions
-app.use(session({
-  secret: 'your_secret_key', // Remplacez par une clé secrète
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Assurez-vous que le cookie n'est pas sécurisé pour le développement
 }));
 
 // Logger les requêtes
