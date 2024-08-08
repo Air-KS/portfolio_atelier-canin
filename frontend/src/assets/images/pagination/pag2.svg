@@ -1,0 +1,13 @@
+<svg width="80" height="100" xmlns="http://www.w3.org/2000/svg">
+	<!-- Barre horizontale -->
+	<line x1="0" y1="80" x2="100" y2="80" stroke="#4687af" stroke-width="2"/>
+
+	<!-- Barre verticale -->
+	<line x1="50" y1="80" x2="50" y2="40" stroke="#4687af" stroke-width="2"/>
+
+	<!-- Cercle -->
+	<circle cx="50" cy="50" r="20" stroke="#4687af" stroke-width="2" fill="#f0f0f0"/>
+
+	<!-- Texte (chiffre) -->
+	<text x="50" y="52" text-anchor="middle" font-size="25" fill="#4687af" font-family="Comic Sans MS" dy=".3em">2</text>
+</svg>

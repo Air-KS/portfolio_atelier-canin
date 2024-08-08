@@ -66,3 +66,33 @@ yarn sequelize-cli db:seed --seed 20240616-insert-admin.js => Mettre en place le
 
 Supprimer une migration précise
 DELETE FROM `SequelizeMeta` WHERE name = '20240616170130-nom-migration.js';
+
+
+
+Test les liens sur postman
+
+Pour lister tous les rendez-vous
+Get: http://localhost:3000/api/appointments
+
+Verifier les heures disponible (Les créneaux horaires qui ne s'affichent pas sont déjà pris.)
+Get : http://localhost:3000/api/appointments/available-timeslots?date=2024-07-18
+
+Pour créer un rendez-vous (Modifie les détails d'un rendez-vous existant avec l'ID spécifié.)
+Post: http://localhost:3000/api/appointments
+{
+  "first_name": "Prénom",
+  "last_name": "Nom",
+  "email": "mail@example.com",
+  "phone": "0607080910",
+  "appointment_time": "2024-07-18T12:00:00", (Date du rendez-vous souhaiter)
+  "status": "pending"
+}
+
+Pour modifier un rendez-vous
+Put : http://localhost:3000/api/appointments/id
+
+Annuler un rendez-vous
+Put http://localhost:3000/api/appointments/id/cancel
+
+Pour supprimer un rendez-vous
+Delete: http://localhost:3000/api/appointments/id

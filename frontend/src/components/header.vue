@@ -5,13 +5,11 @@
 <template>
 	<header class="header">
 		<div class="container">
-			<!-- Section logo -->
 			<div class="logo">
 				<router-link to="/">
 					<img src="@/assets/logo.png" alt="Logo" />
 				</router-link>
 			</div>
-			<!-- Menu de navigation -->
 			<nav>
 				<ul class="nav-menu" :class="{ open: isMenuOpen }">
 					<li class="nav-menu-item">
@@ -21,7 +19,9 @@
 						<a href="#" class="nav-menu-link">Location</a>
 					</li>
 					<li class="nav-menu-item">
-						<div @click="openPopup('contact')" class="nav-menu-link">contact us</div>
+						<div @click="openPopup('contact')" class="nav-menu-link">
+							Contact us
+						</div>
 					</li>
 					<li class="nav-menu-item" v-if="isAdminOrResponsable">
 						<router-link to="/admin" class="nav-menu-link apply">
@@ -29,12 +29,12 @@
 						</router-link>
 					</li>
 					<li class="nav-menu-item" v-else>
-						<div @click="openPopup('booknow')" class="nav-menu-link apply">Book Now</div>
+						<div @click="openPopup('booknow')" class="nav-menu-link apply">
+							Book Now
+						</div>
 					</li>
 				</ul>
 			</nav>
-			<!-- Section des boutons -->
-
 			<div class="auth-section">
 				<div v-if="!isLoggedIn">
 					<router-link to="/login" class="login-button">Login</router-link>
@@ -78,8 +78,6 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- Bouton de menu pour mobiles -->
 			<button
 				class="menu-toggle"
 				@click="toggleMenu"
@@ -92,23 +90,29 @@
 				<span class="menu-toggle-bar middle-bar"></span>
 				<span class="menu-toggle-bar bottom-bar"></span>
 			</button>
-		<!-- Popups -->
-		<Popup :visible="showBooknowPopup" @close-popup="closePopup('booknow')" title="Book Now">
-			<BooknowContent />
-		</Popup>
-		<Popup :visible="showContactPopup" @close-popup="closePopup('contact')" title="Contact Us">
-			<ContactContent />
-		</Popup>
+			<Popup
+				:visible="showBooknowPopup"
+				@close-popup="closePopup('booknow')"
+				title="Book Now"
+			>
+				<BooknowContent :isLoggedIn="isLoggedIn" :user="user" />
+			</Popup>
+			<Popup
+				:visible="showContactPopup"
+				@close-popup="closePopup('contact')"
+				title="Contact Us"
+			>
+				<ContactContent />
+			</Popup>
 		</div>
 	</header>
 </template>
 
-<script>
+  <script>
 import { mapState } from 'vuex';
 import Popup from '@/components/popup/popup.vue';
-import BooknowContent from '@/components/popup/booknowContent.vue';
+import BooknowContent from '@/components/popup/booknow/booknowContent.vue';
 import ContactContent from '@/components/popup/contactContent.vue';
-
 
 export default {
 	name: 'Header',
@@ -163,6 +167,7 @@ export default {
 			if (type === 'contact') {
 				this.showContactPopup = true;
 			} else if (type === 'booknow') {
+				console.log('User Data in Header.vue:', this.user);
 				this.showBooknowPopup = true;
 			}
 		},
