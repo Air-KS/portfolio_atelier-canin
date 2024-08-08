@@ -103,12 +103,13 @@
 			@close-popup="closePopup('booknow')"
 			title="Book Now"
 		>
-			<BooknowContent />
+		<BooknowContent :isLoggedIn="isLoggedIn" :user="user" />
 		</Popup>
 	</div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Popup from '@/components/popup/popup.vue';
 import BooknowContent from '@/components/popup/booknow/booknowContent.vue';
 
@@ -123,9 +124,13 @@ export default {
 			showBooknowPopup: false, // Initialisation de l'état du pop-up
 		};
 	},
+	computed: {
+		...mapState(['isLoggedIn', 'user']),
+	},
 	methods: {
 		openPopup() {
 			this.showBooknowPopup = true;
+			console.log('User Data in Header.vue:', this.user);
 		},
 		closePopup() {
 			this.showBooknowPopup = false;
