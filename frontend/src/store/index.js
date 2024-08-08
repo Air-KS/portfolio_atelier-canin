@@ -1,12 +1,12 @@
 // ./frontend/src/store/index.js
 
 import { createStore } from 'vuex';
+import axios from 'axios';
 
 function getUserFromLocalStorage() {
   try {
     const user = localStorage.getItem('user');
-    console.log('User in localStorage:', user);
-    if (user && user !== 'undefined') { // Vérifie que user n'est pas null ou undefined
+    if (user && user !== 'undefined') {
       return JSON.parse(user);
     }
     return null;
@@ -35,27 +35,34 @@ const store = createStore({
     },
   },
   actions: {
-    login({ commit }, { user, token, role }) {
+    async login({ commit }, { user, token, role }) {
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       commit('setLoginState', { isLoggedIn: true, user: { ...user, token, role } });
+      try {
+        const response = await axios.get(`http://localhost:3000/api/users/${user.id}`);
+        const userInfo = response.data;
+        commit('setLoginState', { isLoggedIn: true, user: { ...user, ...userInfo, token, role } });
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
     },
     logout({ commit }) {
       commit('logout');
     },
-    checkLoginState({ commit }) {
+    async checkLoginState({ commit }) {
       const token = localStorage.getItem('token');
       const user = getUserFromLocalStorage();
       const role = localStorage.getItem('role');
-
-      // Ajout des instructions de débogage
-      console.log('Token:', token);
-      console.log('User:', user);
-      console.log('Role:', role);
-
       if (token && user) {
-        commit('setLoginState', { isLoggedIn: true, user: { ...user, token, role } });
+        try {
+          const response = await axios.get(`http://localhost:3000/api/users/${user.id}`);
+          const userInfo = response.data;
+          commit('setLoginState', { isLoggedIn: true, user: { ...user, ...userInfo, token, role } });
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+        }
       } else {
         commit('logout');
       }
