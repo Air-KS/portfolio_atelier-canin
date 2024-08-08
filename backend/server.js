@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require('path');
 const helmet = require('helmet');
 const { Sequelize, DataTypes } = require('sequelize');
+const session = require('express-session');
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -54,6 +55,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Activer CORS
 app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
+// Configurer les sessions
+app.use(session({
+  secret: 'your_secret_key', // Remplacez par une clé secrète
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Assurez-vous que le cookie n'est pas sécurisé pour le développement
 }));
 
 // Logger les requêtes
