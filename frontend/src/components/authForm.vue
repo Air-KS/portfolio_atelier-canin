@@ -76,7 +76,7 @@
 				</div>
 				<div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 				<!-- Bouton de soumission -->
-				<button :class="buttonClass" type="submit">
+				<button class="button" type="submit">
 					<div>{{ buttonText }}</div>
 				</button>
 				<div class="separator"></div>
@@ -268,24 +268,6 @@ input::-ms-clear {
 }
 
 /* Bouton de soumission */
-button {
-	padding: 10px 20px;
-	margin: 10px 0;
-	height: 50px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	box-shadow: 0 0 5px 2px var(--color-border-shadow);
-	margin-bottom: 60px;
-	font-size: 20px;
-}
-.auth-button {
-	background-color: var(--color-link);
-	color: white;
-}
-.auth-button:hover {
-	background-color: var(--color-hover);
-}
 
 .link-container {
 	margin-top: 60px;
