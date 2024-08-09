@@ -41,11 +41,12 @@ app.use(cookieParser('your_secret_key'));
 app.use(session({
   secret: 'your_secret_key',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     secure: false, // Assure-toi que ce soit false en développement
     sameSite: 'lax', // ou 'strict' selon le besoin
     httpOnly: true,
+    maxAge: 15 * 60 * 1000
   }
 }));
 
