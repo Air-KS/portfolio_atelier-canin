@@ -11,6 +11,7 @@ import registerPage from '@/views/registerPage.vue';
 import loginPage from '@/views/loginPage';
 import adminPage from '@/views/adminPage';
 import profilePage from '@/views/profilePage.vue';
+import VerifyCode from '@/views/verifyCode.vue';
 
 // Importer le middleware d'authentification
 import { authGuard } from '@/middleware/auth.js';
@@ -21,13 +22,14 @@ const routes = [
   { path: '/login', name: 'Login', component: loginPage },
   { path: '/register', name: 'Register', component: registerPage },
   { path: '/admin', name: 'Admin', component: adminPage, meta: { requiresAuth: true, roles: ['admin', 'responsable'] } },
-  { path: '/profile/:id', name: 'Profile', component: profilePage, meta: { requiresAuth: true } }
+  { path: '/profile/:id', name: 'Profile', component: profilePage, meta: { requiresAuth: true } },
+  { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
 ];
 
 // Créer le routeur
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes // routes: routes en syntaxe ES6
+  routes
 });
 
 // Utiliser le middleware pour vérifier l'authentification et les droits d'accès

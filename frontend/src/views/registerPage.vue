@@ -1,5 +1,17 @@
+<!--
+	./frontend/src/views/registerPage.vue
+-->
+
 <template>
-	<AuthForm :isRegister="true" :errorMessage="errorMessage" @register="register"/>
+	<div>
+	  <AuthForm
+		ref="authForm"
+		:isRegister="true"
+		:errorMessage="errorMessage"
+		:isResending="isResending"
+		@register="register"
+	  />
+	</div>
   </template>
 
   <script>
@@ -8,66 +20,55 @@
 
   export default {
 	name: 'RegisterPage',
-	mounted() {
-	  document.title = 'AtlCanin - Register';
-	},
 	components: {
 	  AuthForm,
 	},
 	data() {
 	  return {
 		errorMessage: '',
+		email: '',
+		password: '',
+		isResending: false,
 	  };
 	},
 	methods: {
-	  async register({ email, password, confirmPassword }) {
-		console.log('Register method called with', email, password, confirmPassword);
-		if (password !== confirmPassword) {
-		  this.errorMessage = 'Passwords do not match';
-		  return;
-		}
+  async register({ email, password, confirmPassword }) {
+    // Le bouton est désactivé ici en passant isResending à true
+    this.isResending = true;
+    this.errorMessage = '';
 
-		try {
-		  const response = await axios.post(
-			'http://localhost:3000/api/users/register',
-			{
-			  email,
-			  password,
-			}
-		  );
+    if (password !== confirmPassword) {
+      this.errorMessage = 'Passwords do not match';
+      this.isResending = false; // Réactiver en cas d'erreur
+      return;
+    }
 
-		  const { userId, token, role } = response.data;
+    this.email = email;
+    this.password = password;
 
-		  const user = {
-			id: userId,
-			email: email,
-			role: role,
-		  };
+    console.log('Email before redirect:', this.email);
 
-		  localStorage.setItem('user', JSON.stringify(user));
-		  localStorage.setItem('token', token);
-		  localStorage.setItem('role', role);
-
-		  this.$store.dispatch('login', { user, token, role });
-		  this.$store.commit('setLoginState', { isLoggedIn: true, user });
-
-		  if (response.status === 201) {
-			this.$router.push({ name: 'Accueil' });
-		  }
-		} catch (error) {
-		  this.errorMessage =
-			error.response?.data?.error ||
-			'Une erreur est survenue, veuillez réessayer ultérieurement.';
-		}
-	  },
-	},
+    try {
+      await axios.post('http://localhost:3000/api/users/register', {
+        email,
+        password,
+      }, { withCredentials: true });
+      this.$router.push({ name: 'VerifyCode', query: { email: this.email } });
+      console.log('Route object:', this.$route);
+    } catch (error) {
+      console.error('Erreur lors de l\'enregistrement:', error); // Log l'erreur complète
+      this.errorMessage =
+        error.response?.data?.error ||
+        'Une erreur est survenue, veuillez réessayer ultérieurement.';
+    } finally {
+      // Réactiver le bouton dans tous les cas
+      this.isResending = false;
+    }
+  },
+},
   };
   </script>
 
   <style scoped>
 
-  .error-message {
-	  color: red;
-	  font-weight: bold;
-  }
   </style>

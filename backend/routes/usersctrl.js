@@ -4,15 +4,43 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 const { Register, UsersInfo, Role } = require('../models');
+require('dotenv').config();
 
 // Validation des données avec regex
 const emailREGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordREGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
+// Fonction pour envoyer un e-mail de vérification
+async function sendVerificationEmail(email, code) {
+  console.log('Envoyer un e-mail à:', email);
+  console.log('Utilisateur Gmail:', process.env.GMAIL_USER);
+  console.log('Mot de passe Gmail:', process.env.GMAIL_PASS);
+
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS
+    }
+  });
+
+  let mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: email,
+    subject: 'Code de vérification',
+    text: `Votre code de vérification est: ${code}`
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
 module.exports = {
   // Fonction pour enregistrer un nouvel utilisateur
   register: async function (req, res) {
+    console.log('Session avant génération du code:', req.session);
     try {
       const { email, password } = req.body;
 
@@ -42,40 +70,152 @@ module.exports = {
         return res.status(400).json({ error: "Cette adresse e-mail est déjà utilisée" });
       }
 
-      // Hashage du mot de passe et création de l'utilisateur
-      const bcryptedPassword = await bcrypt.hash(password, 5);
-      const newRegister = await Register.create({
-        email: email,
-        password: bcryptedPassword,
-        role_id: 1 // Par défaut, 'client'
-      });
+      // Génération du code de vérification
+      const verificationCode = crypto.randomInt(100000, 999999).toString(); // Code de 6 chiffres
+      const verificationCodeExpiry = Date.now() + 60 * 1000; // 60 secondes à partir de maintenant
 
-      // Création des informations de base dans `UsersInfo`
-      await UsersInfo.create({
-        register_id: newRegister.id,
-        email: email,
-        role_id: 1 // Par défaut, 'client'
-      });
+      // Envoi de l'e-mail de vérification
+      await sendVerificationEmail(email, verificationCode);
 
-      // Générer un token JWT
-      const token = jwt.sign({ userId: newRegister.id }, 'your_jwt_secret', { expiresIn: '1h' });
+      // Stocker les informations nécessaires dans la session
+      req.session.verificationCode = verificationCode;
+      req.session.verificationCodeExpiry = verificationCodeExpiry;
+      req.session.email = email;
+      req.session.password = password; // Stocker le mot de passe non haché temporairement
 
-      // Obtenir le rôle de l'utilisateur
-      const role = await Role.findByPk(newRegister.role_id);
+      console.log('Session après génération du code:', req.session);
 
-      // Logs d'inscription réussie
-      console.log('Inscription réussie');
-      console.log('Vous êtes inscrit avec l\'adresse email:', newRegister.email);
+      // Sauvegarder la session
+      req.session.save(err => {
+        if (err) {
+          console.error('Erreur lors de la sauvegarde de la session:', err);
+          return res.status(500).json({ error: "Erreur interne du serveur" });
+        }
 
-      return res.status(201).json({
-        userId: newRegister.id,
-        token: token,
-        role: role.role
+        // Log des informations de vérification
+        console.log(`Code de vérification généré pour ${email}: ${verificationCode}`);
+        console.log('Session après génération du code :', req.session);
+
+        console.log('Session sauvegardée avec succès:', req.session);
+        return res.status(201).json({
+          message: 'Un e-mail de vérification a été envoyé'
+        });
       });
 
     } catch (error) {
       console.error("Erreur lors de l'enregistrement de l'utilisateur :", error);
       return res.status(500).json({ error: "Impossible d'ajouter cet utilisateur" });
+    }
+  },
+
+  // Fonction pour vérifier le code de vérification
+  verifyCode: async function (req, res) {
+    const { email, code } = req.body;
+
+    // Vérifie si le code a expiré
+    if (Date.now() > req.session.verificationCodeExpiry) {
+      return res.status(400).json({ error: "Le code de vérification a expiré. Veuillez demander un nouveau code." });
+    }
+
+    console.log(`Vérification du code pour ${email}: code reçu ${code}, code attendu ${req.session.verificationCode}`);
+    console.log('Session lors de la vérification :', req.session);
+
+    if (req.session.email !== email || req.session.verificationCode !== code) {
+      return res.status(400).json({ error: "Code de vérification incorrect" });
+    }
+
+    // Code de vérification correct
+    req.session.verificationCode = null; // Effacer le code de vérification
+    req.session.verificationCodeExpiry = null; // Effacer la date d'expiration
+
+    try {
+      const bcryptedPassword = await bcrypt.hash(req.session.password, 5);
+      const newRegister = await Register.create({
+        email: req.session.email,
+        password: bcryptedPassword,
+        role_id: 1 // Par défaut, 'client'
+      });
+
+      await UsersInfo.create({
+        register_id: newRegister.id,
+        email: req.session.email,
+        role_id: 1 // Par défaut, 'client'
+      });
+
+      const token = jwt.sign({ userId: newRegister.id }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
+
+      console.log(`Vérification réussie pour ${email}`);
+
+      return res.status(200).json({
+        message: "Vérification réussie",
+        token: token,
+        user: { id: newRegister.id, email: newRegister.email },
+        role: "client"
+      });
+    } catch (error) {
+      console.error("Erreur lors de la vérification de l'utilisateur :", error);
+      return res.status(500).json({ error: "Impossible de vérifier cet utilisateur" });
+    }
+  },
+
+// Fonction pour renvoyer le code de vérification
+resendCode: async function (req, res) {
+  const { email } = req.body;
+
+  // Vérifier si l'email dans la session correspond à celui dans la requête
+  if (!req.session.email || req.session.email !== email) {
+    return res.status(400).json({ error: "Email non valide ou session expirée. Veuillez recommencer l'inscription." });
+  }
+
+  let newCode;
+  if (Date.now() > req.session.verificationCodeExpiry) {
+    newCode = crypto.randomInt(100000, 999999).toString(); // Code de 6 chiffres
+    req.session.verificationCode = newCode;
+    req.session.verificationCodeExpiry = Date.now() + 60 * 1000; // 60 secondes supplémentaires
+  } else {
+    newCode = req.session.verificationCode; // Utilise le code existant
+  }
+
+  await sendVerificationEmail(req.session.email, newCode);
+
+  // Sauvegarder la session
+  req.session.save(err => {
+    if (err) {
+      console.error('Erreur lors de la sauvegarde de la session:', err);
+      return res.status(500).json({ error: "Erreur interne du serveur" });
+    }
+
+    console.log(`Code de vérification envoyé pour ${req.session.email}: ${newCode}`);
+    return res.status(200).json({ message: "Code renvoyé avec succès" });
+  });
+},
+
+  // Ajout de la méthode completeRegistration dans usersctrl.js
+  completeRegistration: async function (req, res) {
+    try {
+      const { email, password } = req.body;
+
+      // Récupération de l'utilisateur via l'email
+      const userFound = await UsersInfo.findOne({ where: { email: email } });
+      if (!userFound) {
+        return res.status(400).json({ error: "Utilisateur non trouvé" });
+      }
+
+      // Mise à jour du mot de passe et création du token
+      const bcryptedPassword = await bcrypt.hash(password, 5);
+      userFound.password = bcryptedPassword;
+      await userFound.save();
+
+      const token = jwt.sign({ userId: userFound.id }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
+
+      return res.status(200).json({
+        userId: userFound.id,
+        token: token,
+        role: userFound.role_id
+      });
+    } catch (error) {
+      console.error("Erreur lors de la complétion de l'inscription :", error);
+      return res.status(500).json({ error: "Impossible de compléter l'inscription" });
     }
   },
 
@@ -111,7 +251,7 @@ module.exports = {
       }
 
       // Envoi du token après authentification réussie
-      const token = jwt.sign({ userId: userInfoFound.Register.id }, 'your_jwt_secret', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: userInfoFound.Register.id }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
 
       // Logs de connexion réussie
       console.log('Connexion réussie');

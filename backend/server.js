@@ -1,9 +1,15 @@
+/*
+  backend/server.js
+*/
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
 const helmet = require('helmet');
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
+const session = require('express-session');
+const cookieParser = require('cookie-parser'); // Ajout du cookie-parser
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -11,7 +17,7 @@ const apirouter = require('./api/apirouter').router;
 const errorHandler = require('./config/errorHandler');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Configurer Sequelize
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
@@ -27,6 +33,29 @@ sequelize.authenticate()
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+
+// Utiliser cookie-parser pour gérer les cookies
+app.use(cookieParser('your_secret_key'));
+
+// Configurer les sessions en mémoire (sans persistance dans la base de données)
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // Assure-toi que ce soit false en développement
+    sameSite: 'lax', // ou 'strict' selon le besoin
+    httpOnly: true,
+    maxAge: 15 * 60 * 1000
+  }
+}));
+
+// Logger l'état de la session avant chaque requête
+app.use((req, res, next) => {
+  console.log(`Session ID: ${req.sessionID}`); // Log de l'ID de session
+  console.log(`Session avant la requête: ${JSON.stringify(req.session)}`);
+  next();
+});
 
 // Sécuriser les en-têtes HTTP
 app.use(helmet());
@@ -53,7 +82,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Activer CORS
 app.use(cors({
+  origin: 'http://localhost:8080',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // Cette ligne est cruciale pour permettre les cookies
+  optionsSuccessStatus: 200 // Pour contourner les problèmes de compatibilité avec certains navigateurs
 }));
 
 // Logger les requêtes
