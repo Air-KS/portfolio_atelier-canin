@@ -14,6 +14,7 @@
 
 <script>
 import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'VerifyCode',
@@ -25,6 +26,7 @@ export default {
     };
   },
   methods: {
+	...mapActions(['login']),
     validateInput(event) {
       const value = event.target.value;
       this.verificationCode = value.replace(/\D/g, ''); // Garde uniquement les chiffres
@@ -38,6 +40,11 @@ export default {
 		}, { withCredentials: true });
 
           if (response.status === 200) {
+			// Stocke le token et l'utilisateur dans le localStorage et Vuex
+			const { token, user, role } = response.data;
+			await this.login({ user, token, role });
+
+			// Redirige vers la page d'accueil
             this.$router.push({ name: 'Accueil' });
           }
         } catch (error) {
