@@ -157,9 +157,12 @@ input:focus {
   text-wrap: nowrap;
   font-size: 20px;
 }
-
 .button:hover {
   background-color: var(--color-hover);
+}
+.button.disabled {
+    background-color: grey;
+    cursor: not-allowed;
 }
 
 .error-message {
