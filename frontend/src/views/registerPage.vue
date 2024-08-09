@@ -1,3 +1,7 @@
+<!--
+	./frontend/src/views/registerPage.vue
+-->
+
 <template>
 	<div>
 	  <AuthForm

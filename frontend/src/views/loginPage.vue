@@ -1,82 +1,89 @@
+<!--
+	./frontend/src/views/loginPage.vue
+-->
+
 <template>
-	<AuthForm :isRegister="false" :errorMessage="errorMessage" @login="login" />
-</template>
+	<div>
+	  <AuthForm
+		ref="authForm"
+		:isRegister="false"
+		:errorMessage="errorMessage"
+		:isResending="isResending"
+		@login="login"
+	  />
+	</div>
+  </template>
 
   <script>
-import AuthForm from '@/components/authForm.vue';
-import axios from 'axios'; // Assure-toi d'importer axios
+  import AuthForm from '@/components/authForm.vue';
+  import axios from 'axios';
 
-export default {
+  export default {
 	name: 'LoginPage',
 	mounted() {
-		document.title = 'AtlCanin - Login';
+	  document.title = 'AtlCanin - Login';
 	},
 	components: {
-		AuthForm,
+	  AuthForm,
 	},
 	data() {
-		return {
-			errorMessage: '',
-		};
+	  return {
+		errorMessage: '',
+		isResending: false,  // Ajoute isResending dans le data
+	  };
 	},
 	methods: {
-		async login({ email, password }) {
-			console.log('Login method called with', email, password);
-			try {
-				const response = await axios.post(
-					'http://localhost:3000/api/users/login',
-					{
-						email,
-						password,
-					}
-				);
+	  async login({ email, password }) {
+		this.isResending = true;  // Désactiver le bouton avant de commencer
 
-				const { userId, token, role } = response.data;
-
-				const user = {
-					id: userId,
-					email: email,
-					role: role,
-				};
-
-				console.log('User created:', user);
-
-				localStorage.setItem('user', JSON.stringify(user));
-				localStorage.setItem('token', token);
-				localStorage.setItem('role', role);
-
-				console.log(
-					'User stored in localStorage:',
-					localStorage.getItem('user')
-				);
-
-				this.$store.dispatch('login', { user, token, role });
-
-				if (role === 'admin' || role === 'responsable') {
-					this.$router.push({ name: 'Admin' });
-				} else if (role === 'client') {
-					this.$router.push({ name: 'Accueil' });
-				} else {
-					this.$router.push('/');
-				}
-			} catch (error) {
-				if (!error.response) {
-					this.errorMessage =
-						'Une erreur est survenue, veuillez réessayer ultérieurement.';
-				} else if (error.response.status === 400) {
-					this.errorMessage = error.response.data.error;
-				} else {
-					this.errorMessage =
-						'Une erreur est survenue, veuillez réessayer ultérieurement.';
-				}
-				console.error('Login failed:', error);
+		try {
+		  const response = await axios.post(
+			'http://localhost:3000/api/users/login',
+			{
+			  email,
+			  password,
 			}
-		},
+		  );
+
+		  const { userId, token, role } = response.data;
+
+		  const user = {
+			id: userId,
+			email: email,
+			role: role,
+		  };
+
+		  localStorage.setItem('user', JSON.stringify(user));
+		  localStorage.setItem('token', token);
+		  localStorage.setItem('role', role);
+
+		  this.$store.dispatch('login', { user, token, role });
+
+		  if (role === 'admin' || role === 'responsable') {
+			this.$router.push({ name: 'Admin' });
+		  } else if (role === 'client') {
+			this.$router.push({ name: 'Accueil' });
+		  } else {
+			this.$router.push('/');
+		  }
+		} catch (error) {
+		  if (!error.response) {
+			this.errorMessage =
+			  'Une erreur est survenue, veuillez réessayer ultérieurement.';
+		  } else if (error.response.status === 400) {
+			this.errorMessage = error.response.data.error;
+		  } else {
+			this.errorMessage =
+			  'Une erreur est survenue, veuillez réessayer ultérieurement.';
+		  }
+		  console.error('Login failed:', error);
+		} finally {
+		  this.isResending = false;  // Réactiver le bouton après la requête
+		}
+	  },
 	},
-};
-</script>
+  };
+  </script>
 
   <style scoped>
-
-
 </style>

@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/popup/verifymail.vue.vue
+	./frontend/src/components/popup/verifyCode.vue
 -->
 
 <template>
@@ -41,7 +41,16 @@
 		<!-- Message de succès -->
 		<p v-if="successMessage" class="success-message">{{ successMessage }}</p>
 
-		<button class="button" @click="verifyCode">Send</button>
+		<!-- Désactiver le bouton et changer le texte en fonction de isResending -->
+		<button
+			class="button"
+			@click="verifyCode"
+			:disabled="isResending"
+			:class="{ disabled: isResending }"
+		>
+			{{ isResending ? 'Sending...' : 'Send' }}
+		</button>
+
 		<div class="separator"></div>
 		<p>In case of technical issues, contact us.</p>
 		<p>
@@ -75,36 +84,39 @@ export default {
 			this.verificationCode = value.replace(/\D/g, ''); // Garde uniquement les chiffres
 		},
 		async verifyCode() {
-			if (this.verificationCode.length === 6) {
-				// Assure que cette longueur est correcte (4)
-				try {
-					const response = await axios.post(
-						'http://localhost:3000/api/users/verify',
-						{
-							email: this.email, // Utilise l'email récupéré
-							code: this.verificationCode,
-						},
-						{ withCredentials: true }
-					);
+	this.isResending = true; // Désactiver le bouton et montrer l'état d'envoi
+	try {
+		if (this.verificationCode.length === 6) {
+			// Assure que cette longueur est correcte (4)
+			const response = await axios.post(
+				'http://localhost:3000/api/users/verify',
+				{
+					email: this.email, // Utilise l'email récupéré
+					code: this.verificationCode,
+				},
+				{ withCredentials: true }
+			);
 
-					if (response.status === 200) {
-						// Stocke le token et l'utilisateur dans le localStorage et Vuex
-						const { token, user, role } = response.data;
-						await this.login({ user, token, role });
+			if (response.status === 200) {
+				// Stocke le token et l'utilisateur dans le localStorage et Vuex
+				const { token, user, role } = response.data;
+				await this.login({ user, token, role });
 
-						// Redirige vers la page d'accueil
-						this.$router.push({ name: 'Accueil' });
-					}
-				} catch (error) {
-					console.error('Erreur lors de la vérification du code:', error); // Log l'erreur complète
-					this.errorMessage =
-						error.response?.data?.error || 'Code de vérification incorrect.';
-				}
-			} else {
-				this.errorMessage =
-					'Le code de vérification doit comporter 6 chiffres.';
+				// Redirige vers la page d'accueil
+				this.$router.push({ name: 'Accueil' });
 			}
-		},
+		} else {
+			this.errorMessage =
+				'Le code de vérification doit comporter 6 chiffres.';
+		}
+	} catch (error) {
+		console.error('Erreur lors de la vérification du code:', error); // Log l'erreur complète
+		this.errorMessage =
+			error.response?.data?.error || 'Code de vérification incorrect.';
+	} finally {
+		this.isResending = false; // Réactiver le bouton après l'envoi
+	}
+},
 		async resendCode() {
 			this.isResending = true; // Désactiver le bouton pendant le renvoi du code
 			this.errorMessage = ''; // Réinitialiser le message d'erreur
@@ -168,6 +180,11 @@ input {
 .imageResend.disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.button.disable{
+	color: grey;
+	cursor: not-allowed;
 }
 
 .button {
