@@ -71,13 +71,15 @@ module.exports = {
       }
 
       // Génération du code de vérification
-      const verificationCode = crypto.randomInt(1000, 9999).toString(); // Code de 4 chiffres
+      const verificationCode = crypto.randomInt(100000, 999999).toString(); // Code de 6 chiffres
+      const verificationCodeExpiry = Date.now() + 60 * 1000; // 60 secondes à partir de maintenant
 
       // Envoi de l'e-mail de vérification
       await sendVerificationEmail(email, verificationCode);
 
       // Stocker les informations nécessaires dans la session
       req.session.verificationCode = verificationCode;
+      req.session.verificationCodeExpiry = verificationCodeExpiry;
       req.session.email = email;
       req.session.password = password; // Stocker le mot de passe non haché temporairement
 
@@ -110,7 +112,11 @@ module.exports = {
   verifyCode: async function (req, res) {
     const { email, code } = req.body;
 
-    // Log des informations reçues pour la vérification
+    // Vérifie si le code a expiré
+    if (Date.now() > req.session.verificationCodeExpiry) {
+      return res.status(400).json({ error: "Le code de vérification a expiré. Veuillez demander un nouveau code." });
+    }
+
     console.log(`Vérification du code pour ${email}: code reçu ${code}, code attendu ${req.session.verificationCode}`);
     console.log('Session lors de la vérification :', req.session);
 
@@ -120,9 +126,9 @@ module.exports = {
 
     // Code de vérification correct
     req.session.verificationCode = null; // Effacer le code de vérification
+    req.session.verificationCodeExpiry = null; // Effacer la date d'expiration
 
     try {
-      // Hashage du mot de passe et création de l'utilisateur
       const bcryptedPassword = await bcrypt.hash(req.session.password, 5);
       const newRegister = await Register.create({
         email: req.session.email,
@@ -130,17 +136,14 @@ module.exports = {
         role_id: 1 // Par défaut, 'client'
       });
 
-      // Création des informations de base dans `UsersInfo`
       await UsersInfo.create({
         register_id: newRegister.id,
         email: req.session.email,
         role_id: 1 // Par défaut, 'client'
       });
 
-      // Générer un token JWT
       const token = jwt.sign({ userId: newRegister.id }, process.env.JWT_SIGN_SECRET, { expiresIn: '1h' });
 
-      // Log succès de la vérification
       console.log(`Vérification réussie pour ${email}`);
 
       return res.status(200).json({
@@ -155,32 +158,37 @@ module.exports = {
     }
   },
 
-  // Fonction pour renvoyer le code de vérification
-  resendCode: async function (req, res) {
-    const { email } = req.body;
+// Fonction pour renvoyer le code de vérification
+resendCode: async function (req, res) {
+  const { email } = req.body;
 
-    if (req.session.email !== email) {
-      return res.status(400).json({ error: "Email non valide" });
+  // Vérifier si l'email dans la session correspond à celui dans la requête
+  if (!req.session.email || req.session.email !== email) {
+    return res.status(400).json({ error: "Email non valide ou session expirée. Veuillez recommencer l'inscription." });
+  }
+
+  let newCode;
+  if (Date.now() > req.session.verificationCodeExpiry) {
+    newCode = crypto.randomInt(100000, 999999).toString(); // Code de 6 chiffres
+    req.session.verificationCode = newCode;
+    req.session.verificationCodeExpiry = Date.now() + 60 * 1000; // 60 secondes supplémentaires
+  } else {
+    newCode = req.session.verificationCode; // Utilise le code existant
+  }
+
+  await sendVerificationEmail(req.session.email, newCode);
+
+  // Sauvegarder la session
+  req.session.save(err => {
+    if (err) {
+      console.error('Erreur lors de la sauvegarde de la session:', err);
+      return res.status(500).json({ error: "Erreur interne du serveur" });
     }
 
-    const newCode = crypto.randomInt(1000, 9999).toString(); // Code de 4 chiffres
-    await sendVerificationEmail(email, newCode);
-
-    req.session.verificationCode = newCode;
-
-    // Sauvegarder la session
-    req.session.save(err => {
-      if (err) {
-        console.error('Erreur lors de la sauvegarde de la session:', err);
-        return res.status(500).json({ error: "Erreur interne du serveur" });
-      }
-
-      // Log des informations de renvoi de code
-      console.log(`Nouveau code de vérification généré pour ${email}: ${newCode}`);
-
-      return res.status(200).json({ message: "Code renvoyé avec succès" });
-    });
-  },
+    console.log(`Code de vérification envoyé pour ${req.session.email}: ${newCode}`);
+    return res.status(200).json({ message: "Code renvoyé avec succès" });
+  });
+},
 
   // Ajout de la méthode completeRegistration dans usersctrl.js
   completeRegistration: async function (req, res) {
