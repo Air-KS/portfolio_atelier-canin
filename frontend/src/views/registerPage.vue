@@ -35,13 +35,17 @@
 		this.email = email;
 		this.password = password;
 
+		console.log('Email before redirect:', this.email);
+
 		try {
 		  await axios.post('http://localhost:3000/api/users/register', {
 			email,
 			password,
-		  });
-		  this.$router.push({ name: 'VerifyCode', params: { email: this.email } });
+		  }, { withCredentials: true });
+		  this.$router.push({ name: 'VerifyCode', query: { email: this.email } });
+		  console.log('Route object:', this.$route);
 		} catch (error) {
+		  console.error('Erreur lors de l\'enregistrement:', error); // Log l'erreur complète
 		  this.errorMessage =
 			error.response?.data?.error ||
 			'Une erreur est survenue, veuillez réessayer ultérieurement.';

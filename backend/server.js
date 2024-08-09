@@ -9,6 +9,7 @@ const path = require('path');
 const helmet = require('helmet');
 const { Sequelize } = require('sequelize');
 const session = require('express-session');
+const cookieParser = require('cookie-parser'); // Ajout du cookie-parser
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -33,13 +34,26 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
+// Utiliser cookie-parser pour gérer les cookies
+app.use(cookieParser('your_secret_key'));
+
 // Configurer les sessions en mémoire (sans persistance dans la base de données)
 app.use(session({
-  secret: 'your_secret_key', // Remplacez par une clé secrète
+  secret: 'your_secret_key',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Assurez-vous que le cookie n'est pas sécurisé pour le développement
+  cookie: {
+    secure: false, // Assure-toi que ce soit `false` en développement
+    sameSite: 'lax' // ou `lax` pour une compatibilité maximale
+  }
 }));
+
+// Logger l'état de la session avant chaque requête
+app.use((req, res, next) => {
+  console.log(`Session ID: ${req.sessionID}`); // Log de l'ID de session
+  console.log(`Session avant la requête: ${JSON.stringify(req.session)}`);
+  next();
+});
 
 // Sécuriser les en-têtes HTTP
 app.use(helmet());
@@ -66,7 +80,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Activer CORS
 app.use(cors({
+  origin: 'http://localhost:8080',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // Cette ligne est cruciale pour permettre les cookies
+  optionsSuccessStatus: 200 // Pour contourner les problèmes de compatibilité avec certains navigateurs
 }));
 
 // Logger les requêtes

@@ -40,6 +40,7 @@ async function sendVerificationEmail(email, code) {
 module.exports = {
   // Fonction pour enregistrer un nouvel utilisateur
   register: async function (req, res) {
+    console.log('Session avant génération du code:', req.session);
     try {
       const { email, password } = req.body;
 
@@ -80,6 +81,8 @@ module.exports = {
       req.session.email = email;
       req.session.password = password; // Stocker le mot de passe non haché temporairement
 
+      console.log('Session après génération du code:', req.session);
+
       // Sauvegarder la session
       req.session.save(err => {
         if (err) {
@@ -91,6 +94,7 @@ module.exports = {
         console.log(`Code de vérification généré pour ${email}: ${verificationCode}`);
         console.log('Session après génération du code :', req.session);
 
+        console.log('Session sauvegardée avec succès:', req.session);
         return res.status(201).json({
           message: 'Un e-mail de vérification a été envoyé'
         });
@@ -175,7 +179,7 @@ module.exports = {
       return res.status(200).json({ message: "Code renvoyé avec succès" });
     });
   },
-  
+
   // Ajout de la méthode completeRegistration dans usersctrl.js
   completeRegistration: async function (req, res) {
     try {

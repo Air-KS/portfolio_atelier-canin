@@ -23,13 +23,13 @@ const routes = [
   { path: '/register', name: 'Register', component: registerPage },
   { path: '/admin', name: 'Admin', component: adminPage, meta: { requiresAuth: true, roles: ['admin', 'responsable'] } },
   { path: '/profile/:id', name: 'Profile', component: profilePage, meta: { requiresAuth: true } },
-  { path: '/verify-code', name: 'VerifyCode', component: VerifyCode, props: route => ({ email: route.params.email }) },
+  { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
 ];
 
 // Créer le routeur
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes // routes: routes en syntaxe ES6
+  routes
 });
 
 // Utiliser le middleware pour vérifier l'authentification et les droits d'accès
