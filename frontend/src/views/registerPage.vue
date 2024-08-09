@@ -1,8 +1,10 @@
 <template>
 	<div>
 	  <AuthForm
+		ref="authForm"
 		:isRegister="true"
 		:errorMessage="errorMessage"
+		:isResending="isResending"
 		@register="register"
 	  />
 	</div>
@@ -22,36 +24,44 @@
 		errorMessage: '',
 		email: '',
 		password: '',
+		isResending: false,
 	  };
 	},
 	methods: {
-	  async register({ email, password, confirmPassword }) {
-		this.errorMessage = '';
-		if (password !== confirmPassword) {
-		  this.errorMessage = 'Passwords do not match';
-		  return;
-		}
+  async register({ email, password, confirmPassword }) {
+    // Le bouton est désactivé ici en passant isResending à true
+    this.isResending = true;
+    this.errorMessage = '';
 
-		this.email = email;
-		this.password = password;
+    if (password !== confirmPassword) {
+      this.errorMessage = 'Passwords do not match';
+      this.isResending = false; // Réactiver en cas d'erreur
+      return;
+    }
 
-		console.log('Email before redirect:', this.email);
+    this.email = email;
+    this.password = password;
 
-		try {
-		  await axios.post('http://localhost:3000/api/users/register', {
-			email,
-			password,
-		  }, { withCredentials: true });
-		  this.$router.push({ name: 'VerifyCode', query: { email: this.email } });
-		  console.log('Route object:', this.$route);
-		} catch (error) {
-		  console.error('Erreur lors de l\'enregistrement:', error); // Log l'erreur complète
-		  this.errorMessage =
-			error.response?.data?.error ||
-			'Une erreur est survenue, veuillez réessayer ultérieurement.';
-		}
-	  },
-	},
+    console.log('Email before redirect:', this.email);
+
+    try {
+      await axios.post('http://localhost:3000/api/users/register', {
+        email,
+        password,
+      }, { withCredentials: true });
+      this.$router.push({ name: 'VerifyCode', query: { email: this.email } });
+      console.log('Route object:', this.$route);
+    } catch (error) {
+      console.error('Erreur lors de l\'enregistrement:', error); // Log l'erreur complète
+      this.errorMessage =
+        error.response?.data?.error ||
+        'Une erreur est survenue, veuillez réessayer ultérieurement.';
+    } finally {
+      // Réactiver le bouton dans tous les cas
+      this.isResending = false;
+    }
+  },
+},
   };
   </script>
 
