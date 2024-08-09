@@ -9,7 +9,6 @@ const path = require('path');
 const helmet = require('helmet');
 const { Sequelize } = require('sequelize');
 const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -34,14 +33,11 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-// Configurer les sessions avec un store Sequelize
+// Configurer les sessions en mémoire (sans persistance dans la base de données)
 app.use(session({
   secret: 'your_secret_key', // Remplacez par une clé secrète
   resave: false,
   saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize,
-  }),
   cookie: { secure: false } // Assurez-vous que le cookie n'est pas sécurisé pour le développement
 }));
 
