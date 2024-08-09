@@ -145,7 +145,9 @@ module.exports = {
 
       return res.status(200).json({
         message: "Vérification réussie",
-        token: token
+        token: token,
+        user: { id: newRegister.id, email: newRegister.email },
+        role: "client"
       });
     } catch (error) {
       console.error("Erreur lors de la vérification de l'utilisateur :", error);
