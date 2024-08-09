@@ -3,13 +3,20 @@
 -->
 
 <template>
-	<div>
-	  <h3>Vérification de l'email</h3>
-	  <p>Un code de vérification a été envoyé à votre adresse email. Veuillez entrer le code ci-dessous :</p>
-	  <input v-model="verificationCode" type="text" placeholder="Code de vérification" @input="validateInput" />
-	  <button @click="verifyCode">Vérifier</button>
+	<div class="auth-container">
+	<div class="auth-form">
+	  <h3>Email Verification</h3>
+	  <div class="separator"></div>
+	  <p>A verification code has been sent to your address:<br>
+		<span class="text-mail">{{ email }} </span><br> Please enter the code below:</p>
+	  <input v-model="verificationCode" type="text" placeholder="Verification Code" @input="validateInput" /><br>
 	  <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+	  <button class="button" @click="verifyCode">Send</button>
+	  <div class="separator"></div>
+	  <p>In case of technical issues, contact us.</p>
+	  <p>06.07.08.09.10<br>atlcanin@gmail.com</p>
 	</div>
+</div>
   </template>
 
 <script>
@@ -32,7 +39,7 @@ export default {
       this.verificationCode = value.replace(/\D/g, ''); // Garde uniquement les chiffres
     },
     async verifyCode() {
-      if (this.verificationCode.length === 4) { // Assure-toi que cette longueur est correcte (4 ou 6)
+      if (this.verificationCode.length === 4) { // Assure que cette longueur est correcte (4)
         try {
           const response = await axios.post('http://localhost:3000/api/users/verify', {
             email: this.email, // Utilise l'email récupéré
@@ -57,11 +64,36 @@ export default {
     },
   },
   mounted() {
-    console.log('Email reçu:', this.email); // Assure-toi que cet email est correct
+    console.log('Email reçu:', this.email);
   },
 };
 </script>
 
-  <style scoped>
+<style scoped>
 
-  </style>
+.text-mail {
+    color: var(--color-hover);
+    font-weight: bold;
+}
+
+.separator {
+	width: 70%;
+	margin-bottom: 20px;
+}
+
+input {
+	width: 50%;
+}
+
+.button {
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+@media (max-width: 600px) {
+	.auth-form {
+		width: 80%;
+	}
+}
+
+</style>
