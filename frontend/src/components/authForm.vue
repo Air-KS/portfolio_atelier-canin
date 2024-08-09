@@ -174,55 +174,6 @@ export default {
 	margin-bottom: 10px;
 	font-weight: bold;
 }
-/* Conteneur principal de l'authentification */
-.auth-container {
-	padding-top: 50px;
-	padding-bottom: 70px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-/* Formulaire d'authentification */
-.auth-form {
-	width: 400px;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid var(--color-border);
-	border-radius: 10px;
-	text-align: center;
-	box-shadow: 0 0 8px var(--color-border-shadow);
-}
-/* Groupe de champs de formulaire */
-.form-group {
-	margin-bottom: 15px;
-	text-align: left;
-}
-/* Styles des inputs */
-input {
-	width: 100%;
-	padding: 10px;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	border: 1px solid var(--color-border-input);
-	border-radius: 25px;
-	box-sizing: border-box;
-	font-size: 16px;
-	background-color: var(--color-background-placeholder);
-}
-input::placeholder {
-	font-style: italic;
-	color: var(--color-placeholder);
-}
-input:focus {
-	border-color: var(--color-border-input-focus);
-	box-shadow: 0 0 8px var(--color-border-shadow);
-	outline: none;
-}
-.textInput {
-	margin-left: 20px;
-	font-weight: bold;
-	font-size: 18px;
-}
 
 /* Suppression des icônes clear/reveal pour IE/Edge */
 input::-ms-reveal,
