@@ -43,8 +43,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: false, // Assure-toi que ce soit `false` en développement
-    sameSite: 'lax' // ou `lax` pour une compatibilité maximale
+    secure: false, // Assure-toi que ce soit false en développement
+    sameSite: 'lax', // ou 'strict' selon le besoin
+    httpOnly: true,
   }
 }));
 
