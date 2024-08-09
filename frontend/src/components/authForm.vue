@@ -4,7 +4,7 @@
 
 <template>
 	<div class="auth-container">
-		<div :class="containerClass">
+		<div class="auth-form">
 			<!-- Conteneur du formulaire d'authentification -->
 			<form @submit.prevent="handleSubmit">
 				<h2>{{ formTitle }}</h2>
@@ -37,20 +37,14 @@
 						<!-- Icône pour afficher/masquer le mot de passe -->
 						<i
 							@click="toggleShowPassword"
-							:class="
-								showPassword
-									? 'fa-solid fa-eye eye-iconOpen'
-									: 'fa-solid fa-eye-slash eye-iconClose'
-							"
+							:class="showPassword ? 'fa-solid fa-eye eye-iconOpen' : 'fa-solid fa-eye-slash eye-iconClose'"
 						></i>
 					</div>
 				</div>
 				<div v-if="isRegister">
 					<div class="form-group password-group">
 						<!-- Champ pour confirmer le mot de passe -->
-						<label for="confirmPassword" class="textInput">
-							Confirm Password
-						</label>
+						<label for="confirmPassword" class="textInput">Confirm Password</label>
 						<div class="password-container">
 							<input
 								:type="showPassword ? 'text' : 'password'"
@@ -66,19 +60,11 @@
 				</div>
 				<div v-if="!isRegister" class="forgot-password-container">
 					<!-- Lien pour le mot de passe oublié -->
-					<a
-						href="#"
-						@click.prevent="forgotPassword"
-						class="forgot-passwordText"
-					>
-						Forgot Password ?
-					</a>
+					<a href="#" @click.prevent="forgotPassword" class="forgot-passwordText">Forgot Password ?</a>
 				</div>
 				<div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 				<!-- Bouton de soumission -->
-				<button class="button" type="submit">
-					<div>{{ buttonText }}</div>
-				</button>
+				<button class="button" type="submit">{{ buttonText }}</button>
 				<div class="separator"></div>
 				<div class="link-container">
 					<!-- Lien pour changer entre connexion et inscription -->
@@ -93,14 +79,8 @@
 <script>
 export default {
 	props: {
-		errorMessage: {
-			type: String,
-			default: '',
-		},
-		isRegister: {
-			type: Boolean,
-			default: false,
-		},
+		errorMessage: String,
+		isRegister: Boolean,
 	},
 	data() {
 		return {
@@ -111,39 +91,23 @@ export default {
 		};
 	},
 	computed: {
-		// Classe du conteneur basée sur le mode (inscription/connexion)
-		containerClass() {
-			return this.isRegister ? 'auth-form' : 'auth-form';
-		},
-		// Titre du formulaire basé sur le mode
 		formTitle() {
 			return this.isRegister ? 'Register' : 'Log In';
 		},
-		// Texte du bouton basé sur le mode
 		buttonText() {
 			return this.isRegister ? 'Register' : 'Log In';
 		},
-		// Classe du bouton basée sur le mode
-		buttonClass() {
-			return this.isRegister ? 'auth-button' : 'auth-button';
-		},
-		// Texte pour basculer entre les modes
 		switchText() {
-			return this.isRegister
-				? 'You have an AtlCanin account ?'
-				: "Don't have an AtlCanin account ?";
+			return this.isRegister ? 'You have an AtlCanin account ?' : "Don't have an AtlCanin account ?";
 		},
-		// Lien pour basculer entre les modes
 		switchLink() {
 			return this.isRegister ? '/login' : '/register';
 		},
-		// Texte du lien pour basculer entre les modes
 		switchLinkText() {
 			return this.isRegister ? 'Log In' : 'Sign Up';
 		},
 	},
 	methods: {
-		// Soumission du formulaire
 		handleSubmit() {
 			if (this.isRegister) {
 				this.$emit('register', {
@@ -155,11 +119,9 @@ export default {
 				this.$emit('login', { email: this.email, password: this.password });
 			}
 		},
-		// Afficher/masquer le mot de passe
 		toggleShowPassword() {
 			this.showPassword = !this.showPassword;
 		},
-		// Action pour le mot de passe oublié
 		forgotPassword() {
 			console.log('Mot de passe oublié');
 		},
@@ -175,11 +137,67 @@ export default {
 	font-weight: bold;
 }
 
+/* Conteneur principal de l'authentification */
+.auth-container {
+	padding: 50px 0 70px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Formulaire d'authentification */
+.auth-form {
+	width: 400px;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid var(--color-border);
+	border-radius: 10px;
+	text-align: center;
+	box-shadow: 0 0 8px var(--color-border-shadow);
+}
+
+/* Groupe de champs de formulaire */
+.form-group {
+	margin-bottom: 15px;
+	text-align: left;
+}
+
+/* Styles des inputs */
+input {
+	width: 100%;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	border: 1px solid var(--color-border-input);
+	border-radius: 25px;
+	box-sizing: border-box;
+	font-size: 16px;
+	background-color: var(--color-background-placeholder);
+}
+input::placeholder {
+	font-style: italic;
+	color: var(--color-placeholder);
+}
+input:focus {
+	border-color: var(--color-border-input-focus);
+	box-shadow: 0 0 8px var(--color-border-shadow);
+	outline: none;
+}
+
+/* Label des champs de texte */
+.textInput {
+	margin-left: 20px;
+	font-weight: bold;
+	font-size: 18px;
+}
+
 /* Suppression des icônes clear/reveal pour IE/Edge */
 input::-ms-reveal,
 input::-ms-clear {
 	display: none;
 }
+
+/* Icônes d'affichage du mot de passe */
 .eye-iconClose {
 	color: var(--color-hover);
 }
@@ -218,8 +236,7 @@ input::-ms-clear {
 	color: var(--color-hover);
 }
 
-/* Bouton de soumission */
-
+/* Lien pour basculer entre les modes */
 .link-container {
 	margin-top: 60px;
 	margin-bottom: 20px;
