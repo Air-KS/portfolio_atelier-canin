@@ -26,6 +26,7 @@ exports.router = (function () {
   apiRouter.route("/users").get(usersinfoctrl.getAllUsers);
 
   apiRouter.route("/users/verify").post(usersctrl.verifyCode);
+  apiRouter.route("/users/resend-code").post(usersctrl.resendCode);
   apiRouter.route("/users/complete-registration").post(usersctrl.completeRegistration);
 
   // Routes pour les services
