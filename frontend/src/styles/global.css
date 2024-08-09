@@ -109,3 +109,8 @@ h5 {
 .button:hover {
   background-color: var(--color-hover);
 }
+
+.error-message {
+	color: red;
+	font-weight: bold;
+}

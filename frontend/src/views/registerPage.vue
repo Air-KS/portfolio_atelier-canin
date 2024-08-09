@@ -56,8 +56,5 @@
   </script>
 
   <style scoped>
-  .error-message {
-	color: red;
-	font-weight: bold;
-  }
+
   </style>

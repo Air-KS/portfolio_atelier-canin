@@ -106,7 +106,7 @@
 					placeholder="France"
 				/>
 			</div>
-			<button type="submit">Save</button>
+			<button class="button" type="submit">Save</button>
 		</form>
 	</div>
 </template>
@@ -205,17 +205,5 @@ input {
 	border: 1px solid #ccc;
 }
 
-button {
-	padding: 10px;
-	font-size: 16px;
-	background-color: #007bff;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-}
 
-button:hover {
-	background-color: #0056b3;
-}
 </style>
