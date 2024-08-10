@@ -11,15 +11,15 @@
 </template>
 
 <script>
-import homeTop from '../components/homePage/homeTop.vue';
+import HomeTop from '../components/homePage/homeTop.vue';
 import HomeMid from '../components/homePage/homeMiddle.vue';
 import HomeDown from '../components/homePage/homeDown.vue';
 // import axios from 'axios';
 
 export default {
-  components: { homeTop, HomeMid, HomeDown },
-	name: 'AccueilPage',
-	mounted() {
+  components: { HomeTop, HomeMid, HomeDown },
+	name: 'HomePage',
+	created() {
 		document.title = 'AtlCanin - Home';
 	},
 };

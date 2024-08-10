@@ -24,7 +24,7 @@
 						</div>
 					</li>
 					<li class="nav-menu-item" v-if="isAdminOrResponsable">
-						<router-link to="/admin" class="nav-menu-link apply">
+						<router-link to="/dashbord" class="nav-menu-link apply">
 							Dashboard
 						</router-link>
 					</li>

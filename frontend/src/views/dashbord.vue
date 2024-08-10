@@ -4,7 +4,7 @@
 
 <template>
 	<div class="admin-container">
-		<h1>Admin Page</h1>
+		<h1>Dashboard</h1>
 
 		<!-- Bar de Recherche -->
 		<researchBar v-model="searchQuery" placeholder="Search for a user..." />
@@ -45,8 +45,8 @@ import UserTable from '../components/userTable.vue';
 import researchBar from '../components/researchBar.vue';
 
 export default {
-	name: 'AdminPage',
-	mounted() {
+	name: 'Dashbord',
+	created() {
 		document.title = 'AtlCanin - Dashboard';
 	},
 	components: {

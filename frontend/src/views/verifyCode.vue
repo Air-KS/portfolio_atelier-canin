@@ -68,6 +68,9 @@ import { mapActions } from 'vuex';
 
 export default {
 	name: 'VerifyCode',
+	created() {
+		document.title = 'AtlCanin - Check Code';
+	},
 	data() {
 		return {
 			verificationCode: '',

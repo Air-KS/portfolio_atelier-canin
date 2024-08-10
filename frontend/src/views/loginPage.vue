@@ -20,7 +20,7 @@ import axios from 'axios';
 
 export default {
 	name: 'LoginPage',
-	mounted() {
+	created() {
 		document.title = 'AtlCanin - Login';
 	},
 	components: {
@@ -60,9 +60,9 @@ export default {
 				this.$store.dispatch('login', { user, token, role });
 
 				if (role === 'admin' || role === 'responsable') {
-					this.$router.push({ name: 'Admin' });
+					this.$router.push({ name: 'Dashbord' });
 				} else if (role === 'client') {
-					this.$router.push({ name: 'Accueil' });
+					this.$router.push('/');
 				} else {
 					this.$router.push('/');
 				}

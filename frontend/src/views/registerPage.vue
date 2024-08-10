@@ -23,6 +23,9 @@
 	components: {
 	  AuthForm,
 	},
+	created() {
+		document.title = 'AtlCanin - Register';
+	},
 	data() {
 	  return {
 		errorMessage: '',
