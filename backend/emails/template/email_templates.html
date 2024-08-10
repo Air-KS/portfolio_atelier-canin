@@ -1,10 +1,14 @@
+<!--
+  ./backend/emails/template/email_templates.html.js
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Code de Vérification</title>
+  <title>Verification Code</title>
 
   <style>
     body {
@@ -66,20 +70,20 @@
 
 <body>
   <div class="container">
-    <h2>Bonjour,</h2>
-    <p>Merci de vous être inscrit sur notre site. <br>
-    Veuillez utiliser le code de vérification ci-dessous :</p>
+    <h2>Hello,</h2>
+    <p>Thank you for signing up on our site. <br>
+      Please use the verification code below:</p>
 
     <div class="code-wrapper">
       <div class="code">{{code}}</div>
     </div>
 
-    <p class="code60">Ce code est valable <span style="color: #ff5252">60 secondes.</span></p>
+    <p class="code60">This code is valid for <span style="color: #ff5252">60 seconds.</span></p>
 
-    <p class="signature">Cordialement,<br><strong>L'équipe AtlCanin</strong></p>
+    <p class="signature">Best regards,<br><strong>The AtlCanin Team</strong></p>
 
     <div class="footer">
-      <p>Si vous n'avez pas demandé ce code, veuillez ignorer cet email.</p>
+      <p>If you did not request this code, please ignore this email.</p>
     </div>
   </div>
 </body>

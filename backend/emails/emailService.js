@@ -1,3 +1,7 @@
+/*
+  ./backend/emails/emailService.js
+*/
+
 const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
@@ -28,7 +32,7 @@ async function sendVerificationEmail(email, code) {
   let mailOptions = {
     from: process.env.GMAIL_USER,
     to: email,
-    subject: 'Code de vérification',
+    subject: 'Verification Code',
     html: htmlContent
   };
 

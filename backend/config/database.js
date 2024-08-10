@@ -1,3 +1,7 @@
+/*
+  ./backend/config/database.js
+*/
+
 // importation du module sequelize
 const Sequelize = require("sequelize");
 

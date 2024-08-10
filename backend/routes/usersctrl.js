@@ -22,18 +22,18 @@ module.exports = {
 
       // Vérifie que tous les champs obligatoires sont remplis
       if (!email || !password) {
-        return res.status(400).json({ error: "Les champs obligatoires sont manquants" });
+        return res.status(400).json({ error: "Required fields are missing." });
       }
 
       // Valide le format de l'e-mail
       if (!emailREGEX.test(email)) {
-        return res.status(400).json({ error: "Email non valide" });
+        return res.status(400).json({ error: "Invalid email" });
       }
 
       // Valide le format du mot de passe
       if (!passwordREGEX.test(password)) {
         return res.status(400).json({
-          error: "Votre mot de passe doit contenir :\n\n8 caractères minimum,\nune majuscule,\nune minuscule,\nun chiffre,\nun caractère spécial",
+          error: "Your password must contain:\n\nAt least 8 characters,\nOne uppercase letter,\nOne lowercase letter,\nOne number,\nOne special character",
         });
       }
 
@@ -43,7 +43,7 @@ module.exports = {
         where: { email: email },
       });
       if (userFound) {
-        return res.status(400).json({ error: "Cette adresse e-mail est déjà utilisée" });
+        return res.status(400).json({ error: "This email address is already in use." });
       }
 
       // Génération du code de vérification
@@ -65,7 +65,7 @@ module.exports = {
       req.session.save(err => {
         if (err) {
           console.error('Erreur lors de la sauvegarde de la session:', err);
-          return res.status(500).json({ error: "Erreur interne du serveur" });
+          return res.status(500).json({ error: "Internal server error." });
         }
 
         // Log des informations de vérification
@@ -74,13 +74,13 @@ module.exports = {
 
         console.log('Session sauvegardée avec succès:', req.session);
         return res.status(201).json({
-          message: 'Un e-mail de vérification a été envoyé'
+          message: "A verification email has been sent."
         });
       });
 
     } catch (error) {
       console.error("Erreur lors de l'enregistrement de l'utilisateur :", error);
-      return res.status(500).json({ error: "Impossible d'ajouter cet utilisateur" });
+      return res.status(500).json({ error: "Unable to add this user." });
     }
   },
 
@@ -90,14 +90,14 @@ module.exports = {
 
     // Vérifie si le code a expiré
     if (Date.now() > req.session.verificationCodeExpiry) {
-      return res.status(400).json({ error: "Le code de vérification a expiré. Veuillez demander un nouveau code." });
+      return res.status(400).json({ error: "The verification code has expired. Please request a new code." });
     }
 
     console.log(`Vérification du code pour ${email}: code reçu ${code}, code attendu ${req.session.verificationCode}`);
     console.log('Session lors de la vérification :', req.session);
 
     if (req.session.email !== email || req.session.verificationCode !== code) {
-      return res.status(400).json({ error: "Code de vérification incorrect" });
+      return res.status(400).json({ error: "Incorrect verification code." });
     }
 
     // Code de vérification correct
@@ -123,48 +123,48 @@ module.exports = {
       console.log(`Vérification réussie pour ${email}`);
 
       return res.status(200).json({
-        message: "Vérification réussie",
+        message: "Verification successful.",
         token: token,
         user: { id: newRegister.id, email: newRegister.email },
         role: "client"
       });
     } catch (error) {
       console.error("Erreur lors de la vérification de l'utilisateur :", error);
-      return res.status(500).json({ error: "Impossible de vérifier cet utilisateur" });
+      return res.status(500).json({ error: "Unable to verify this user." });
     }
   },
 
-// Fonction pour renvoyer le code de vérification
-resendCode: async function (req, res) {
-  const { email } = req.body;
+  // Fonction pour renvoyer le code de vérification
+  resendCode: async function (req, res) {
+    const { email } = req.body;
 
-  // Vérifier si l'email dans la session correspond à celui dans la requête
-  if (!req.session.email || req.session.email !== email) {
-    return res.status(400).json({ error: "Email non valide ou session expirée. Veuillez recommencer l'inscription." });
-  }
-
-  let newCode;
-  if (Date.now() > req.session.verificationCodeExpiry) {
-    newCode = crypto.randomInt(100000, 999999).toString(); // Code de 6 chiffres
-    req.session.verificationCode = newCode;
-    req.session.verificationCodeExpiry = Date.now() + 60 * 1000; // 60 secondes supplémentaires
-  } else {
-    newCode = req.session.verificationCode; // Utilise le code existant
-  }
-
-  await sendVerificationEmail(req.session.email, newCode);
-
-  // Sauvegarder la session
-  req.session.save(err => {
-    if (err) {
-      console.error('Erreur lors de la sauvegarde de la session:', err);
-      return res.status(500).json({ error: "Erreur interne du serveur" });
+    // Vérifier si l'email dans la session correspond à celui dans la requête
+    if (!req.session.email || req.session.email !== email) {
+      return res.status(400).json({ error: "Invalid email or session expired. Please restart the registration." });
     }
 
-    console.log(`Code de vérification envoyé pour ${req.session.email}: ${newCode}`);
-    return res.status(200).json({ message: "Code renvoyé avec succès" });
-  });
-},
+    let newCode;
+    if (Date.now() > req.session.verificationCodeExpiry) {
+      newCode = crypto.randomInt(100000, 999999).toString(); // Code de 6 chiffres
+      req.session.verificationCode = newCode;
+      req.session.verificationCodeExpiry = Date.now() + 60 * 1000; // 60 secondes supplémentaires
+    } else {
+      newCode = req.session.verificationCode; // Utilise le code existant
+    }
+
+    await sendVerificationEmail(req.session.email, newCode);
+
+    // Sauvegarder la session
+    req.session.save(err => {
+      if (err) {
+        console.error('Erreur lors de la sauvegarde de la session:', err);
+        return res.status(500).json({ error: "Internal server error." });
+      }
+
+      console.log(`Code de vérification envoyé pour ${req.session.email}: ${newCode}`);
+      return res.status(200).json({ message: "Code successfully resent." });
+    });
+  },
 
   // Ajout de la méthode completeRegistration dans usersctrl.js
   completeRegistration: async function (req, res) {
@@ -174,7 +174,7 @@ resendCode: async function (req, res) {
       // Récupération de l'utilisateur via l'email
       const userFound = await UsersInfo.findOne({ where: { email: email } });
       if (!userFound) {
-        return res.status(400).json({ error: "Utilisateur non trouvé" });
+        return res.status(400).json({ error: "User not found." });
       }
 
       // Mise à jour du mot de passe et création du token
@@ -191,7 +191,7 @@ resendCode: async function (req, res) {
       });
     } catch (error) {
       console.error("Erreur lors de la complétion de l'inscription :", error);
-      return res.status(500).json({ error: "Impossible de compléter l'inscription" });
+      return res.status(500).json({ error: "Unable to complete the registration." });
     }
   },
 
@@ -202,7 +202,7 @@ resendCode: async function (req, res) {
 
       // Vérifie que tous les champs sont remplis
       if (!email || !password) {
-        return res.status(400).json({ error: "Les paramètres sont manquants" });
+        return res.status(400).json({ error: "Parameters are missing." });
       }
 
       // Recherche de l'utilisateur dans la base de données par email
@@ -215,7 +215,7 @@ resendCode: async function (req, res) {
 
       // Vérification si l'utilisateur existe ou non
       if (!userInfoFound) {
-        return res.status(400).json({ error: "Utilisateur n'existe pas" });
+        return res.status(400).json({ error: "User does not exist." });
       }
 
       // Comparaison du mot de passe pour authentification
@@ -223,7 +223,7 @@ resendCode: async function (req, res) {
 
       // Gestion des cas où le mot de passe ne correspond pas
       if (!passwordMatch) {
-        return res.status(400).json({ error: "Mot de passe incorrect" });
+        return res.status(400).json({ error: "Incorrect password." });
       }
 
       // Envoi du token après authentification réussie
@@ -241,7 +241,7 @@ resendCode: async function (req, res) {
 
     } catch (error) {
       console.error("Erreur lors de la connexion de l'utilisateur :", error);
-      return res.status(500).json({ error: "Impossible de se connecter" });
+      return res.status(500).json({ error: "Unable to log in." });
     }
   },
 
@@ -252,7 +252,7 @@ resendCode: async function (req, res) {
 
       const user = await Register.findByPk(userId);
       if (!user) {
-        return res.status(404).json({ error: "Utilisateur non trouvé" });
+        return res.status(404).json({ error: "User not found." });
       }
 
       const email = user.email;
@@ -263,11 +263,11 @@ resendCode: async function (req, res) {
       console.log('ID :', userId);
       console.log('Email :', email);
 
-      return res.status(200).json({ message: "Utilisateur supprimé avec succès" });
+      return res.status(200).json({ message: "User successfully deleted." });
 
     } catch (error) {
       console.error("Erreur lors de la suppression de l'utilisateur :", error);
-      return res.status(500).json({ error: "Impossible de supprimer l'utilisateur" });
+      return res.status(500).json({ error: "Unable to delete the user." });
     }
   },
 
