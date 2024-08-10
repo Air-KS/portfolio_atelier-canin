@@ -56,9 +56,7 @@
 
 							<!-- Actions pour 'client' -->
 							<div v-else-if="role === 'client'">
-								<button @click="promoteToResponsable(user.id)">
-									Responsable
-								</button>
+								<button @click="promoteToResponsable(user.id)">Manager</button>
 								<button @click="deleteUser(user.id)">Delete</button>
 							</div>
 						</div>

@@ -4,17 +4,19 @@
 
 <template>
 	<div>
-		<p>Récapitulatif</p>
-		<p>Nom : {{ appointment.last_name }}</p>
-		<p>Prénom : {{ appointment.first_name }}</p>
-		<p>Mail : {{ appointment.email }}</p>
-		<p>Téléphone : {{ appointment.phone }}</p>
+		<p>Summary</p>
+		<p>Last Name: {{ appointment.last_name }}</p>
+		<p>First Name: {{ appointment.first_name }}</p>
+		<p>Email: {{ appointment.email }}</p>
+		<p>Phone: {{ appointment.phone }}</p>
 		<p>
-			Date et Heure du rendez-vous :
+			Appointment Date and Time:
 			{{ formatDate(appointment.appointment_time) }}
 		</p>
-		<p>Méthode de paiement : {{ appointment.payment_method }}</p>
-		<button class="button" @click="submitAppointment" :disabled="isSubmitting">{{ submitButtonText }}</button>
+		<p>Payment Method: {{ appointment.payment_method }}</p>
+		<button class="button" @click="submitAppointment" :disabled="isSubmitting">
+			{{ submitButtonText }}
+		</button>
 	</div>
 </template>
 
@@ -38,11 +40,11 @@ export default {
 			})
 				.then(response => response.json())
 				.then(() => {
-					alert('Rendez-vous confirmé et notifications envoyées.');
-					window.location.href = '/'; // Rediriger vers la page d'accueil
+					alert('Appointment confirmed and notifications sent.');
+					window.location.href = '/'; // Redirect to homepage
 				})
 				.catch(() => {
-					alert("Erreur lors de l'envoi des notifications.");
+					alert('Error sending notifications.');
 					isSubmitting.value = false;
 					submitButtonText.value = 'Submit';
 				});

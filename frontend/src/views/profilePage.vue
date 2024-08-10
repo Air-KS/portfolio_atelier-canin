@@ -2,27 +2,27 @@
 	./frontend/src/views/profilePage.vue
 -->
 
- <template>
+<template>
 	<div class="profile-container">
-		<h1>Profile de {{ user.first_name }} {{ user.last_name }}</h1>
+		<h1>Profile of {{ user.first_name }} {{ user.last_name }}</h1>
 		<form @submit.prevent="updateProfile">
 			<div>
-				<label for="first_name">Firstname:</label>
+				<label for="first_name">First Name:</label>
 				<input
 					id="first_name"
 					type="text"
 					v-model="user.first_name"
-					title="Entrez votre prénom"
+					title="Enter your first name"
 					placeholder="Jérôme Example"
 				/>
 			</div>
 			<div>
-				<label for="last_name">Lastname:</label>
+				<label for="last_name">Last Name:</label>
 				<input
 					id="last_name"
 					type="text"
 					v-model="user.last_name"
-					title="Entrez votre nom"
+					title="Enter your last name"
 					placeholder="Bernard Example"
 				/>
 			</div>
@@ -32,7 +32,7 @@
 					id="date_of_birth"
 					type="date"
 					v-model="user.date_of_birth"
-					title="Entrez votre date de naissance"
+					title="Enter your date of birth"
 				/>
 			</div>
 			<div>
@@ -42,7 +42,7 @@
 					type="email"
 					v-model="user.email"
 					required
-					title="Entrez votre adresse email"
+					title="Enter your email address"
 					placeholder="example@mail.com"
 				/>
 			</div>
@@ -52,7 +52,7 @@
 					id="phone"
 					type="text"
 					v-model="user.phone"
-					title="Entrez votre numéro de téléphone"
+					title="Enter your phone number"
 					placeholder="0607080910"
 				/>
 			</div>
@@ -62,27 +62,27 @@
 					id="address_one"
 					type="text"
 					v-model="user.address_one"
-					title="Entrez votre adresse"
+					title="Enter your address"
 					placeholder="123 Rue Example"
 				/>
 			</div>
 			<div>
-				<label for="address_two">Secondary address:</label>
+				<label for="address_two">Secondary Address:</label>
 				<input
 					id="address_two"
 					type="text"
 					v-model="user.address_two"
-					title="Entrez votre adresse secondaire (si applicable)"
-					placeholder="Appartment 4B"
+					title="Enter your secondary address (if applicable)"
+					placeholder="Apartment 4B"
 				/>
 			</div>
 			<div>
-				<label for="zip_code">Zip code:</label>
+				<label for="zip_code">Zip Code:</label>
 				<input
 					id="zip_code"
 					type="text"
 					v-model="user.zip_code"
-					title="Entrez votre code postal"
+					title="Enter your zip code"
 					placeholder="75001"
 				/>
 			</div>
@@ -92,7 +92,7 @@
 					id="city"
 					type="text"
 					v-model="user.city"
-					title="Entrez votre ville"
+					title="Enter your city"
 					placeholder="Paris"
 				/>
 			</div>
@@ -102,7 +102,7 @@
 					id="country"
 					type="text"
 					v-model="user.country"
-					title="Entrez votre pays"
+					title="Enter your country"
 					placeholder="France"
 				/>
 			</div>
@@ -111,14 +111,13 @@
 	</div>
 </template>
 
-
 <script>
 import axios from 'axios';
 
 export default {
 	name: 'ProfilePage',
 	mounted() {
-		document.title = 'AtlCanin - Profil';
+		document.title = 'AtlCanin - Profile';
 	},
 	data() {
 		return {
@@ -150,7 +149,7 @@ export default {
 				this.user = response.data;
 			} catch (error) {
 				console.error(
-					'Erreur lors de la récupération du profil utilisateur:',
+					'Error fetching user profile:',
 					error
 				);
 			}
@@ -162,10 +161,10 @@ export default {
 					`http://localhost:3000/api/users/${userId}`,
 					this.user
 				);
-				alert('Profil mis à jour avec succès');
+				alert('Profile updated successfully');
 			} catch (error) {
 				console.error(
-					'Erreur lors de la mise à jour du profil utilisateur:',
+					'Error updating user profile:',
 					error
 				);
 			}

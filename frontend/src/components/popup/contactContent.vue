@@ -4,15 +4,15 @@
 
 <template>
 	<div>
-		<div class="sommaire">
-			Contact rapide
+		<div class="summary">
+			Quick Contact
 			<p>
 				- 06.07.08.09.10 -
 				<br />
 				- atlcanin@gmail.com -
 			</p>
 		</div>
-		Il faut penser à faire un formulaire pour que l'utilisateur puisse contacter l'agence
+		We need to think about creating a form so that the user can contact the agency.
 	</div>
 </template>
 

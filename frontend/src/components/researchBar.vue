@@ -21,7 +21,7 @@ export default {
 		},
 		placeholder: {
 			type: String,
-			default: 'Rechercher...',
+			default: 'Search...',
 		},
 	},
 	data() {

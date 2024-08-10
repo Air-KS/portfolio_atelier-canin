@@ -59,7 +59,7 @@
       console.error('Erreur lors de l\'enregistrement:', error); // Log l'erreur complète
       this.errorMessage =
         error.response?.data?.error ||
-        'Une erreur est survenue, veuillez réessayer ultérieurement.';
+        'An error occurred, please try again later.';
     } finally {
       // Réactiver le bouton dans tous les cas
       this.isResending = false;

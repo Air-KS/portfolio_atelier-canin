@@ -1,15 +1,19 @@
+<!--
+	./frontend/src/components/popup/booknow/2ServiceStep.vue
+-->
+
 <template>
 	<div>
-	  <p>Service et prix</p>
-	  <button class="button" @click="goToNextStep">Suivant</button>
+		<p>Services</p>
+		<button class="button" @click="goToNextStep">Next</button>
 	</div>
-  </template>
+</template>
 
   <script>
-  export default {
+export default {
 	setup(_, { emit }) {
-	  const goToNextStep = () => emit('next-step');
-	  return { goToNextStep };
-	}
-  };
-  </script>
+		const goToNextStep = () => emit('next-step');
+		return { goToNextStep };
+	},
+};
+</script>
