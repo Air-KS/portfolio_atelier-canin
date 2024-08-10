@@ -4,38 +4,14 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const { Register, UsersInfo, Role } = require('../models');
+const { sendVerificationEmail } = require('../emails/emailService');  // Import du service d'email
 require('dotenv').config();
 
 // Validation des données avec regex
 const emailREGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordREGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-// Fonction pour envoyer un e-mail de vérification
-async function sendVerificationEmail(email, code) {
-  console.log('Envoyer un e-mail à:', email);
-  console.log('Utilisateur Gmail:', process.env.GMAIL_USER);
-  console.log('Mot de passe Gmail:', process.env.GMAIL_PASS);
-
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS
-    }
-  });
-
-  let mailOptions = {
-    from: process.env.GMAIL_USER,
-    to: email,
-    subject: 'Code de vérification',
-    text: `Votre code de vérification est: ${code}`
-  };
-
-  await transporter.sendMail(mailOptions);
-}
 
 module.exports = {
   // Fonction pour enregistrer un nouvel utilisateur
