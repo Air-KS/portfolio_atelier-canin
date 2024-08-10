@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/Popup.vue
+	./frontend/src/components/popup.vue
 -->
 <template>
 	<div v-if="visible" class="overlay" @click="closePopup">

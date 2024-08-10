@@ -40,14 +40,14 @@ module.exports = {
           return jwtToken.userId;
         } else {
           // Sinon, renvoyez une erreur
-          throw new Error("ID d'utilisateur manquant dans le jeton JWT");
+          throw new Error("User ID missing in JWT token.");
         }
       } catch (err) {
         // Sinon, renvoyez une erreur
-        throw new Error("Erreur de vérification du jeton utilisateur");
+        throw new Error("User token verification error.");
       }
     } else {
-      throw new Error("Jetons identification non valides");
+      throw new Error("Invalid identification tokens.");
     }
   },
   generateTemporaryToken: function (userId) {

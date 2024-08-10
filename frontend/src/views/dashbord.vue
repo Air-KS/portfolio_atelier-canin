@@ -1,10 +1,10 @@
 <!--
-	./frontend/src/views/adminPage.vue
+	./frontend/src/views/dashbord.vue
 -->
 
 <template>
 	<div class="admin-container">
-		<h1>Admin Page</h1>
+		<h1>Dashboard</h1>
 
 		<!-- Bar de Recherche -->
 		<researchBar v-model="searchQuery" placeholder="Search for a user..." />
@@ -45,8 +45,8 @@ import UserTable from '../components/userTable.vue';
 import researchBar from '../components/researchBar.vue';
 
 export default {
-	name: 'AdminPage',
-	mounted() {
+	name: 'Dashbord',
+	created() {
 		document.title = 'AtlCanin - Dashboard';
 	},
 	components: {
@@ -85,7 +85,7 @@ export default {
 				this.refreshUsers();
 			} catch (error) {
 				console.error(
-					`Erreur lors de la mise à jour de l'utilisateur :`,
+					`Error updating user:`,
 					error
 				);
 			}
@@ -95,11 +95,11 @@ export default {
 		async deleteUser(userId) {
 			try {
 				await axios.delete(`http://localhost:3000/api/users/${userId}`);
-				alert('Utilisateur supprimé avec succès');
+				alert('User successfully deleted');
 				this.refreshUsers();
 			} catch (error) {
 				console.error(
-					"Erreur lors de la suppression de l'utilisateur :",
+					"Error deleting user:",
 					error
 				);
 			}
@@ -112,7 +112,7 @@ export default {
 				this.users = response.data;
 			} catch (error) {
 				console.error(
-					'Erreur lors de la récupération des utilisateurs :',
+					'Error fetching users:',
 					error
 				);
 			}

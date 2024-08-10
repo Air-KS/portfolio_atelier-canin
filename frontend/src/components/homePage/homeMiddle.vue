@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/homePage/home.vue
+	./frontend/src/components/homePage/homeMiddle.vue
 -->
 
 <template>

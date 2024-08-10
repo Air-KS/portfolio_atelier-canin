@@ -1,3 +1,7 @@
+<!--
+	./frontend/src/components/footer.vue
+-->
+
 <template>
 	<footer class="footer-container">
 		<div class="footer-banner"></div>
@@ -10,26 +14,26 @@
 			<div class="footer-links-container">
 				<div class="footer-links">
 					<div class="footer-section">
-						<h4>À propos de nous</h4>
-						<p>Comment ça marche</p>
-						<p>Localisation</p>
+						<h4>About Us</h4>
+						<p>How It Works</p>
+						<p>Location</p>
 					</div>
 					<div class="footer-section">
-						<h4>Ressources</h4>
-						<p>Condition de Confidentialité</p>
-						<p>Politique d'annulation</p>
-						<p>Centre d'aide</p>
+						<h4>Resources</h4>
+						<p>Privacy Policy</p>
+						<p>Cancellation Policy</p>
+						<p>Help Center</p>
 					</div>
 					<div class="footer-section">
-						<h4>Compagnie</h4>
-						<p>Contactez-nous</p>
-						<p>Carrières</p>
+						<h4>Company</h4>
+						<p>Contact Us</p>
+						<p>Careers</p>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="footer-bottom">
-			<p class="footer-contact">Besoin d’aide ? help@gmail.com</p>
+			<p class="footer-contact">Need help? help@gmail.com</p>
 			<div class="footer-icons">
 				<img src="@/assets/images/footer/facebook.svg" alt="Facebook" />
 				<img src="@/assets/images/footer/instagram.svg" alt="Instagram" />
@@ -39,9 +43,7 @@
 			</div>
 		</div>
 		<div class="footer-copyright">
-			<p>
-				@2024 Atelier canin, Inc. Tous droits réservés
-			</p>
+			<p>@2024 Atelier Canin, Inc. All rights reserved</p>
 		</div>
 	</footer>
 </template>
@@ -107,7 +109,6 @@ export default {
 	margin-bottom: 10px;
 }
 
-
 .footer-links h4 {
 	margin-top: 0px;
 	margin-bottom: 5px;
@@ -145,7 +146,6 @@ export default {
 	right: 0;
 	align-items: center;
 }
-
 
 /* Responsiveness */
 @media (min-width: 768px) {

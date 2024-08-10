@@ -75,7 +75,7 @@ module.exports = {
       res.status(200).json(users);
     } catch (error) {
       console.error("Erreur lors de la récupération des utilisateurs :", error);
-      res.status(500).json({ error: "Impossible de récupérer les utilisateurs" });
+      res.status(500).json({ error: "Unable to retrieve users." });
     }
   },
 
@@ -91,7 +91,7 @@ module.exports = {
       });
 
       if (!user) {
-        return res.status(404).json({ error: "Utilisateur non trouvé" });
+        return res.status(404).json({ error: "User not found." });
       }
 
       const roleInstance = await Role.findOne({
@@ -99,16 +99,16 @@ module.exports = {
       });
 
       if (!roleInstance) {
-        return res.status(404).json({ error: "Rôle non trouvé" });
+        return res.status(404).json({ error: "Role not found." });
       }
 
       user.Register.role_id = roleInstance.id;
       await user.Register.save();
 
-      res.status(200).json({ message: "Rôle mis à jour avec succès" });
+      res.status(200).json({ message: "Role successfully updated." });
     } catch (error) {
       console.error("Erreur lors de la mise à jour du rôle de l'utilisateur :", error);
-      res.status(500).json({ error: "Impossible de mettre à jour le rôle de l'utilisateur" });
+      res.status(500).json({ error: "Unable to update the user's role." });
     }
   },
 };

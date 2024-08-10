@@ -7,14 +7,14 @@
 		<div id="calendar">
 			<FullCalendar :options="calendarOptions" />
 			<div v-if="showTimeslots" class="timeslot-popover">
-				<h4>Choisir un horaire disponible pour {{ selectedDate }}</h4>
+				<h4>Select an available time slot for {{ selectedDate }}</h4>
 				<select v-model="appointment_time">
 					<option v-for="time in availableTimeslots" :key="time" :value="time">
 						{{ time }}
 					</option>
 				</select>
-				<button @click="confirmTime">Confirmer</button>
-				<button @click="cancelTime">Annuler</button>
+				<button @click="confirmTime">Confirm</button>
+				<button @click="cancelTime">Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -105,22 +105,18 @@ export default {
 					);
 					showTimeslots.value = true;
 				})
-				.catch(error =>
-					alert(
-						'Erreur lors de la récupération des créneaux horaires disponibles.'
-					)
-				);
+				.catch(error => alert('Error while fetching available timeslots.'));
 		};
 
 		const confirmTime = () => {
 			if (appointment_time.value === '') {
-				alert('Veuillez sélectionner un créneau horaire.');
+				alert('Please select a time slot.');
 				return;
 			}
 
 			showTimeslots.value = false;
 
-			// Convertir la date et l'heure en UTC
+			// Convert the date and time to UTC
 			const formattedTime = to24HourFormat(appointment_time.value);
 			const localDateTime = new Date(
 				`${selectedDate.value}T${formattedTime}:00`
@@ -130,7 +126,7 @@ export default {
 			).toISOString();
 
 			const newEvent = {
-				title: `Rendez-vous à ${appointment_time.value}`,
+				title: `Appointment at ${appointment_time.value}`,
 				start: utcDateTime,
 				color: 'blue',
 			};
@@ -145,7 +141,7 @@ export default {
 			calendarOptions.value.events.push(newEvent);
 			props.appointment.appointment_time = utcDateTime;
 
-			// Émettre l'événement next-step
+			// Emit next-step event
 			emit('next-step');
 		};
 

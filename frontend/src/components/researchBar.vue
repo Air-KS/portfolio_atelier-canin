@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/ResearchBar.vue
+	./frontend/src/components/researchBar.vue
 -->
 
 <template>
@@ -21,7 +21,7 @@ export default {
 		},
 		placeholder: {
 			type: String,
-			default: 'Rechercher...',
+			default: 'Search...',
 		},
 	},
 	data() {

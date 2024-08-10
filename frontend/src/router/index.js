@@ -6,10 +6,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 // Importer les composants des pages
-import accueilPage from '@/views/accueilPage.vue';
+import homePage from '@/views/homePage.vue';
 import registerPage from '@/views/registerPage.vue';
 import loginPage from '@/views/loginPage';
-import adminPage from '@/views/adminPage';
+import Dashbord from '@/views/dashbord';
 import profilePage from '@/views/profilePage.vue';
 import VerifyCode from '@/views/verifyCode.vue';
 
@@ -18,10 +18,10 @@ import { authGuard } from '@/middleware/auth.js';
 
 // Définir les routes de l'application
 const routes = [
-  { path: '/', name: 'Accueil', component: accueilPage },
+  { path: '/', name: 'Home', component: homePage },
   { path: '/login', name: 'Login', component: loginPage },
   { path: '/register', name: 'Register', component: registerPage },
-  { path: '/admin', name: 'Admin', component: adminPage, meta: { requiresAuth: true, roles: ['admin', 'responsable'] } },
+  { path: '/dashbord', name: 'Dashbord', component: Dashbord, meta: { requiresAuth: true, roles: ['admin', 'responsable'] } },
   { path: '/profile/:id', name: 'Profile', component: profilePage, meta: { requiresAuth: true } },
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
 ];

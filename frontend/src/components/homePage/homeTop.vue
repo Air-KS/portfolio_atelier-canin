@@ -1,3 +1,7 @@
+<!--
+	./frontend/src/components/homePage/homeTop.vue
+-->
+
 <template>
 	<div class="home-container">
 		<div class="home-header">
