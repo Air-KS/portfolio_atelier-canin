@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/Header.vue
+	./frontend/src/components/header.vue
 -->
 
 <template>

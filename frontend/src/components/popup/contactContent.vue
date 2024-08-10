@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/popup/ContactContent.vue
+	./frontend/src/components/popup/contactContent.vue
 -->
 
 <template>

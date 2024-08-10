@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/ResearchBar.vue
+	./frontend/src/components/researchBar.vue
 -->
 
 <template>

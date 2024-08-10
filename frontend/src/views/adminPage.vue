@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/views/adminPage.vue
+	./frontend/src/views/dashbord.vue
 -->
 
 <template>
