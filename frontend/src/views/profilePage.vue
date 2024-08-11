@@ -143,7 +143,7 @@ export default {
 			const userId = this.$route.params.id;
 			try {
 				const response = await axios.get(
-					`http://localhost:3000/api/users/${userId}`
+					`http://localhost:3000/api/user/profile/${userId}`
 				);
 				console.log('API response:', response.data);
 				this.user = response.data;
@@ -158,7 +158,7 @@ export default {
 			const userId = this.$route.params.id;
 			try {
 				const response = await axios.put(
-					`http://localhost:3000/api/users/${userId}`,
+					`http://localhost:3000/api/user/profile/${userId}`,
 					this.user
 				);
 				alert('Profile updated successfully');

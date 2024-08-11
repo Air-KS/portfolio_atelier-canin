@@ -43,10 +43,10 @@
 					<td>
 						<!-- Actions pour le rôle 'admin -->
 						<div v-if="userRole === 'admin'">
-							<!-- Actions pour 'responsable' (sauf emails protégés) -->
+							<!-- Actions pour 'manager' (sauf emails protégés) -->
 							<div
 								v-if="
-									role === 'responsable' &&
+									role === 'manager' &&
 									!['jerome@gmail.com', 'kevin@gmail.com'].includes(user.email)
 								"
 							>
@@ -56,13 +56,13 @@
 
 							<!-- Actions pour 'client' -->
 							<div v-else-if="role === 'client'">
-								<button @click="promoteToResponsable(user.id)">Manager</button>
+								<button @click="promoteTomanager(user.id)">Manager</button>
 								<button @click="deleteUser(user.id)">Delete</button>
 							</div>
 						</div>
 
-						<!-- Actions pour'responsable' -->
-						<div v-else-if="userRole === 'responsable' && role === 'client'">
+						<!-- Actions pour'manager' -->
+						<div v-else-if="userRole === 'manager' && role === 'client'">
 							<button @click="deleteUser(user.id)">Delete</button>
 						</div>
 					</td>
@@ -82,9 +82,9 @@ export default {
 		userRole: String, // Rôle de l'utilisateur connecté
 	},
 	methods: {
-		// Promouvoir utilisateur (client -> responsable)
-		promoteToResponsable(userId) {
-			this.$emit('change-role', userId, 'responsable');
+		// Promouvoir utilisateur (client -> manager)
+		promoteTomanager(userId) {
+			this.$emit('change-role', userId, 'manager');
 		},
 		// Retrograder utilisateur (respondable -> client)
 		demoteToClient(userId) {

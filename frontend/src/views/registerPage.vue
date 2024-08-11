@@ -52,7 +52,7 @@
     console.log('Email before redirect:', this.email);
 
     try {
-      await axios.post('http://localhost:3000/api/users/register', {
+      await axios.post('http://localhost:3000/api/auth/register', {
         email,
         password,
       }, { withCredentials: true });
