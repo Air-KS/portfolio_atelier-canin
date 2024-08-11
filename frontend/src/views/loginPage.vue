@@ -59,7 +59,7 @@ export default {
 
 				this.$store.dispatch('login', { user, token, role });
 
-				if (role === 'admin' || role === 'responsable') {
+				if (role === 'admin' || role === 'manager') {
 					this.$router.push({ name: 'Dashbord' });
 				} else if (role === 'client') {
 					this.$router.push('/');

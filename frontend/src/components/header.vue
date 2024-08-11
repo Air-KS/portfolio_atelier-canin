@@ -23,7 +23,7 @@
 							Contact us
 						</div>
 					</li>
-					<li class="nav-menu-item" v-if="isAdminOrResponsable">
+					<li class="nav-menu-item" v-if="isAdminOrManager">
 						<router-link to="/dashbord" class="nav-menu-link apply">
 							Dashboard
 						</router-link>
@@ -131,10 +131,10 @@ export default {
 	},
 	computed: {
 		...mapState(['isLoggedIn', 'user']),
-		isAdminOrResponsable() {
+		isAdminOrManager() {
 			return (
 				this.user &&
-				(this.user.role === 'admin' || this.user.role === 'responsable')
+				(this.user.role === 'admin' || this.user.role === 'manager')
 			);
 		},
 	},

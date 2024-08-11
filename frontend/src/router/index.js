@@ -21,7 +21,7 @@ const routes = [
   { path: '/', name: 'Home', component: homePage },
   { path: '/login', name: 'Login', component: loginPage },
   { path: '/register', name: 'Register', component: registerPage },
-  { path: '/dashbord', name: 'Dashbord', component: Dashbord, meta: { requiresAuth: true, roles: ['admin', 'responsable'] } },
+  { path: '/dashbord', name: 'Dashbord', component: Dashbord, meta: { requiresAuth: true, roles: ['admin', 'manager'] } },
   { path: '/profile/:id', name: 'Profile', component: profilePage, meta: { requiresAuth: true } },
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
 ];
