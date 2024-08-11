@@ -51,6 +51,16 @@ show tables;
 Pour modifier permettre la colonne user_id optionnel, pour les personne non inscrit
 ALTER TABLE Appointments MODIFY COLUMN user_id int NULL;
 
+Recommancer le décompte au chiffre indiqué
+ALTER TABLE Users AUTO_INCREMENT = 1;
+
+Pour afficher la table sur une seul ligne (Appuyer sur les fléche droite et gauche pour deplacer)
+pager less -SFX;
+nopager; = Pour supprimer le formatage du styles et revenir par défaut
+
+====================================================================================================
+
+
 Comment ça fonctionne à artire de rien
 
 On créer la base de donnée
@@ -61,7 +71,7 @@ yarn sequelize-cli db:migrate
 yarn sequelize-cli db:migrate --to 20240713120532-migration.js
 
 Exécute les seeders dans l'ordre spécifié :
-yarn sequelize-cli db:seed --seed 20240615-default-role => Pour créer les roles par défaut (Client, responsable et Admin)
+yarn sequelize-cli db:seed --seed 20240615-default-roles => Pour créer les roles par défaut (Client, responsable et Admin)
 yarn sequelize-cli db:seed --seed 20240616-insert-admin.js => Mettre en place les Admin
 
 Supprimer une migration précise
