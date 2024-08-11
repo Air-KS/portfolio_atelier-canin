@@ -6,13 +6,13 @@ const bcrypt = require('bcrypt');
 module.exports = {
   async up(queryInterface, Sequelize) {
     try {
-      const existingUser1 = await queryInterface.rawSelect('Register', {
+      const existingUser1 = await queryInterface.rawSelect('Users', {
         where: {
           email: 'kevin@gmail.com',
         },
       }, ['id']);
 
-      const existingUser2 = await queryInterface.rawSelect('Register', {
+      const existingUser2 = await queryInterface.rawSelect('Users', {
         where: {
           email: 'jerome@gmail.com',
         },
@@ -26,7 +26,7 @@ module.exports = {
       const hashedPassword1 = await bcrypt.hash('password1', 10);
       const hashedPassword2 = await bcrypt.hash('password2', 10);
 
-      await queryInterface.bulkInsert('Register', [
+      await queryInterface.bulkInsert('Users', [
         {
           email: 'jerome@gmail.com',
           password: hashedPassword1,
@@ -71,7 +71,7 @@ module.exports = {
   async down(queryInterface) {
     try {
       await queryInterface.bulkDelete('UsersInfo', null, {});
-      await queryInterface.bulkDelete('Register', null, {});
+      await queryInterface.bulkDelete('Users', null, {});
       console.log('Users deleted successfully');
     } catch (error) {
       console.error('Error deleting users:', error.message);

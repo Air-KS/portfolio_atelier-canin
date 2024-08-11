@@ -35,25 +35,17 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-// Synchroniser les Enregistrements (Registers)
-db.Register.hasOne(db.UsersInfo, { foreignKey: 'register_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-db.UsersInfo.belongsTo(db.Register, { foreignKey: 'register_id' });
+// Synchroniser les utilisateurs (Users)
+db.User.hasMany(db.Appointment, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+db.Appointment.belongsTo(db.User, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
+// Synchroniser les rôles (Roles)
+db.Role.hasMany(db.User, { foreignKey: 'role_id' });
+db.User.belongsTo(db.Role, { foreignKey: 'role_id' });
 
-// Synchroniser les Roles
-db.Role.hasMany(db.UsersInfo, { foreignKey: 'role_id' });
-db.UsersInfo.belongsTo(db.Role, { foreignKey: 'role_id' });
-db.Role.hasMany(db.Register, { foreignKey: 'role_id' });
-db.Register.belongsTo(db.Role, { foreignKey: 'role_id' });
-
-// Synchroniser les rendez-vous (Appointments)
-db.Register.hasMany(db.Appointment, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-db.Appointment.belongsTo(db.Register, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-
-// Synchroniser les Services
+// Synchroniser les services (Services)
 db.Service.hasMany(db.Appointment, { foreignKey: 'service_id', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
 db.Appointment.belongsTo(db.Service, { foreignKey: 'service_id', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
-
 
 // Synchroniser la base de données
 sequelize.sync({ logging: false });
