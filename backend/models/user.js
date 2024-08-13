@@ -1,94 +1,98 @@
 /*
-  ./backend/models/userinfo.js
+  ./backend/models/user.js
 */
 
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class UsersInfo extends Model {
+  class User extends Model {
     static associate(models) {
-      UsersInfo.belongsTo(models.Register, { foreignKey: 'register_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-      UsersInfo.belongsTo(models.Role, { foreignKey: 'role_id' });
+      User.belongsTo(models.Role, { foreignKey: 'role_id' });
+      // Ajouter d'autres associations si nécessaire
     }
   }
-  UsersInfo.init({
-    register_id: {
+
+  User.init({
+    id: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Register',
-        key: 'id'
-      },
-      allowNull: false
-    },
-    last_name: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    first_name: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    date_of_birth: {
-      type: DataTypes.STRING,
-      allowNull: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
-        isEmail: true
-      }
+        isEmail: true,
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    date_of_birth: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     address_one: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     address_two: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     zip_code: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     role_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'Roles',
-        key: 'id'
+        key: 'id',
       },
-      allowNull: false,
-      defaultValue: 1
+      defaultValue: 1,  // Par défaut, 'client'
     },
     created_at: {
       type: DataTypes.DATE,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
-      allowNull: false
     },
     updated_at: {
       type: DataTypes.DATE,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    },
   }, {
     sequelize,
-    modelName: 'UsersInfo',
-    tableName: 'UsersInfo',
+    modelName: 'User',  // Nom du modèle
+    tableName: 'Users',  // Nom de la table dans la base de données
     timestamps: true,
     underscored: true,
   });
-  return UsersInfo;
+
+  return User;
 };

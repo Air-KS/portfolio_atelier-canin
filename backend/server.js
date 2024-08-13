@@ -103,6 +103,16 @@ app.get('/', (req, res) => {
   res.send('Hello, world!');
 });
 
+// Route de test pour les sessions
+app.get('/test-session', (req, res) => {
+  if (req.session.test) {
+    res.send(`Session active, valeur: ${req.session.test}`);
+  } else {
+    req.session.test = 'Bonjour';
+    res.send('Nouvelle session initialisée.');
+  }
+});
+
 // Démarrer le serveur
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port http://0.0.0.0:${port}`);

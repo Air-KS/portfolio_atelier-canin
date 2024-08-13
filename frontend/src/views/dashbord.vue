@@ -20,9 +20,9 @@
 		/>
 		<!-- Table des utilisateurs avec le rôle "responsable" -->
 		<UserTable
-			title="Responsables"
-			:users="filteredUsers('responsable')"
-			role="responsable"
+			title="Manager"
+			:users="filteredUsers('manager')"
+			role="manager"
 			:userRole="userRole"
 			@change-role="changeUserRole"
 			@delete-user="deleteUser"
@@ -78,54 +78,43 @@ export default {
 		// Méthode pour changer le rôle d'un utilisateur
 		async changeUserRole(userId, newRole) {
 			try {
-				await axios.put(`http://localhost:3000/api/users/${userId}/role`, {
-					role: newRole,
-				});
+				await axios.put(
+					`http://localhost:3000/api/user/role/${userId}`,
+					{
+						role: newRole,
+					}
+				);
 				alert(`Utilisateur mis à jour avec succès vers ${newRole}`);
 				this.refreshUsers();
 			} catch (error) {
-				console.error(
-					`Error updating user:`,
-					error
-				);
+				console.error(`Error updating user:`, error);
 			}
 		},
 
 		// Méthode pour supprimer un utilisateur
 		async deleteUser(userId) {
 			try {
-				await axios.delete(`http://localhost:3000/api/users/${userId}`);
+				await axios.delete(`http://localhost:3000/api/user/delete/${userId}`);
 				alert('User successfully deleted');
 				this.refreshUsers();
 			} catch (error) {
-				console.error(
-					"Error deleting user:",
-					error
-				);
+				console.error('Error deleting user:', error);
 			}
 		},
 
 		// Méthode pour récupérer et initialiser les utilisateurs
 		async refreshUsers() {
 			try {
-				const response = await axios.get('http://localhost:3000/api/users');
+				const response = await axios.get('http://localhost:3000/api/user/all');
 				this.users = response.data;
 			} catch (error) {
-				console.error(
-					'Error fetching users:',
-					error
-				);
+				console.error('Error fetching users:', error);
 			}
 		},
 
 		// Méthode pour filtrer les utilisateurs par rôle
 		filterUsersByRole(role) {
-			return this.users.filter(
-				user =>
-					user.Register &&
-					user.Register.Role &&
-					user.Register.Role.role === role
-			);
+			return this.users.filter(user => user.Role && user.Role.role === role);
 		},
 
 		// Méthode pour filtrer les utilisateurs par requête de recherche

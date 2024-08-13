@@ -38,7 +38,7 @@ export default {
 
 			try {
 				const response = await axios.post(
-					'http://localhost:3000/api/users/login',
+					'http://localhost:3000/api/auth/login',
 					{
 						email,
 						password,
@@ -59,7 +59,7 @@ export default {
 
 				this.$store.dispatch('login', { user, token, role });
 
-				if (role === 'admin' || role === 'responsable') {
+				if (role === 'admin' || role === 'manager') {
 					this.$router.push({ name: 'Dashbord' });
 				} else if (role === 'client') {
 					this.$router.push('/');

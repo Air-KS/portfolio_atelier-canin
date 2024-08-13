@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true, // Permettre que ce champ soit NULL
         references: {
-          model: 'Register',
+          model: 'Users',
           key: 'id',
         },
         onDelete: 'CASCADE',

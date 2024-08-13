@@ -3,8 +3,8 @@
 */
 
 const express = require("express");
-const usersctrl = require('../routes/usersctrl'); // Chemin corrigé
-const usersinfoctrl = require('../routes/usersinfoctrl');
+const authctrl = require('../routes/authctrl');
+const userctrl = require('../routes/userctrl');
 const services = require('../routes/services');
 const appointments = require('../routes/appointments');
 
@@ -12,22 +12,11 @@ exports.router = (function () {
   // Création du routeur
   var apiRouter = express.Router();
 
-  // Définition des routes liées aux utilisateurs
-  apiRouter.route("/users/register").post(usersctrl.register);
-  apiRouter.route("/users/login").post(usersctrl.login);
-  apiRouter.route("/users/:id").delete(usersctrl.userdelete);
-  apiRouter.route("/users/reset").put(usersctrl.resetpassword);
-  apiRouter.route("/users/logout").post(usersctrl.UserLogout);
+  // Définition des routes liées à l'authentification
+  apiRouter.use('/auth', authctrl); // Montage direct des routes auth
 
-  // Routes pour les informations utilisateur
-  apiRouter.route("/users/:id").get(usersinfoctrl.getUserProfile);
-  apiRouter.route("/users/:id").put(usersinfoctrl.updateUserProfile);
-  apiRouter.route('/users/:id/role').put(usersinfoctrl.updateUserRole);
-  apiRouter.route("/users").get(usersinfoctrl.getAllUsers);
-
-  apiRouter.route("/users/verify").post(usersctrl.verifyCode);
-  apiRouter.route("/users/resend-code").post(usersctrl.resendCode);
-  apiRouter.route("/users/complete-registration").post(usersctrl.completeRegistration);
+  // Routes pour la gestion des utilisateurs
+  apiRouter.use('/user', userctrl); // Montage direct des routes user
 
   // Routes pour les services
   apiRouter.use('/services', services);

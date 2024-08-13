@@ -7,7 +7,7 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Appointment extends Model {
     static associate(models) {
-      Appointment.belongsTo(models.Register, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Appointment.belongsTo(models.User, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
       Appointment.belongsTo(models.Service, { foreignKey: 'service_id', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
     }
   }
@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'Register',
+        model: 'Users',
         key: 'id',
       },
       onDelete: 'CASCADE',

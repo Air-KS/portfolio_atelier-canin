@@ -1,4 +1,4 @@
-// backend/seeders/20240616-insert-register.js
+// backend/seeders/20240616-insert-admin.js
 
 'use strict';
 const bcrypt = require('bcrypt');
@@ -6,13 +6,13 @@ const bcrypt = require('bcrypt');
 module.exports = {
   async up(queryInterface, Sequelize) {
     try {
-      const existingUser1 = await queryInterface.rawSelect('Register', {
+      const existingUser1 = await queryInterface.rawSelect('Users', {
         where: {
           email: 'kevin@gmail.com',
         },
       }, ['id']);
 
-      const existingUser2 = await queryInterface.rawSelect('Register', {
+      const existingUser2 = await queryInterface.rawSelect('Users', {
         where: {
           email: 'jerome@gmail.com',
         },
@@ -26,7 +26,7 @@ module.exports = {
       const hashedPassword1 = await bcrypt.hash('password1', 10);
       const hashedPassword2 = await bcrypt.hash('password2', 10);
 
-      await queryInterface.bulkInsert('Register', [
+      await queryInterface.bulkInsert('Users', [
         {
           email: 'jerome@gmail.com',
           password: hashedPassword1,
@@ -43,24 +43,6 @@ module.exports = {
         }
       ]);
 
-      // Récupérer les enregistrements insérés
-      const newRegisters = await queryInterface.sequelize.query(
-        'SELECT id, email, role_id FROM Register WHERE email IN (:emails)',
-        {
-          type: Sequelize.QueryTypes.SELECT,
-          replacements: { emails: ['kevin@gmail.com', 'jerome@gmail.com'] }
-        }
-      );
-
-      const usersInfoData = newRegisters.map(register => ({
-        register_id: register.id,
-        email: register.email,
-        role_id: register.role_id,
-        created_at: new Date(),
-        updated_at: new Date()
-      }));
-
-      await queryInterface.bulkInsert('UsersInfo', usersInfoData, {});
       console.log('Users inserted successfully');
     } catch (error) {
       console.error('Error inserting users:', error.message);
@@ -70,8 +52,9 @@ module.exports = {
 
   async down(queryInterface) {
     try {
-      await queryInterface.bulkDelete('UsersInfo', null, {});
-      await queryInterface.bulkDelete('Register', null, {});
+      await queryInterface.bulkDelete('Users', {
+        email: ['kevin@gmail.com', 'jerome@gmail.com']
+      }, {});
       console.log('Users deleted successfully');
     } catch (error) {
       console.error('Error deleting users:', error.message);

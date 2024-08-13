@@ -43,7 +43,7 @@ const store = createStore({
       localStorage.setItem('role', role);
       commit('setLoginState', { isLoggedIn: true, user: { ...user, token, role } });
       try {
-        const response = await axios.get(`http://localhost:3000/api/users/${user.id}`);
+        const response = await axios.get(`http://localhost:3000/api/user/profile/${user.id}`);
         const userInfo = response.data;
         commit('setLoginState', { isLoggedIn: true, user: { ...user, ...userInfo, token, role } });
       } catch (error) {
@@ -59,7 +59,7 @@ const store = createStore({
       const role = localStorage.getItem('role');
       if (token && user) {
         try {
-          const response = await axios.get(`http://localhost:3000/api/users/${user.id}`);
+          const response = await axios.get(`http://localhost:3000/api/user/profile/${user.id}`);
           const userInfo = response.data;
           commit('setLoginState', { isLoggedIn: true, user: { ...user, ...userInfo, token, role } });
         } catch (error) {
