@@ -1,4 +1,4 @@
-// backend/seeders/20240616-insert-register.js
+// backend/seeders/20240616-insert-admin.js
 
 'use strict';
 const bcrypt = require('bcrypt');
@@ -43,24 +43,6 @@ module.exports = {
         }
       ]);
 
-      // Récupérer les enregistrements insérés
-      const newRegisters = await queryInterface.sequelize.query(
-        'SELECT id, email, role_id FROM Register WHERE email IN (:emails)',
-        {
-          type: Sequelize.QueryTypes.SELECT,
-          replacements: { emails: ['kevin@gmail.com', 'jerome@gmail.com'] }
-        }
-      );
-
-      const usersInfoData = newRegisters.map(register => ({
-        register_id: register.id,
-        email: register.email,
-        role_id: register.role_id,
-        created_at: new Date(),
-        updated_at: new Date()
-      }));
-
-      await queryInterface.bulkInsert('UsersInfo', usersInfoData, {});
       console.log('Users inserted successfully');
     } catch (error) {
       console.error('Error inserting users:', error.message);
@@ -70,8 +52,9 @@ module.exports = {
 
   async down(queryInterface) {
     try {
-      await queryInterface.bulkDelete('UsersInfo', null, {});
-      await queryInterface.bulkDelete('Users', null, {});
+      await queryInterface.bulkDelete('Users', {
+        email: ['kevin@gmail.com', 'jerome@gmail.com']
+      }, {});
       console.log('Users deleted successfully');
     } catch (error) {
       console.error('Error deleting users:', error.message);
