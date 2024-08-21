@@ -192,6 +192,7 @@ h3 {
 
 #calendar {
 	width: 95%;
+	margin: 20px;
 	padding: 20px;
 	border-radius: 5%;
 	border: 2px solid var(--color-border);

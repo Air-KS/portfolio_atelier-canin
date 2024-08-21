@@ -16,12 +16,13 @@
 				@click="currentPage = page"
 			/>
 		</div>
-		<CalendarStep
+		<div class="separatorLocal"></div>
+		<ServiceStep
 			v-if="currentPage === 1"
 			:appointment="appointment"
 			@next-step="currentPage = 2"
 		/>
-		<ServiceStep v-else-if="currentPage === 2" @next-step="currentPage = 3" />
+		<CalendarStep v-else-if="currentPage === 2" @next-step="currentPage = 3" />
 		<InfoStep
 			v-else-if="currentPage === 3"
 			:appointment="appointment"
@@ -33,8 +34,8 @@
 
   <script>
 import { ref, watch, onMounted } from 'vue';
-import CalendarStep from './1CalendarStep.vue';
-import ServiceStep from './2ServiceStep.vue';
+import ServiceStep from './1ServiceStep.vue';
+import CalendarStep from './2CalendarStep.vue';
 import InfoStep from './3InfoStep.vue';
 import PaymentStep from './4PaymentStep.vue';
 
@@ -101,8 +102,8 @@ export default {
 
   <style>
 .pag-container {
-	width: 100%;
-	border: 1px solid black;
+	width: 20%;
+	margin-right: 17px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -112,6 +113,12 @@ export default {
 .pag-container img {
 	width: 60px;
 	cursor: pointer;
+}
+
+.separatorLocal {
+	width: 40%;
+	margin: 0 auto;
+	border-bottom: 1px solid var(--color-hover);
 }
 
 @media (min-width: 600px) and (max-width: 1024px) {
