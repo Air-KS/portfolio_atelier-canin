@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/popup/booknow/1CalendarStep.vue
+	./frontend/src/components/popup/booknow/2CalendarStep.vue
 -->
 
 <template>
@@ -135,7 +135,7 @@ export default {
 				event => event.color === 'blue'
 			);
 			if (eventIndex !== -1) {
-				calendarOptions.value.events.splice(eventIndex, 1);
+				calendarOptions.value.events.splice(eventIndex, 2);
 			}
 
 			calendarOptions.value.events.push(newEvent);
@@ -151,7 +151,7 @@ export default {
 				event => event.color === 'blue'
 			);
 			if (eventIndex !== -1) {
-				calendarOptions.value.events.splice(eventIndex, 1);
+				calendarOptions.value.events.splice(eventIndex, 2);
 			}
 			appointment_time.value = '';
 			props.appointment.appointment_time = '';

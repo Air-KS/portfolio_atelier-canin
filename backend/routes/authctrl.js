@@ -18,9 +18,9 @@ const passwordREGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$
 // Inscription d'un nouvel utilisateur
 router.post('/register', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { first_name, email, password } = req.body;
 
-    if (!email || !password) {
+    if (!first_name || !email || !password) {
       return res.status(400).json({ error: "Required fields are missing." });
     }
 
@@ -47,6 +47,7 @@ router.post('/register', async (req, res) => {
 
     req.session.verificationCode = verificationCode;
     req.session.verificationCodeExpiry = verificationCodeExpiry;
+    req.session.first_name = first_name
     req.session.email = email;
     req.session.password = password;
 
@@ -88,6 +89,7 @@ router.post('/verifyCode', async (req, res) => {
       const newUser = await User.create({
           email: req.session.email,
           password: bcryptedPassword,
+          first_name: req.session.first_name,
           role_id: 1 // Par défaut, 'client'
       });
 
@@ -96,7 +98,7 @@ router.post('/verifyCode', async (req, res) => {
       return res.status(200).json({
           message: "Vérification réussie.",
           token: token,
-          user: { id: newUser.id, email: newUser.email },
+          user: { id: newUser.id, first_name: newUser.first_name, email: newUser.email },
           role: "client"
       });
   } catch (error) {
@@ -138,7 +140,7 @@ router.post('/resend-code', async (req, res) => {
 // Ajout de la méthode completeRegistrationq
 router.post('/complete-registration', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { first_name, email, password } = req.body;
 
     const userFound = await User.findOne({ where: { email: email } });
     if (!userFound) {

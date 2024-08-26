@@ -4,134 +4,160 @@
 
 <template>
 	<div class="auth-container">
-	  <div class="auth-form">
-		<form @submit.prevent="handleSubmit">
-		  <h2>{{ formTitle }}</h2>
-		  <div class="separator"></div>
-		  <div class="form-group" style="padding-top: 30px">
-			<label for="email" class="textInput">E-mail</label>
-			<input
-			  type="email"
-			  id="email"
-			  v-model="email"
-			  required
-			  title="Entrez votre mail"
-			  placeholder="E-mail"
-			/>
-		  </div>
-		  <div class="form-group password-group">
-			<label for="password" class="textInput">Password</label>
-			<div class="password-container">
-			  <input
-				:type="showPassword ? 'text' : 'password'"
-				id="password"
-				v-model="password"
-				class="password-input"
-				required
-				title="Entrez votre mot de passe"
-				placeholder="Password"
-			  />
-			  <i
-				@click="toggleShowPassword"
-				:class="
-				  showPassword
-					? 'fa-solid fa-eye eye-iconOpen'
-					: 'fa-solid fa-eye-slash eye-iconClose'
-				"
-			  ></i>
-			</div>
-		  </div>
-		  <div v-if="isRegister">
-			<div class="form-group password-group">
-			  <label for="confirmPassword" class="textInput">
-				Confirm Password
-			  </label>
-			  <div class="password-container">
-				<input
-				  :type="showPassword ? 'text' : 'password'"
-				  id="confirmPassword"
-				  v-model="confirmPassword"
-				  class="password-input"
-				  required
-				  title="Répétez votre mot de passe"
-				  placeholder="Repeat your Password"
-				/>
-			  </div>
-			</div>
-		  </div>
-		  <div v-if="!isRegister" class="forgot-password-container">
-			<a href="#" @click.prevent="forgotPassword" class="forgot-passwordText">
-			  Forgot Password ?
-			</a>
-		  </div>
-		  <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-		  <button class="button" :class="{ disabled: isResending }" type="submit" :disabled="isResending">
-			{{ buttonText }}
-		  </button>
-		  <div class="separator"></div>
-		  <div class="link-container">
-			<span>{{ switchText }}</span>
-			<router-link :to="switchLink">{{ switchLinkText }}</router-link>
-		  </div>
-		</form>
-	  </div>
+		<div class="auth-form">
+			<form @submit.prevent="handleSubmit">
+				<h2>{{ formTitle }}</h2>
+				<div class="separator"></div>
+
+				<div class="form-group" style="padding-top: 30px">
+					<div v-if="isRegister">
+						<label for="name" class="textInput">Name</label>
+						<input
+							id="name"
+							v-model="name"
+							required
+							title="Enter your Name"
+							placeholder="Name"
+						/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="email" class="textInput">E-mail</label>
+					<input
+						type="email"
+						id="email"
+						v-model="email"
+						required
+						title="Enter your E-mail"
+						placeholder="E-mail"
+					/>
+				</div>
+
+				<div class="form-group password-group">
+					<label for="password" class="textInput">Password</label>
+					<div class="password-container">
+						<input
+							:type="showPassword ? 'text' : 'password'"
+							id="password"
+							v-model="password"
+							class="password-input"
+							required
+							title="Enter your Password"
+							placeholder="Password"
+						/>
+						<i
+							@click="toggleShowPassword"
+							:class="
+								showPassword
+									? 'fa-solid fa-eye eye-iconOpen'
+									: 'fa-solid fa-eye-slash eye-iconClose'
+							"
+						></i>
+					</div>
+				</div>
+				<div v-if="isRegister">
+					<div class="form-group password-group">
+						<label for="confirmPassword" class="textInput">
+							Confirm Password
+						</label>
+						<div class="password-container">
+							<input
+								:type="showPassword ? 'text' : 'password'"
+								id="confirmPassword"
+								v-model="confirmPassword"
+								class="password-input"
+								required
+								title="Repeat your Password"
+								placeholder="Repeat your Password"
+							/>
+						</div>
+					</div>
+				</div>
+				<div v-if="!isRegister" class="forgot-password-container">
+					<a
+						href="#"
+						@click.prevent="forgotPassword"
+						class="forgot-passwordText"
+					>
+						Forgot Password ?
+					</a>
+				</div>
+
+				<div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+				<button
+					class="button"
+					:class="{ disabled: isResending }"
+					type="submit"
+					:disabled="isResending"
+				>
+					{{ buttonText }}
+				</button>
+				<div class="separator"></div>
+				<div class="link-container">
+					<span>{{ switchText }}</span>
+					<router-link :to="switchLink">{{ switchLinkText }}</router-link>
+				</div>
+			</form>
+		</div>
 	</div>
-  </template>
+</template>
 
 <script>
 export default {
-  props: {
-    errorMessage: String,
-    isRegister: Boolean,
-    isResending: Boolean,  // Recevoir isResending en tant que prop
-  },
-  data() {
-    return {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      showPassword: false,
-    };
-  },
-  computed: {
-    formTitle() {
-      return this.isRegister ? 'Register' : 'Log In';
-    },
-    buttonText() {
-      return this.isRegister ? 'Register' : 'Log In';
-    },
-    switchText() {
-      return this.isRegister
-        ? 'You have an AtlCanin account ?'
-        : "Don't have an AtlCanin account ?";
-    },
-    switchLink() {
-      return this.isRegister ? '/login' : '/register';
-    },
-    switchLinkText() {
-      return this.isRegister ? 'Log In' : 'Sign Up';
-    },
-  },
-  methods: {
-    handleSubmit() {
-      // L'événement register/login est émis vers le parent
-      if (this.isRegister) {
-        this.$emit('register', {
-          email: this.email,
-          password: this.password,
-          confirmPassword: this.confirmPassword,
-        });
-      } else {
-        this.$emit('login', { email: this.email, password: this.password });
-      }
-    },
-    toggleShowPassword() {
-      this.showPassword = !this.showPassword;
-    },
-    forgotPassword() {
-      console.log('Mot de passe oublié');
-    },
-  },
+	props: {
+		errorMessage: String,
+		isRegister: Boolean,
+		isResending: Boolean, // Recevoir isResending en tant que prop
+	},
+	data() {
+		return {
+			name: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
+			showPassword: false,
+		};
+	},
+	computed: {
+		formTitle() {
+			return this.isRegister ? 'Register' : 'Log In';
+		},
+		buttonText() {
+			return this.isRegister ? 'Register' : 'Log In';
+		},
+		switchText() {
+			return this.isRegister
+				? 'You have an AtlCanin account ?'
+				: "Don't have an AtlCanin account ?";
+		},
+		switchLink() {
+			return this.isRegister ? '/login' : '/register';
+		},
+		switchLinkText() {
+			return this.isRegister ? 'Log In' : 'Sign Up';
+		},
+	},
+	methods: {
+		handleSubmit() {
+			// L'événement register/login est émis vers le parent
+			if (this.isRegister) {
+				this.$emit('register', {
+					name: this.name,
+					email: this.email,
+					password: this.password,
+					confirmPassword: this.confirmPassword,
+				});
+			} else {
+				this.$emit('login', { email: this.email, password: this.password });
+			}
+		},
+		toggleShowPassword() {
+			this.showPassword = !this.showPassword;
+		},
+		forgotPassword() {
+			console.log('Mot de passe oublié');
+		},
+	},
 };
 </script>
 

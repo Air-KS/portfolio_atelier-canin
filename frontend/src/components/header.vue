@@ -29,7 +29,7 @@
 						</router-link>
 					</li>
 					<li class="nav-menu-item" v-else>
-						<div @click="openPopup('booknow')" class="nav-menu-link apply">
+						<div @click="handleBookNow" class="nav-menu-link apply">
 							Book Now
 						</div>
 					</li>
@@ -162,6 +162,13 @@ export default {
 		},
 		toggleMenu() {
 			this.isMenuOpen = !this.isMenuOpen;
+		},
+		handleBookNow() {
+			if (this.isLoggedIn) {
+				this.openPopup('booknow');
+			} else {
+				this.$router.push('/login');
+			}
 		},
 		openPopup(type) {
 			if (type === 'contact') {

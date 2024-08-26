@@ -17,12 +17,12 @@
 			/>
 		</div>
 		<div class="separatorLocal"></div>
-		<ServiceStep
-			v-if="currentPage === 1"
+		<ServiceStep v-if="currentPage === 1" @next-step="currentPage = 2" />
+		<CalendarStep
+			v-else-if="currentPage === 2"
 			:appointment="appointment"
-			@next-step="currentPage = 2"
+			@next-step="currentPage = 3"
 		/>
-		<CalendarStep v-else-if="currentPage === 2" @next-step="currentPage = 3" />
 		<InfoStep
 			v-else-if="currentPage === 3"
 			:appointment="appointment"
