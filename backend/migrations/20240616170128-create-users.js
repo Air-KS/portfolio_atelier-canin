@@ -5,7 +5,7 @@
 'use strict';
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {  // Création de la table 'Users'
       id: {
         type: Sequelize.INTEGER,
@@ -26,7 +26,7 @@ module.exports = {
       },
       first_name: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       last_name: {
         type: Sequelize.STRING,
@@ -82,7 +82,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');  // Suppression de la table 'Users' si on fait un rollback
   }
 };

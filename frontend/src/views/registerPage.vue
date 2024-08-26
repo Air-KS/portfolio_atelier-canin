@@ -35,7 +35,7 @@
 	  };
 	},
 	methods: {
-  async register({ email, password, confirmPassword }) {
+  async register({ name, email, password, confirmPassword }) {
     // Le bouton est désactivé ici en passant isResending à true
     this.isResending = true;
     this.errorMessage = '';
@@ -46,6 +46,7 @@
       return;
     }
 
+	this.name = name;
     this.email = email;
     this.password = password;
 
@@ -53,9 +54,11 @@
 
     try {
       await axios.post('http://localhost:3000/api/auth/register', {
+		first_name: name,
         email,
         password,
       }, { withCredentials: true });
+	  
       this.$router.push({ name: 'VerifyCode', query: { email: this.email } });
       console.log('Route object:', this.$route);
     } catch (error) {

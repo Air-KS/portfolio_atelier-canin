@@ -20,6 +20,10 @@ Migration sequelize pour les tables de la base de donnée
 yarn sequelize-cli db:migrate
 yarn sequelize-cli db:seed:all
 
+Si on modifie la base de donnée et qu'on souhaite la mettre à jours sans tout effacer
+yarn sequelize migration:create --name modify-ajoute-une-description     "Comme pour un commit"
+yarn sequelize-cli db:migrate     pour mettre à jours les colonnes    "Comme un push"
+
 Lancer le server une fois tout installer
 node server.js
 
