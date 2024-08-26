@@ -13,7 +13,9 @@
 			<nav>
 				<ul class="nav-menu" :class="{ open: isMenuOpen }">
 					<li class="nav-menu-item">
-						<a href="#" class="nav-menu-link">Prices & Services</a>
+						<router-link to="/services" class="nav-menu-link">
+							Services
+						</router-link>
 					</li>
 					<li class="nav-menu-item">
 						<a href="#" class="nav-menu-link">Location</a>
