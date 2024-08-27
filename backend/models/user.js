@@ -19,6 +19,15 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Roles',
+        key: 'id',
+      },
+      defaultValue: 1,  // Par défaut, 'client'
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,10 +35,6 @@ module.exports = (sequelize) => {
       validate: {
         isEmail: true,
       },
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     first_name: {
       type: DataTypes.STRING,
@@ -47,34 +52,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    address_one: {
+    password: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    address_two: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    city: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    zip_code: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    country: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    role_id: {
-      type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'Roles',
-        key: 'id',
-      },
-      defaultValue: 1,  // Par défaut, 'client'
     },
     created_at: {
       type: DataTypes.DATE,

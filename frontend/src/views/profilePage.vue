@@ -56,56 +56,6 @@
 					placeholder="0607080910"
 				/>
 			</div>
-			<div>
-				<label for="address_one">Address:</label>
-				<input
-					id="address_one"
-					type="text"
-					v-model="user.address_one"
-					title="Enter your address"
-					placeholder="123 Rue Example"
-				/>
-			</div>
-			<div>
-				<label for="address_two">Secondary Address:</label>
-				<input
-					id="address_two"
-					type="text"
-					v-model="user.address_two"
-					title="Enter your secondary address (if applicable)"
-					placeholder="Apartment 4B"
-				/>
-			</div>
-			<div>
-				<label for="zip_code">Zip Code:</label>
-				<input
-					id="zip_code"
-					type="text"
-					v-model="user.zip_code"
-					title="Enter your zip code"
-					placeholder="75001"
-				/>
-			</div>
-			<div>
-				<label for="city">City:</label>
-				<input
-					id="city"
-					type="text"
-					v-model="user.city"
-					title="Enter your city"
-					placeholder="Paris"
-				/>
-			</div>
-			<div>
-				<label for="country">Country:</label>
-				<input
-					id="country"
-					type="text"
-					v-model="user.country"
-					title="Enter your country"
-					placeholder="France"
-				/>
-			</div>
 			<button class="button" type="submit">Save</button>
 		</form>
 	</div>
@@ -118,6 +68,7 @@ export default {
 	name: 'ProfilePage',
 	created() {
 		document.title = 'AtlCanin - Profile';
+		this.fetchUserProfile();
 	},
 	data() {
 		return {
@@ -127,16 +78,8 @@ export default {
 				date_of_birth: '',
 				email: '',
 				phone: '',
-				address_one: '',
-				address_two: '',
-				zip_code: '',
-				city: '',
-				country: '',
 			},
 		};
-	},
-	created() {
-		this.fetchUserProfile();
 	},
 	methods: {
 		async fetchUserProfile() {

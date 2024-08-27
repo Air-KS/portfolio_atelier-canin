@@ -12,6 +12,15 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
+      role_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Roles',  // Référence à la table 'Roles'
+          key: 'id',
+        },
+        defaultValue: 1,  // Par défaut, 'client'
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -19,10 +28,6 @@ module.exports = {
         validate: {
           isEmail: true,
         },
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
       },
       first_name: {
         type: Sequelize.STRING,
@@ -40,34 +45,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      address_one: {
+      password: {
         type: Sequelize.STRING,
-        allowNull: true,
-      },
-      address_two: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      city: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      zip_code: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      country: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      role_id: {
-        type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'Roles',  // Référence à la table 'Roles'
-          key: 'id',
-        },
-        defaultValue: 1,  // Par défaut, 'client'
       },
       created_at: {
         type: Sequelize.DATE,

@@ -65,9 +65,7 @@ router.post('/', async (req, res) => {
 
     let appointmentData = {
       first_name: req.body.first_name,
-      last_name: req.body.last_name,
       email: req.body.email,
-      phone: req.body.phone,
       appointment_time: req.body.appointment_time,
       status: 'confirmed',
     };
@@ -85,18 +83,12 @@ router.post('/', async (req, res) => {
       if (userInfo.first_name) {
         appointmentData.first_name = userInfo.first_name;
       }
-      if (userInfo.last_name) {
-        appointmentData.last_name = userInfo.last_name;
-      }
       if (userInfo.email) {
         appointmentData.email = userInfo.email;
       }
-      if (userInfo.phone) {
-        appointmentData.phone = userInfo.phone;
-      }
       appointmentData.user_id = req.body.user_id;
     } else {
-      if (!req.body.first_name || !req.body.last_name || !req.body.email || !req.body.phone) {
+      if (!req.body.first_name || !req.body.email || !req.body.phone) {
         return res.status(400).json({ error: 'First name, last name, email and phone number are required for non-registered users' });
       }
       appointmentData.user_id = null;

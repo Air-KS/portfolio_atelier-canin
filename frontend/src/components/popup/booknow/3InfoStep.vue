@@ -9,7 +9,7 @@
 			/!\ If your information is incorrect, please update your profile. /!\
 		</p>
 		<div class="form-group">
-			<label for="first_name">First Name</label>
+			<label for="first_name">Name</label>
 			<input
 				type="text"
 				v-model="appointment.first_name"
@@ -18,21 +18,8 @@
 			/>
 		</div>
 		<div class="form-group">
-			<label for="last_name">Last Name</label>
-			<input
-				type="text"
-				v-model="appointment.last_name"
-				id="last_name"
-				disabled
-			/>
-		</div>
-		<div class="form-group">
 			<label for="email">Email</label>
 			<input type="email" v-model="appointment.email" id="email" disabled />
-		</div>
-		<div class="form-group">
-			<label for="phone">Phone</label>
-			<input type="text" v-model="appointment.phone" id="phone" disabled />
 		</div>
 		<button class="button" @click="goToNextStep">Next</button>
 	</div>

@@ -18,11 +18,6 @@ router.get('/profile/:id', async (req, res) => {
         'date_of_birth',
         'email',
         'phone',
-        'address_one',
-        'address_two',
-        'zip_code',
-        'city',
-        'country'
       ]
     });
     if (user) {
@@ -44,9 +39,9 @@ router.put('/profile/:id', async (req, res) => {
     console.log('Updating user with ID:', userId);
     console.log('Request body:', req.body);
 
-    const { first_name, last_name, date_of_birth, email, phone, address_one, address_two, zip_code, city, country } = req.body;
+    const { first_name, last_name, date_of_birth, email, phone } = req.body;
     const updatedUser = await User.update(
-      { first_name, last_name, date_of_birth, email, phone, address_one, address_two, zip_code, city, country },
+      { first_name, last_name, date_of_birth, email, phone },
       { where: { id: userId } }
     );
     if (updatedUser[0] === 1) {

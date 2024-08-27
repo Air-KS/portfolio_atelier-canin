@@ -10,15 +10,11 @@
 			<thead>
 				<tr>
 					<th>Profil</th>
-					<th>Last name</th>
-					<th>First name</th>
-					<th>Date of Birth</th>
 					<th>Email</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Date of Birth</th>
 					<th v-if="role !== 'admin'">Phone</th>
-					<th v-if="role !== 'admin'">Address</th>
-					<th>Zip code</th>
-					<th>City</th>
-					<th>Country</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -31,15 +27,11 @@
 							<i class="fas fa-user profile-icon"></i>
 						</router-link>
 					</td>
-					<td>{{ user.last_name }}</td>
-					<td>{{ user.first_name }}</td>
-					<td>{{ user.date_of_birth }}</td>
 					<td>{{ user.email }}</td>
+					<td>{{ user.first_name }}</td>
+					<td>{{ user.last_name }}</td>
+					<td>{{ user.date_of_birth }}</td>
 					<td v-if="role !== 'admin'">{{ user.phone }}</td>
-					<td v-if="role !== 'admin'">{{ user.adress }}</td>
-					<td>{{ user.zip_code }}</td>
-					<td>{{ user.city }}</td>
-					<td>{{ user.country }}</td>
 					<td>
 						<!-- Actions pour le rôle 'admin -->
 						<div v-if="userRole === 'admin'">

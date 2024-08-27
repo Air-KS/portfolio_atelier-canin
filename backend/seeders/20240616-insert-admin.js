@@ -28,6 +28,7 @@ module.exports = {
 
       await queryInterface.bulkInsert('Users', [
         {
+          first_name: 'Jérôme',
           email: 'jerome@gmail.com',
           password: hashedPassword1,
           role_id: 3, // admin
@@ -35,6 +36,7 @@ module.exports = {
           updated_at: new Date()
         },
         {
+          first_name: 'Kevin',
           email: 'kevin@gmail.com',
           password: hashedPassword2,
           role_id: 3, // admin

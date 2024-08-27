@@ -5,10 +5,8 @@
 <template>
 	<div>
 		<p>Summary</p>
-		<p>Last Name: {{ appointment.last_name }}</p>
-		<p>First Name: {{ appointment.first_name }}</p>
+		<p>Name: {{ appointment.first_name }}</p>
 		<p>Email: {{ appointment.email }}</p>
-		<p>Phone: {{ appointment.phone }}</p>
 		<p>
 			Appointment Date and Time:
 			{{ formatDate(appointment.appointment_time) }}
