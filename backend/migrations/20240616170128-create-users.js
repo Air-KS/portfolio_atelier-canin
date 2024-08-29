@@ -38,7 +38,7 @@ module.exports = {
         allowNull: true,
       },
       date_of_birth: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: true,
       },
       phone: {
