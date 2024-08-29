@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { User, Role } = require('../models');
-const { sendVerificationEmail } = require('../emails/emailService');
+const { sendVerificationEmail } = require('../emails/verifyCode');
 require('dotenv').config();
 
 // Validation des données avec regex
