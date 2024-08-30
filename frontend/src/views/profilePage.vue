@@ -173,24 +173,31 @@ export default {
 	margin-bottom: 20px;
 }
 
+
+/* Style spécifique aux boutons des onglets pour s'aligner avec les autres */
 .tabs button {
-	padding: 10px 20px;
-	margin: 0 5px;
-	background-color: #e0e0e0;
-	color: #000;
-	border: 1px solid #ccc;
-	cursor: pointer;
+    background-color: #7c7e80;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    margin: 0 5px;
+    width: auto;
 }
 
 .tabs button.active {
-	background-color: #007bff;
-	color: white;
-	border-color: #007bff;
+    background-color: #4687af;
+    color: white;
+    border-color: #4687af;
 }
 
-.tabs .button:not(.active):hover {
-	background-color: #e0e0e0;
-	color: #ff5252;
+.tabs button:not(.active):hover {
+    background-color: red;
+    color: white;
 }
 
 .tab-content {
@@ -232,7 +239,7 @@ input {
 }
 
 input.email {
-	width : 80%;
+	width : 90%;
 }
 input::placeholder {
 	font-style: italic;
