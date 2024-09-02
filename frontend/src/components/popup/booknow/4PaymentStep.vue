@@ -48,6 +48,7 @@ export default {
 				});
 		};
 
+		// Modification pour afficher l'heure en format 24 heures
 		const formatDate = dateTimeString => {
 			const options = {
 				weekday: 'long',
@@ -56,13 +57,11 @@ export default {
 				day: 'numeric',
 				hour: 'numeric',
 				minute: 'numeric',
-				hour12: true,
+				hour12: false,
 			};
 			const date = new Date(dateTimeString);
 
-			date.setHours(date.getHours() - 2);
-
-			return date.toLocaleString('en-US', options);
+			return date.toLocaleString('fr-FR', options);
 		};
 
 		return { submitAppointment, formatDate, isSubmitting, submitButtonText };
