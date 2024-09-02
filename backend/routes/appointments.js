@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const { Op } = require('sequelize');
+const { booknowConfirmed } = require('../emails/BooknowConfirmed');
 
 // Route pour obtenir les créneaux horaires disponibles
 router.get('/available-timeslots', async (req, res) => {
@@ -46,19 +47,6 @@ router.get('/available-timeslots', async (req, res) => {
 });
 
 // Route pour obtenir tous les rendez-vous
-router.get('/', async (req, res) => {
-  try {
-    console.log('Récupération de tous les rendez-vous');
-    const appointments = await db.Appointment.findAll();
-    console.log('Rendez-vous trouvés :', appointments);
-    res.status(200).json(appointments);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des rendez-vous :', error.message);
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// Route pour créer un rendez-vous (directement confirmé)
 router.post('/', async (req, res) => {
   try {
     console.log('Création d\'un rendez-vous avec les données :', req.body);
@@ -67,6 +55,7 @@ router.post('/', async (req, res) => {
       first_name: req.body.first_name,
       email: req.body.email,
       appointment_time: req.body.appointment_time,
+      service_id: req.body.service_id,
       status: 'confirmed',
     };
 
@@ -88,20 +77,52 @@ router.post('/', async (req, res) => {
       }
       appointmentData.user_id = req.body.user_id;
     } else {
-      if (!req.body.first_name || !req.body.email || !req.body.phone) {
+      if (!req.body.first_name || !req.body.email) {
         return res.status(400).json({ error: 'First name, last name, email and phone number are required for non-registered users' });
       }
       appointmentData.user_id = null;
     }
 
+    // Définir 'appointment' correctement après sa création
     const appointment = await db.Appointment.create(appointmentData);
     console.log('Rendez-vous créé :', appointment);
+
+    // Vérifie que 'appointment' est bien défini
+    if (!appointment) {
+      throw new Error('Erreur lors de la création de l\'objet appointment.');
+    }
+
+    // Récupérer le service associé au rendez-vous
+    let serviceName = 'Aucun service choisi. Nous vous conseillerons sur place pour trouver le meilleur pour vous.'; // Valeur par défaut
+
+    if (appointment.service_id) {
+      const service = await db.Service.findByPk(appointment.service_id);
+      if (service) {
+        serviceName = service.name; // Utiliser le nom du service si trouvé
+      }
+    }
+
+    // Formatage de la date et heure
+    const appointmentDate = new Date(appointment.appointment_time).toLocaleDateString('fr-FR');
+    const appointmentTime = new Date(appointment.appointment_time).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+    // Appel de la fonction d'envoi de mail après la création du rendez-vous
+    await booknowConfirmed(
+      appointment.email,
+      appointment.first_name, // Nom
+      serviceName,            // Service
+      appointmentDate,        // Date
+      appointmentTime         // Heure
+    );
+
     res.status(201).json(appointment);
   } catch (error) {
     console.error('Erreur lors de la création du rendez-vous :', error.message);
     res.status(400).json({ error: error.message });
   }
 });
+
+module.exports = router;
 
 // Route pour obtenir un rendez-vous par ID
 router.get('/:id', async (req, res) => {
