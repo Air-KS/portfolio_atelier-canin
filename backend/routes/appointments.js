@@ -8,6 +8,17 @@ const db = require('../models');
 const { Op } = require('sequelize');
 const { booknowConfirmed } = require('../emails/BooknowConfirmed');
 
+// Route pour obtenir tous les rendez-vous
+router.get('/', async (req, res) => {
+  try {
+    const appointments = await db.Appointment.findAll();
+    res.status(200).json(appointments);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des rendez-vous :', error.message);
+    res.status(500).json({ error: 'An error occurred while fetching appointments' });
+  }
+});
+
 // Route pour obtenir les créneaux horaires disponibles
 router.get('/available-timeslots', async (req, res) => {
   try {

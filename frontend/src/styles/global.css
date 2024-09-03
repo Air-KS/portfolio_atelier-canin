@@ -169,3 +169,48 @@ input:focus {
 	color: red;
 	font-weight: bold;
 }
+
+/****
+  Tables
+*****/
+/* styles globales pour .custom-table */
+/* Styles spécifiques pour le conteneur Dashboard */
+.dashbord-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 50px;
+  width: 100%; /* Limite la largeur de ton conteneur */
+  max-width: 1024px; /* Définis une largeur maximale */
+  margin: 0 auto; /* Centre le conteneur par rapport à la page */
+}
+
+.custom-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1000px; /* Limite la largeur maximale de la table pour éviter l'étirement complet */
+  margin: 0 auto;
+}
+
+.custom-table th,
+.custom-table td {
+  border: 1px solid var(--color-border);
+  padding: 10px;
+  text-align: center;
+}
+
+.custom-table th {
+  background-color: #f2f2f2;
+}
+
+.custom-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.custom-table tr:hover {
+  background-color: var(--menu-color-hover);
+}
+
+.profile-icon {
+  color: #4687af;
+}
