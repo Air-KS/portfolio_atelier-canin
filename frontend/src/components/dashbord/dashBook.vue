@@ -29,7 +29,7 @@
 					<td>{{ appointment.id }}</td>
 					<td>{{ appointment.first_name }}</td>
 					<td>{{ appointment.email }}</td>
-					<td>{{ appointment.service_name || 'Aucun' }}</td>
+					<td>{{ appointment.service ? appointment.service.name : 'Aucun' }}</td>
 					<td>
 						{{
 							new Date(appointment.appointment_time).toLocaleDateString('fr-FR')
@@ -89,7 +89,7 @@ export default {
 				const appointmentData = `${appointment.first_name} ${
 					appointment.email
 				} ${
-					appointment.service_name || 'Aucun'
+					appointment.service ? appointment.service.name : 'Aucun'
 				} ${appointmentDate} ${appointmentTime} ${
 					appointment.status
 				}`.toLowerCase();
