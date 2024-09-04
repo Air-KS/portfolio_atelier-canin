@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
   class Appointment extends Model {
     static associate(models) {
       Appointment.belongsTo(models.User, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-      Appointment.belongsTo(models.Service, { foreignKey: 'service_id', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
+      Appointment.belongsTo(models.Service, { foreignKey: 'service_id', as: 'service', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
     }
   }
 

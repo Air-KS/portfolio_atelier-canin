@@ -177,16 +177,6 @@ export default {
 	align-items: center;
 }
 
-/* Formulaire d'authentification */
-.auth-form {
-	width: 400px;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid var(--color-border);
-	border-radius: 10px;
-	text-align: center;
-	box-shadow: 0 0 8px var(--color-border-shadow);
-}
 
 /* Groupe de champs de formulaire */
 .form-group {

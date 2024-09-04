@@ -93,7 +93,6 @@ export default {
 			const localDateTimeString = `${selectedDate.value} ${appointment_time.value}`;
 			const localDateTime = new Date(localDateTimeString);
 
-			// Vérification si la date et l'heure sont valides
 			if (isNaN(localDateTime.getTime())) {
 				alert("Erreur : la date ou l'heure est invalide");
 				return;
@@ -119,6 +118,9 @@ export default {
 
 			calendarOptions.value.events.push(newEvent);
 			props.appointment.appointment_time = localDateTime.toISOString();
+
+			// Mettre à jour les créneaux disponibles après la confirmation
+			fetchAvailableTimeslots(selectedDate.value);
 
 			// Emit next-step event
 			emit('next-step');
