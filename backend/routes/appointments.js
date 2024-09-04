@@ -11,7 +11,15 @@ const { booknowConfirmed } = require('../emails/BooknowConfirmed');
 // Route pour obtenir tous les rendez-vous
 router.get('/', async (req, res) => {
   try {
-    const appointments = await db.Appointment.findAll();
+    const appointments = await db.Appointment.findAll({
+      include: [
+        {
+          model: db.Service, // Inclure le modèle Service
+          as: 'service',
+          attributes: ['id', 'name'], // Sélectionner uniquement les attributs nécessaires
+        },
+      ],
+    });
     res.status(200).json(appointments);
   } catch (error) {
     console.error('Erreur lors de la récupération des rendez-vous :', error.message);
@@ -42,10 +50,17 @@ router.get('/available-timeslots', async (req, res) => {
       }
     });
 
+    // Récupérer les heures de rendez-vous déjà prises
     const bookedTimeslots = appointments.map(app => {
-      const time = new Date(app.appointment_time).toISOString().split('T')[1].substring(0, 5);
+      const time = new Date(app.appointment_time).toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
       return time;
     });
+
+    // Filtrer les créneaux disponibles en supprimant les créneaux déjà pris
     const availableTimeslots = timeslots.filter(timeslot => !bookedTimeslots.includes(timeslot));
 
     console.log(`Créneaux horaires disponibles pour le ${date}:`, availableTimeslots);
