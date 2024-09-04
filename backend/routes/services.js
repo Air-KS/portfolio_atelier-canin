@@ -9,11 +9,20 @@ const db = require('../models');
 // Route pour créer un service
 router.post('/', async (req, res) => {
   try {
-    console.log('Création d\'un service avec les données :', req.body);
+    // Log des données reçues du client
+    console.log('Création d\'un service avec les données suivantes :');
+    console.log(`Nom: ${req.body.name}`);
+    console.log(`Description: ${req.body.description}`);
+    console.log(`Prix: ${req.body.price}`);
+
+    // Création du service dans la base de données
     const service = await db.Service.create(req.body);
-    console.log('Service créé :', service);
+
+    // Log de confirmation de la création du service
+    console.log('Service créé avec succès :', service);
     res.status(201).json(service);
   } catch (error) {
+    // Log en cas d'erreur
     console.error('Erreur lors de la création du service :', error.message);
     res.status(400).json({ error: error.message });
   }
