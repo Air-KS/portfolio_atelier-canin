@@ -1,4 +1,7 @@
-<!-- ./frontend/src/views/services.vue -->
+<!--
+	./frontend/src/views/services.vue
+-->
+
 <template>
 	<section class="prices-services">
 		<div class="container">
@@ -14,7 +17,11 @@
 				</select>
 			</div>
 
-			<div class="service-section" v-for="service in services" :key="service.id">
+			<div
+				class="service-section"
+				v-for="service in services"
+				:key="service.id"
+			>
 				<div class="service-header">
 					<h2 class="service-title">{{ service.title }}</h2>
 					<p class="service-price">{{ service.items[selectedWeight].price }}</p>
@@ -35,7 +42,8 @@ export default {
 				{
 					id: 1,
 					title: 'Bain',
-					description: 'Un bain complet avec des produits adaptés à la peau et au pelage de votre animal.',
+					description:
+						'Un bain complet avec des produits adaptés à la peau et au pelage de votre animal.',
 					items: [
 						{ id: 1, price: '$20' },
 						{ id: 2, price: '$30' },
@@ -45,7 +53,8 @@ export default {
 				{
 					id: 2,
 					title: 'Brushing',
-					description: 'Un brossage soigneux pour éliminer les nœuds et rendre le pelage de votre animal doux et soyeux.',
+					description:
+						'Un brossage soigneux pour éliminer les nœuds et rendre le pelage de votre animal doux et soyeux.',
 					items: [
 						{ id: 1, price: '$15' },
 						{ id: 2, price: '$25' },
@@ -55,7 +64,8 @@ export default {
 				{
 					id: 3,
 					title: 'Coupe de Ciseaux',
-					description: 'Une coupe précise réalisée avec des ciseaux pour un look parfait.',
+					description:
+						'Une coupe précise réalisée avec des ciseaux pour un look parfait.',
 					items: [
 						{ id: 1, price: '$25' },
 						{ id: 2, price: '$35' },
@@ -65,7 +75,8 @@ export default {
 				{
 					id: 4,
 					title: 'Tonte',
-					description: 'Une tonte complète pour un pelage uniforme et facile à entretenir.',
+					description:
+						'Une tonte complète pour un pelage uniforme et facile à entretenir.',
 					items: [
 						{ id: 1, price: '$20' },
 						{ id: 2, price: '$30' },
@@ -85,7 +96,8 @@ export default {
 				{
 					id: 6,
 					title: 'Nettoyage des Yeux',
-					description: 'Nettoyage délicat des yeux pour prévenir les infections.',
+					description:
+						'Nettoyage délicat des yeux pour prévenir les infections.',
 					items: [
 						{ id: 1, price: '$10' },
 						{ id: 2, price: '$15' },
@@ -95,7 +107,8 @@ export default {
 				{
 					id: 7,
 					title: 'Nettoyage des Oreilles',
-					description: 'Nettoyage des oreilles pour maintenir une bonne hygiène et prévenir les infections.',
+					description:
+						'Nettoyage des oreilles pour maintenir une bonne hygiène et prévenir les infections.',
 					items: [
 						{ id: 1, price: '$10' },
 						{ id: 2, price: '$15' },
@@ -105,7 +118,8 @@ export default {
 				{
 					id: 8,
 					title: 'Coupe Ongles',
-					description: 'Coupe des ongles pour éviter les blessures et maintenir une bonne santé des pattes.',
+					description:
+						'Coupe des ongles pour éviter les blessures et maintenir une bonne santé des pattes.',
 					items: [
 						{ id: 1, price: '$10' },
 						{ id: 2, price: '$15' },
