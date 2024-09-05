@@ -86,11 +86,11 @@ h5 {
 
 
 .auth-container {
-	padding-top: 50px;
-	padding-bottom: 70px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  padding-top: 50px;
+  padding-bottom: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Formulaire d'authentification */
@@ -171,18 +171,17 @@ input:focus {
 }
 
 /****
-  Tables
+  Tableau
 *****/
-/* styles globales pour .custom-table */
 /* Styles spécifiques pour le conteneur Dashboard */
 .dashbord-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 50px;
-  width: 100%; /* Limite la largeur de ton conteneur */
-  max-width: 1024px; /* Définis une largeur maximale */
-  margin: 0 auto; /* Centre le conteneur par rapport à la page */
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 .custom-table {
@@ -214,3 +213,28 @@ input:focus {
 .profile-icon {
   color: #4687af;
 }
+
+/****
+  Tabs
+  -- Le styles des tabs
+*****/
+.tabs {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 50px;
+  }
+  .tab {
+	padding: 10px 20px;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	margin: 0 5px;
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+  }
+  .tab.active {
+	background-color: var(--color-button);
+	color: white;
+  }
+  .tab:hover {
+	background-color: var(--color-hover);
+  }
