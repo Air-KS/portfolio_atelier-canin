@@ -6,7 +6,6 @@
 	<div>
 		<home-top />
 		<home-Mid />
-		<home-Down />
 	</div>
 </template>
 
@@ -17,7 +16,7 @@ import HomeDown from '../components/homePage/homeDown.vue';
 // import axios from 'axios';
 
 export default {
-  components: { HomeTop, HomeMid, HomeDown },
+	components: { HomeTop, HomeMid, HomeDown },
 	name: 'HomePage',
 	created() {
 		document.title = 'AtlCanin - Home';
