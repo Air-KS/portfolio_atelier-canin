@@ -7,6 +7,7 @@ const authctrl = require('../routes/authctrl');
 const userctrl = require('../routes/userctrl');
 const services = require('../routes/services');
 const appointments = require('../routes/appointments');
+const stores = require('../routes/stores');
 
 exports.router = (function () {
   // Création du routeur
@@ -20,6 +21,9 @@ exports.router = (function () {
 
   // Routes pour les services
   apiRouter.use('/services', services);
+
+  // Routes pour le store
+  apiRouter.use('/stores', stores);
 
   // Routes pour les rendez-vous
   apiRouter.use('/appointments', appointments);
