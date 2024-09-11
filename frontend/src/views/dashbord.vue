@@ -9,7 +9,7 @@
 
 			<!-- Utilisation du composant DashTabs avec v-model -->
 			<DashTabs
-				:tabs="['Membres', 'Booknow', 'Settings']"
+				:tabs="['Membres', 'Booknow', 'Settings','Store']"
 				v-model="selectedTab"
 			/>
 
@@ -30,6 +30,11 @@
 			<div v-if="selectedTab === 'Settings'">
 				<DashSetting />
 			</div>
+
+			<div v-if="selectedTab === 'Store'">
+				<DashStore />
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -41,6 +46,7 @@ import DashMembers from '../components/dashbord/dashMembers.vue';
 import DashBook from '../components/dashbord/dashBook.vue';
 import DashSetting from '../components/dashbord/dashSetting.vue';
 import researchBar from '../components/researchBar.vue';
+import DashStore from '@/components/dashbord/dashStore.vue';
 
 export default {
 	name: 'Dashbord',
@@ -52,6 +58,7 @@ export default {
 		DashMembers,
 		DashBook,
 		DashSetting,
+		DashStore,
 		researchBar,
 	},
 	data() {
