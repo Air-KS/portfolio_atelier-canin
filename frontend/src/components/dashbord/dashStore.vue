@@ -11,7 +11,7 @@
 
 	  <!-- Formulaire pour ajouter un store -->
 	  <div v-if="showForm" class="form-container">
-		<form @submit.prevent="addstore" class="store-form">
+		<form @submit.prevent="addstore" class="settings-form">
 		  <div class="form-group">
 			<label for="name">Nom du store:</label>
 			<input type="text" v-model="store.name" id="name" required class="form-control" />
@@ -30,16 +30,16 @@
 
 	  <!-- Liste des store -->
 	  <div v-if="stores.length">
-		<h3 class="store-title">store disponibles :</h3>
-		<ul class="store-list">
-		  <li v-for="(store, index) in stores" :key="index" class="store-item">
-			<div class="store-header">
+		<h3 class="settings-title">store disponibles :</h3>
+		<ul class="settings-list">
+		  <li v-for="(store, index) in stores" :key="index" class="settings-item">
+			<div class="settings-header">
 			  <strong>{{ store.name }}</strong>
-			  <span class="store-price">{{ store.price }} €</span>
+			  <span class="settings-price">{{ store.price }} €</span>
 			</div>
 			<p>{{ store.description }}</p>
 			<!-- Boutons de modification et suppression -->
-			<div class="store-actions">
+			<div class="settings-actions">
 			  <button @click="editstore(store)" class="edit-btn">Modifier</button>
 			  <button @click="deletestore(store.id)" class="delete-btn">Supprimer</button>
 			</div>
