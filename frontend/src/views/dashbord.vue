@@ -28,7 +28,7 @@
 			</div>
 
 			<div v-if="selectedTab === 'Services'">
-				<DashSetting />
+				<DashServices />
 			</div>
 
 			<div v-if="selectedTab === 'Store'">
@@ -44,7 +44,7 @@ import axios from 'axios';
 import DashTabs from '../components/dashbord/dashTabs.vue';
 import DashMembers from '../components/dashbord/dashMembers.vue';
 import DashBook from '../components/dashbord/dashBook.vue';
-import DashSetting from '../components/dashbord/dashServices.vue';
+import DashServices from '../components/dashbord/dashServices.vue';
 import researchBar from '../components/researchBar.vue';
 import DashStore from '@/components/dashbord/dashStore.vue';
 
@@ -57,7 +57,7 @@ export default {
 		DashTabs,
 		DashMembers,
 		DashBook,
-		DashSetting,
+		DashServices,
 		DashStore,
 		researchBar,
 	},
