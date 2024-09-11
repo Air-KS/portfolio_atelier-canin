@@ -53,7 +53,7 @@
   import axios from 'axios';
 
   export default {
-	name: 'DashSetting',
+	name: 'DashServices',
 	data() {
 	  return {
 		showForm: false,
