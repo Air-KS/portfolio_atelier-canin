@@ -12,8 +12,8 @@ import loginPage from '@/views/loginPage';
 import Dashbord from '@/views/dashbord';
 import profilePage from '@/views/profilePage.vue';
 import VerifyCode from '@/views/verifyCode.vue';
-import Services from '@/views/services.vue';
-import Store from '@/views/store.vue';
+import Services from '@/views/servicesPage.vue';
+import Store from '@/views/storePage.vue';
 
 // Importer le middleware d'authentification
 import { authGuard } from '@/middleware/auth.js';
@@ -27,7 +27,7 @@ const routes = [
   { path: '/profile/:id', name: 'Profile', component: profilePage, meta: { requiresAuth: true } },
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
   { path: '/services', name: 'services', component: Services },
-  { path: '/store', name: 'store', component: Store},
+  { path: '/store', name: 'store', component: Store },
 ];
 
 // Créer le routeur
