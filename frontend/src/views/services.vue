@@ -4,144 +4,62 @@
 
 <template>
 	<section class="prices-services">
-		<div class="container">
-			<h1 class="title">Services</h1>
+		<div class="service-container">
+			<div v-if="services.length">
+				<ul class="">
+					<h1 class="title">Nos Services</h1>
 
-			<!-- Global weight selector -->
-			<div class="weight-selector">
-				<label for="weight">Sélectionnez le poids de votre animal :</label>
-				<select v-model="selectedWeight">
-					<option value="0">Moins de 5 kg</option>
-					<option value="1">Entre 5 et 10 kg</option>
-					<option value="2">Plus de 10 kg</option>
-				</select>
-			</div>
-
-			<div
-				class="service-section"
-				v-for="service in services"
-				:key="service.id"
-			>
-				<div class="service-header">
-					<h2 class="service-title">{{ service.title }}</h2>
-					<p class="service-price">{{ service.items[selectedWeight].price }}</p>
-				</div>
-				<p class="service-description">{{ service.description }}</p>
+					<div
+						class="service-section"
+						v-for="service in services"
+						:key="service.id"
+					>
+						<div class="service-header">
+							<h2 class="service-title">{{ service.name }}</h2>
+							<!-- Affiche le nom du service -->
+							<p class="service-price">{{ service.price }} €</p>
+							<!-- Affiche le prix -->
+						</div>
+						<p class="service-description">{{ service.description }}</p>
+						<!-- Affiche la description -->
+					</div>
+				</ul>
 			</div>
 		</div>
 	</section>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
 	name: 'Services',
 	data() {
 		return {
-			selectedWeight: 0, // Default weight category
-			services: [
-				{
-					id: 1,
-					title: 'Bain',
-					description:
-						'Un bain complet avec des produits adaptés à la peau et au pelage de votre animal.',
-					items: [
-						{ id: 1, price: '$20' },
-						{ id: 2, price: '$30' },
-						{ id: 3, price: '$40' },
-					],
-				},
-				{
-					id: 2,
-					title: 'Brushing',
-					description:
-						'Un brossage soigneux pour éliminer les nœuds et rendre le pelage de votre animal doux et soyeux.',
-					items: [
-						{ id: 1, price: '$15' },
-						{ id: 2, price: '$25' },
-						{ id: 3, price: '$35' },
-					],
-				},
-				{
-					id: 3,
-					title: 'Coupe de Ciseaux',
-					description:
-						'Une coupe précise réalisée avec des ciseaux pour un look parfait.',
-					items: [
-						{ id: 1, price: '$25' },
-						{ id: 2, price: '$35' },
-						{ id: 3, price: '$45' },
-					],
-				},
-				{
-					id: 4,
-					title: 'Tonte',
-					description:
-						'Une tonte complète pour un pelage uniforme et facile à entretenir.',
-					items: [
-						{ id: 1, price: '$20' },
-						{ id: 2, price: '$30' },
-						{ id: 3, price: '$40' },
-					],
-				},
-				{
-					id: 5,
-					title: 'Epilation',
-					description: 'Épilation des poils pour certaines races spécifiques.',
-					items: [
-						{ id: 1, price: '$30' },
-						{ id: 2, price: '$40' },
-						{ id: 3, price: '$50' },
-					],
-				},
-				{
-					id: 6,
-					title: 'Nettoyage des Yeux',
-					description:
-						'Nettoyage délicat des yeux pour prévenir les infections.',
-					items: [
-						{ id: 1, price: '$10' },
-						{ id: 2, price: '$15' },
-						{ id: 3, price: '$20' },
-					],
-				},
-				{
-					id: 7,
-					title: 'Nettoyage des Oreilles',
-					description:
-						'Nettoyage des oreilles pour maintenir une bonne hygiène et prévenir les infections.',
-					items: [
-						{ id: 1, price: '$10' },
-						{ id: 2, price: '$15' },
-						{ id: 3, price: '$20' },
-					],
-				},
-				{
-					id: 8,
-					title: 'Coupe Ongles',
-					description:
-						'Coupe des ongles pour éviter les blessures et maintenir une bonne santé des pattes.',
-					items: [
-						{ id: 1, price: '$10' },
-						{ id: 2, price: '$15' },
-						{ id: 3, price: '$20' },
-					],
-				},
-			],
+			services: [], // Déclaration de la propriété réactive services
+			selectedWeight: 0, // Initialisation d'une propriété réactive pour l'exemple
 		};
+	},
+	created() {
+		this.fetchServices(); // Appelle la fonction fetchServices au montage du composant
+	},
+	methods: {
+		async fetchServices() {
+			try {
+				const response = await axios.get('http://localhost:3000/api/services');
+				this.services = response.data; // Affecte la réponse à la propriété réactive services
+			} catch (error) {
+				console.error('Erreur lors de la récupération des services :', error);
+			}
+		},
 	},
 };
 </script>
 
 <style scoped>
-.prices-services {
-	padding: 2rem;
-	background-color: var(--color-background);
-	color: var(--color-text-dark);
-}
 
-.container {
-	max-width: 1200px;
-	margin: 0 auto;
+.service-container {
+	width: 95%;
 }
 
 .title {
@@ -151,32 +69,15 @@ export default {
 	text-align: center;
 }
 
-.weight-selector {
-	margin-bottom: 2rem;
-	text-align: center;
-}
-
-.weight-selector label {
-	margin-right: 1rem;
-	font-weight: bold;
-}
-
 .service-section {
 	margin-bottom: 2rem;
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 1rem;
 }
 
 .service-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-}
-
-.service-title {
-	font-size: 1.5rem;
-	font-weight: bold;
-	margin-bottom: 0.5rem;
 }
 
 .service-description {
@@ -188,25 +89,17 @@ export default {
 	font-weight: bold;
 }
 
-.links {
-	display: flex;
-	justify-content: center;
-	margin-top: 2rem;
+@media (min-width: 600px) and (max-width: 1023px) {
+	.service-container {
+		width: 70%;
+		margin: 0 auto;
+	}
 }
 
-.link {
-	margin: 0 1rem;
-	color: var(--color-link);
-	text-decoration: none;
-	font-size: 1rem;
-}
-
-.link:hover {
-	text-decoration: underline;
-}
-
-.link.apply {
-	color: red;
-	font-weight: bold;
+@media (min-width: 1024px) {
+	.service-container {
+		width: 50%;
+		margin: 0 auto;
+	}
 }
 </style>
