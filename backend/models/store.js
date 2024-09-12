@@ -6,8 +6,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Store extends Model {
-  }
+  class Store extends Model { }
 
   Store.init({
     id: {
@@ -30,7 +29,18 @@ module.exports = (sequelize) => {
     },
     image: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true, // L'image est optionnelle
+      validate: {
+        isUrl: {
+          msg: 'L\'URL doit être valide.',
+        },
+        isImage(value) {
+          // Valider seulement si une valeur est fournie pour l'image
+          if (value && !value.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            throw new Error('L\'URL doit être un fichier image (jpg, jpeg, png, gif).');
+          }
+        },
+      },
     },
     created_at: {
       type: DataTypes.DATE,
