@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/views/services.vue
+	./frontend/src/views/servicesPage.vue
 -->
 
 <template>
