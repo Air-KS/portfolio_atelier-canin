@@ -13,15 +13,12 @@
 					>
 						<div class="store-header">
 							<h2 class="store-title">{{ store.name }}</h2>
-							<!-- Affiche le nom du produit -->
 							<p class="store-price">{{ store.price }} €</p>
-							<!-- Affiche le prix -->
 						</div>
-						<div v-if="store.image" class="store-image">
-							<img :src="store.image ? store.image : require('../assets/images/store/defaultImage.png')" alt="Image du produit" class="store-img" />
+						<div class="store-image">
+							<img :src="store.image || defaultImage" alt="Image du produit" class="store-img" />
 						</div>
 						<p class="store-description">{{ store.description }}</p>
-						<!-- Affiche la description -->
 					</div>
 				</div>
 			</div>
@@ -31,12 +28,14 @@
 
 <script>
 import axios from 'axios';
+import defaultImage from '@/assets/images/store/defaultImage.png'; // Importation de l'image par défaut
 
 export default {
 	name: 'StorePage',
 	data() {
 		return {
 			stores: [], // Déclaration de la propriété réactive stores
+			defaultImage, // Ajoute l'image par défaut dans le data
 		};
 	},
 	created() {
@@ -71,7 +70,9 @@ export default {
 
 /* Grid layout pour afficher les produits */
 .store-grid {
+	width: 100%;
 	display: grid;
+	margin: 0 auto;
 	grid-template-columns: 1fr;
 	gap: 20px;
 }
@@ -103,24 +104,19 @@ export default {
 .store-image {
 	width: 100%;
 	text-align: center;
+	margin: 0 auto;
 	margin-bottom: 1rem;
 }
 
 .store-img {
 	width: 240px;
 	max-height: 240px;
-	object-fit: cover;
 	border-radius: 8px;
 	border: 2px solid #ddd;
 }
 
 /* Responsive grid layout */
 /* 600px et en dessous : 1 produit par ligne */
-@media (max-width: 599px) {
-	.store-grid {
-		grid-template-columns: 1fr;
-	}
-}
 
 /* Entre 600px et 1023px : 2 produits par ligne */
 @media (min-width: 600px) and (max-width: 1023px) {
