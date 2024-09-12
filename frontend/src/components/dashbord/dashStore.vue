@@ -32,28 +32,33 @@
 		</form>
 	  </div>
 
-	  <!-- Liste des stores -->
-	  <div v-if="stores.length">
+		<!-- Liste des stores -->
+		<div v-if="stores.length">
 		<h3 class="settings-title">Stores disponibles :</h3>
-		<ul class="settings-list">
-		  <li v-for="(store, index) in stores" :key="index" class="settings-item">
-			<div class="settings-header">
-			  <strong>{{ store.name }}</strong>
-			  <span class="settings-price">{{ store.price }} €</span>
-			</div>
-			<p>{{ store.description }}</p>
-			<!-- Affichage de l'image si elle existe -->
-			<div v-if="store.image" class="store-image">
-			  <img :src="store.image" alt="Image du store" class="store-img" />
-			</div>
-			<!-- Boutons de modification et suppression -->
-			<div class="settings-actions">
-			  <button @click="editstore(store)" class="edit-btn">Modifier</button>
-			  <button @click="deletestore(store.id)" class="delete-btn">Supprimer</button>
-			</div>
-		  </li>
-		</ul>
-	  </div>
+			<ul class="settings-list">
+				<li v-for="(store, index) in stores" :key="index" class="settings-item">
+				<div class="settings-header">
+					<strong>{{ store.name }}</strong>
+					<span class="settings-price">{{ store.price }} €</span>
+				</div>
+				<!-- Conteneur pour la description et l'image -->
+				<div class="settings-body">
+					<div class="store-description">
+					<p>{{ store.description }}</p>
+					</div>
+					<!-- Affichage de l'image si elle existe -->
+					<div v-if="store.image" class="store-image">
+					<img :src="store.image" alt="Image du store" class="store-img" />
+					</div>
+				</div>
+				<!-- Boutons de modification et suppression -->
+				<div class="settings-actions">
+					<button @click="editstore(store)" class="edit-btn">Modifier</button>
+					<button @click="deletestore(store.id)" class="delete-btn">Supprimer</button>
+				</div>
+				</li>
+			</ul>
+		</div>
 	</div>
   </template>
 
@@ -138,20 +143,53 @@
   };
   </script>
 
-<style>
+<style scoped>
+/* Conteneur de chaque item de store */
+.settings-item {
+  padding: 10px; /* Espace intérieur */
+  background-color: #fff; /* Fond blanc pour chaque item */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Ombre légère */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espace entre les différentes sections */
+}
+
+/* En-tête du store (nom et prix) */
+.settings-header {
+  display: flex; /* Utilise Flexbox pour aligner les éléments horizontalement */
+  justify-content: space-between; /* Espace entre les éléments */
+  align-items: flex-start; /* Aligne les éléments en haut */
+  margin-bottom: 10px; /* Espace sous l'en-tête */
+  width: 100%;
+}
+
+/* Conteneur pour la description et l'image */
+.settings-body {
+  display: flex; /* Utilise Flexbox pour aligner la description et l'image côte à côte */
+  gap: 10px; /* Espace entre la description et l'image */
+}
+
+/* Description du store */
+.store-description {
+  flex: 1; /* Prend la moitié de l'espace disponible */
+  text-align: left; /* Aligne le texte à gauche */
+}
+
 /* Conteneur de l'image */
 .store-image {
-  text-align: center; /* Centre l'image */
-  margin-top: 10px;
+  flex: 1; /* Prend la moitié de l'espace disponible */
+  display: flex;
+  justify-content: flex-end; /* Aligne l'image à droite horizontalement */
+  align-items: flex-start; /* Aligne l'image en haut verticalement */
 }
 
 /* Image réactive */
 .store-img {
-  width: 100%;           /* L'image prend 100% de la largeur du conteneur */
-  max-width: 240px;      /* Taille max pour les grands écrans */
-  height: auto;          /* Garde les proportions de l'image */
-  border-radius: 8px;    /* Ajoute un léger arrondi aux coins */
-  object-fit: cover;     /* Assure que l'image garde une bonne qualité de rendu */
+  width: 240px; /* Taille fixe pour l'image */
+  height: 240px; /* Taille fixe pour l'image */
+  object-fit: cover; /* Assure que l'image garde une bonne qualité de rendu */
+  border-radius: 8px; /* Arrondit les coins de l'image */
+  border: 2px solid #ddd; /* Cadre autour de l'image */
 }
 
 </style>
