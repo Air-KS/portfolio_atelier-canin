@@ -18,7 +18,9 @@
 						</router-link>
 					</li>
 					<li class="nav-menu-item">
-						<a href="#" class="nav-menu-link">Location</a>
+						<router-link to="/store" class="nav-menu-link">
+							Store
+						</router-link>
 					</li>
 					<li class="nav-menu-item">
 						<div @click="openPopup('contact')" class="nav-menu-link">

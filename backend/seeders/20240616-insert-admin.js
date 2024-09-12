@@ -18,13 +18,20 @@ module.exports = {
         },
       }, ['id']);
 
-      if (existingUser1 || existingUser2) {
+      const existingUser3 = await queryInterface.rawSelect('Users', {
+        where: {
+          email: 'gege@gmail.com',
+        },
+      }, ['id']);
+
+      if (existingUser1 || existingUser2 || existingUser3) {
         console.log('One or more users already exist, skipping insertion.');
         return;
       }
 
       const hashedPassword1 = await bcrypt.hash('password1', 10);
       const hashedPassword2 = await bcrypt.hash('password2', 10);
+      const hashedPassword3 = await bcrypt.hash('password3', 10);
 
       await queryInterface.bulkInsert('Users', [
         {
@@ -42,6 +49,14 @@ module.exports = {
           role_id: 3, // admin
           created_at: new Date(),
           updated_at: new Date()
+        },
+        {
+          first_name: 'gege',
+          email: 'gege@gmail.com',
+          password: hashedPassword3,
+          role_id: 1, // client
+          created_at: new Date(),
+          updated_at: new Date()
         }
       ]);
 
@@ -55,7 +70,7 @@ module.exports = {
   async down(queryInterface) {
     try {
       await queryInterface.bulkDelete('Users', {
-        email: ['kevin@gmail.com', 'jerome@gmail.com']
+        email: ['kevin@gmail.com', 'jerome@gmail.com', 'gege@gmail.com']
       }, {});
       console.log('Users deleted successfully');
     } catch (error) {
