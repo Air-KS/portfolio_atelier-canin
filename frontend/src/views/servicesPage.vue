@@ -7,7 +7,7 @@
 		<div class="service-container">
 			<div v-if="services.length">
 				<ul class="">
-					<h1 class="title">Nos Services</h1>
+					<h1 class="title">Services</h1>
 
 					<div
 						class="service-section"

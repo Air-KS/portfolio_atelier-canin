@@ -17,10 +17,6 @@
 			:user="user"
 			@update-profile="updateProfile"
 		/>
-		<ProfBook
-			v-if="selectedTab === 'Rendez-vous'"
-			:appointments="user.appointments"
-		/>
 	</div>
 </template>
 
@@ -28,11 +24,10 @@
 import axios from 'axios';
 import ProfTabs from '../components/profile/profTabs.vue';
 import ProfProfile from '../components/profile/profProfile.vue';
-import ProfBook from '../components/profile/profBook.vue';
 
 export default {
 	name: 'ProfilePage',
-	components: { ProfTabs, ProfProfile, ProfBook },
+	components: { ProfTabs, ProfProfile },
 	data() {
 		return {
 			user: {
@@ -43,7 +38,7 @@ export default {
 				phone: '',
 				appointments: [],
 			},
-			tabs: ['Profile', 'Rendez-vous'],
+			tabs: ['Profile'],
 			selectedTab: 'Profile',
 		};
 	},
