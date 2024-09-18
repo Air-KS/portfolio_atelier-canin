@@ -4,7 +4,7 @@
 	<section class="prices-store">
 		<div class="store-container">
 			<div v-if="stores.length">
-				<h1 class="title">Nos Produits</h1>
+				<h1 class="title">Store</h1>
 				<div class="store-grid">
 					<div
 						class="store-section"
