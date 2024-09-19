@@ -15,11 +15,11 @@
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Nom</th>
+					<th>Name</th>
 					<th>Email</th>
 					<th>Service</th>
 					<th>Date</th>
-					<th>Heure</th>
+					<th>Hour</th>
 					<th>Statut</th>
 				</tr>
 			</thead>

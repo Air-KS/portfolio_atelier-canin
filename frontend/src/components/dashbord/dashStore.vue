@@ -13,7 +13,7 @@
 	  <div v-if="showForm" class="form-container">
 		<form @submit.prevent="addstore" class="settings-form">
 		  <div class="form-group">
-			<label for="name">Nom du store:</label>
+			<label for="name">Store Name</label>
 			<input type="text" v-model="store.name" id="name" required class="form-control" />
 		  </div>
 		  <div class="form-group">
@@ -21,20 +21,20 @@
 			<textarea v-model="store.description" id="description" class="form-control"></textarea>
 		  </div>
 		  <div class="form-group">
-			<label for="price">Prix:</label>
+			<label for="price">Price:</label>
 			<input type="number" v-model.number="store.price" id="price" step="0.01" required class="form-control" />
 		  </div>
 		  <div class="form-group">
-			<label for="image">URL de l'image:</label>
+			<label for="image">URL</label>
 			<input type="url" v-model="store.image" id="image" class="form-control" placeholder="Entrez l'URL de l'image" />
 		  </div>
-		  <button type="submit" class="submit-btn">Enregistrer</button>
+		  <button type="submit" class="submit-btn">Submite</button>
 		</form>
 	  </div>
 
 		<!-- Liste des stores -->
 		<div v-if="stores.length">
-		<h3 class="settings-title">Stores disponibles :</h3>
+		<h3 class="settings-title">Store available</h3>
 			<ul class="settings-list">
 				<li v-for="(store, index) in stores" :key="index" class="settings-item">
 				<div class="settings-header">
@@ -53,8 +53,8 @@
 				</div>
 				<!-- Boutons de modification et suppression -->
 				<div class="settings-actions">
-					<button @click="editstore(store)" class="edit-btn">Modifier</button>
-					<button @click="deletestore(store.id)" class="delete-btn">Supprimer</button>
+					<button @click="editstore(store)" class="edit-btn">Edit</button>
+					<button @click="deletestore(store.id)" class="delete-btn">Delete</button>
 				</div>
 				</li>
 			</ul>
@@ -95,13 +95,13 @@
 			await axios.put(`http://localhost:3000/api/stores/${this.editingstoreId}`, storeData);
 			this.fetchstore(); // Rafraîchit la liste des stores
 			this.resetForm();
-			alert('Store mis à jour avec succès !');
+			alert('Store updated successfully');
 		  } else {
 			// Ajout d'un nouveau store
 			const response = await axios.post('http://localhost:3000/api/stores', storeData);
 			this.stores.push(response.data);
 			this.resetForm();
-			alert('Store ajouté avec succès !');
+			alert('Product Added Successfully');
 		  }
 		} catch (error) {
 		  console.error('Erreur lors de la création ou de la mise à jour du store :', error);
@@ -119,7 +119,7 @@
 		try {
 		  await axios.delete(`http://localhost:3000/api/stores/${storeId}`);
 		  this.fetchstore(); // Rafraîchit la liste des stores après suppression
-		  alert('Store supprimé avec succès !');
+		  alert('Store deleted Successfully');
 		} catch (error) {
 		  console.error('Erreur lors de la suppression du store :', error);
 		}

@@ -24,7 +24,7 @@
 			</div>
 
 			<div v-if="selectedTab === 'Booknow'">
-				<dashBook title="Liste des Rendez-vous" />
+				<dashBook title="Appointment list" />
 			</div>
 
 			<div v-if="selectedTab === 'Services'">
