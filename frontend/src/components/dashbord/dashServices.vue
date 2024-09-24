@@ -6,7 +6,7 @@
 	<div class="settings-container">
 	  <p class="title">Services...</p>
 	  <button @click="showForm = !showForm" class="toggle-form-btn">
-		{{ showForm ? 'Annuler' : 'Ajouter un service' }}
+		{{ showForm ? 'Cancel' : 'Add a Service' }}
 	  </button>
 
 	  <!-- Formulaire pour ajouter un service -->

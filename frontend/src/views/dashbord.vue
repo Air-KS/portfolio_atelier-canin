@@ -80,7 +80,7 @@ export default {
 				await axios.put(`http://localhost:3000/api/user/role/${userId}`, {
 					role: newRole,
 				});
-				alert(`Utilisateur mis à jour avec succès vers ${newRole}`);
+				alert(`User successfully updated to ${newRole}`);
 				this.refreshUsers();
 			} catch (error) {
 				console.error(`Error updating user:`, error);

@@ -6,7 +6,7 @@
 	<div class="settings-container">
 	  <p class="title">Store...</p>
 	  <button @click="showForm = !showForm" class="toggle-form-btn">
-		{{ showForm ? 'Annuler' : 'Ajouter un store' }}
+		{{ showForm ? 'Cancel' : 'Add a Store' }}
 	  </button>
 
 	  <!-- Formulaire pour ajouter un store -->
